@@ -236,7 +236,12 @@ const arenas: Arena[] = [
 
 type View = { x: number; y: number; scale: number };
 
-function focusView(width: number, height: number, arena: Arena, scale = 1): View {
+function boardScale(width: number, height: number) {
+  if (width >= 768) return 1;
+  return Math.min(width * 0.9, height * 0.7) / CELL;
+}
+
+function focusView(width: number, height: number, arena: Arena, scale = boardScale(width, height)): View {
   const cx = (arena.col - 1) * STRIDE + CELL / 2;
   const cy = (arena.row - 1) * STRIDE + CELL / 2;
   return {
@@ -502,7 +507,7 @@ export function Challenges() {
         <div
           ref={boardRef}
           className={cn(
-            "arena-board relative h-[300px] overflow-hidden rounded-lg border border-ink/10 md:h-[min(440px,48vh)] lg:h-[min(500px,52vh)]",
+            "arena-board relative h-[min(52svh,460px)] min-h-[380px] overflow-hidden rounded-lg border border-ink/10 md:h-[min(440px,48vh)] md:min-h-0 lg:h-[min(500px,52vh)]",
             grabbing && "is-grabbing",
             ready ? "opacity-100" : "opacity-0",
           )}
@@ -581,10 +586,10 @@ export function Challenges() {
                     height: CELL,
                   }}
                 >
-                  <span className="font-mono text-[11px] tracking-[0.1em] text-mist uppercase">
+                  <span className="font-mono text-sm tracking-[0.08em] text-mist uppercase md:text-[11px]">
                     <span className={selected ? "text-volt" : undefined}>{item.topic}</span>
                   </span>
-                  <span className="relative block size-20 shrink-0 overflow-hidden rounded-full bg-[#d8c89e]">
+                  <span className="relative block size-16 shrink-0 overflow-hidden rounded-full bg-[#d8c89e] md:size-20">
                     <Image
                       src={item.circle}
                       alt=""
@@ -597,10 +602,10 @@ export function Challenges() {
                     />
                   </span>
                   <span className="flex w-full flex-col items-center gap-1">
-                    <span className="w-full truncate text-xl leading-tight font-normal">
+                    <span className="line-clamp-2 w-full text-3xl leading-none font-semibold md:line-clamp-none md:truncate md:text-xl md:font-normal">
                       {item.title}
                     </span>
-                    <span className="w-full truncate text-sm tracking-[0.01em] text-ink/60">
+                    <span className="line-clamp-2 w-full text-base leading-tight text-ink/60 md:truncate md:text-sm">
                       {item.subtitle}
                     </span>
                   </span>
@@ -661,10 +666,10 @@ export function Challenges() {
           <div className="grid gap-6 sm:grid-cols-2 sm:items-start">
             <div className="flex items-end justify-between gap-4 sm:col-span-2">
               <div>
-                <p className="font-mono text-[11px] tracking-[0.1em] text-volt uppercase">
+                <p className="font-mono text-sm tracking-[0.1em] text-volt uppercase md:text-[11px]">
                   {arena.topic}
                 </p>
-                <h3 className="mt-3 font-display text-[clamp(2.25rem,3.4vw,2.75rem)] leading-none font-normal tracking-[0.02em]">
+                <h3 className="mt-3 font-display text-5xl leading-none font-normal tracking-[0.02em] md:text-[clamp(2.25rem,3.4vw,2.75rem)]">
                   {arena.title}
                 </h3>
               </div>
@@ -744,8 +749,8 @@ export function Challenges() {
           <hr className="arena-rule my-4" />
 
           <div className="flex flex-col gap-3">
-            <p className="text-2xl leading-snug font-normal">{arena.lede}</p>
-            <p className="text-sm leading-relaxed tracking-[0.01em] text-ink/70">{arena.body}</p>
+            <p className="text-3xl leading-snug font-normal md:text-2xl">{arena.lede}</p>
+            <p className="text-base leading-relaxed tracking-[0.01em] text-ink/70 md:text-sm">{arena.body}</p>
           </div>
 
           <hr className="arena-rule my-4" />
