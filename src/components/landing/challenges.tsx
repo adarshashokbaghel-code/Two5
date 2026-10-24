@@ -341,10 +341,10 @@ export function Challenges() {
     if (!board) return;
     const next = focusView(board.clientWidth, board.clientHeight, arenas[active]);
     home.current = next;
+    setCaseOpen(arenas[active]?.id === "versus");
     if (drag.current) return;
     settleTo(next);
     if (active > 0) setShowHint(false);
-    setCaseOpen(false);
   }, [active]);
 
   useEffect(() => {

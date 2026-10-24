@@ -117,7 +117,7 @@ export function HeroReel({ sectionRef }: HeroReelProps) {
         top: pad,
         width: Math.max(0, cw - pad * 2),
         height: Math.max(0, ch - pad - foot),
-        radius: (wide ? 2 : 0) * root,
+        radius: (wide ? 0.5 : 0) * root,
       };
     };
 
@@ -146,7 +146,7 @@ export function HeroReel({ sectionRef }: HeroReelProps) {
       const y = cy + (gy - cy) * cardEase;
       const angle = PAPER_ANGLE * (1 - cardEase);
       const font = Math.min(w * (wide ? 0.064 : 0.09), h * 0.2);
-      const radius = 6 + ((wide ? 2 : 0.75) * root - 6) * cardEase;
+      const radius = 6 + (0.5 * root - 6) * cardEase;
       card.style.left = "0px";
       card.style.top = "0px";
       card.style.width = `${w}px`;
@@ -512,11 +512,11 @@ export function HeroReel({ sectionRef }: HeroReelProps) {
           muted
           playsInline
           preload="auto"
-          poster="/brand/hero-bg-poster.jpg?v=3"
+          poster="/brand/hero-bg-poster.jpg?v=4"
           width={VIDEO_W}
           height={VIDEO_H}
         >
-          <source src="/brand/hero-bg.mp4?v=3" type="video/mp4" />
+          <source src="/brand/hero-bg.mp4?v=4" type="video/mp4" />
         </video>
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />

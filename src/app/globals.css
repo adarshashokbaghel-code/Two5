@@ -738,7 +738,7 @@ html[data-reel="copy"] .dock-enter {
     bottom: calc(4.25rem + 1.75rem);
     left: 1.75rem;
     height: auto;
-    border-radius: 2rem;
+    border-radius: 0.5rem;
   }
 
   .hero-stage {
@@ -770,11 +770,13 @@ html[data-reel="copy"] .dock-enter {
 
 @media (max-width: 1023px) {
   .reel-hint {
+    bottom: max(1.25rem, env(safe-area-inset-bottom));
     opacity: calc(1 - min(1, max(var(--reel-p, 0) / 0.16, var(--card, 0) * 2.4)));
   }
 
   .hero-stage {
     top: 0;
+    bottom: 0;
     height: 100svh;
     transform: none;
     pointer-events: none;
@@ -782,39 +784,50 @@ html[data-reel="copy"] .dock-enter {
 
   .hero-sheet-track {
     position: absolute;
-    inset: 0;
-    height: 100%;
-    --lift-t: min(1, max(0, (var(--reel-p, 0) - 0.7) / 0.3));
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: auto;
+    --lift-t: min(1, max(0, (var(--reel-p, 0) - 0.52) / 0.36));
     --lift: calc(var(--lift-t) * var(--lift-t) * (3 - 2 * var(--lift-t)));
-    transform: translate3d(0, calc(var(--lift) * -58svh), 0);
+    transform: translate3d(0, calc(var(--lift) * -100svh), 0);
+  }
+
+  .hero-gate-left,
+  .hero-gate-right {
+    position: relative;
+    inset: auto;
+    flex: 0 0 100svh;
+    width: 100%;
+    height: 100svh;
+    max-height: 100svh;
+    justify-content: safe center;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+  }
+
+  .hero-gate-left::-webkit-scrollbar,
+  .hero-gate-right::-webkit-scrollbar {
+    display: none;
   }
 
   .hero-gate-left {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: auto;
-    left: 0;
     z-index: 2;
-    height: auto;
-    --t: min(1, max(0, (var(--reel-p, 0) - 0.02) / 0.26));
+    --t: min(1, max(0, (var(--reel-p, 0) - 0.02) / 0.3));
     --arrive: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
-    --u: min(1, max(0, (var(--reel-p, 0) - 0.3) / 0.26));
-    --descend: calc(var(--u) * var(--u) * (3 - 2 * var(--u)));
-    transform: translate3d(0, calc((1 - var(--arrive)) * -112% + var(--descend) * 30svh), 0);
+    transform: translate3d(0, calc((1 - var(--arrive)) * -100%), 0);
   }
 
   .hero-gate-right {
-    position: absolute;
-    top: auto;
-    right: 0;
-    bottom: 0;
-    left: 0;
     z-index: 1;
-    height: auto;
-    --t: min(1, max(0, (var(--reel-p, 0) - 0.48) / 0.24));
+    padding-bottom: calc(6.25rem + env(safe-area-inset-bottom, 0px));
+    --t: min(1, max(0, (var(--reel-p, 0) - 0.28) / 0.2));
     --join: calc(var(--t) * var(--t) * (3 - 2 * var(--t)));
-    transform: translate3d(0, calc((1 - var(--join)) * 112% + var(--join) * 59svh), 0);
+    transform: translate3d(0, calc((1 - var(--join)) * 100%), 0);
   }
 
   .hero-copy-inner,
@@ -833,6 +846,78 @@ html[data-reel="copy"] .dock-enter {
   }
 }
 
+@media (max-width: 1023px) and (max-height: 740px) {
+  .hero-gate-left {
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .hero-gate-right {
+    justify-content: flex-start;
+    padding-top: 1rem;
+  }
+
+  .hero-copy-inner .hero-title {
+    margin-top: 0.65rem;
+  }
+
+  .hero-form-inner form {
+    margin-top: 0.7rem;
+  }
+
+  .hero-form-inner h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero-form-inner p {
+    margin-top: 0.35rem;
+    line-height: 1.35;
+  }
+
+  .hero-form-inner label {
+    margin-top: 0.5rem;
+  }
+
+  .hero-form-inner input {
+    height: 2.5rem;
+    margin-top: 0.25rem;
+  }
+
+  .hero-form-inner button[type="submit"] {
+    height: 2.5rem;
+    margin-top: 0.6rem;
+  }
+}
+
+@media (max-width: 1023px) and (max-height: 430px) {
+  .hero-form-inner p {
+    display: none;
+  }
+
+  .hero-gate-right {
+    padding-top: 0.5rem;
+    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  }
+
+  .hero-form-inner form {
+    margin-top: 0.35rem;
+  }
+
+  .hero-form-inner h2 {
+    font-size: 1.25rem;
+  }
+
+  .hero-form-inner label {
+    margin-top: 0.28rem;
+  }
+
+  .hero-form-inner input,
+  .hero-form-inner button[type="submit"] {
+    height: 2.15rem;
+    margin-top: 0.2rem;
+  }
+}
+
 @media (max-width: 1023px) and (prefers-reduced-motion: reduce) {
   .hero-stage {
     height: auto;
@@ -844,7 +929,12 @@ html[data-reel="copy"] .dock-enter {
   .hero-gate-right {
     position: relative;
     inset: auto;
+    flex: none;
+    width: 100%;
     height: auto;
+    max-height: none;
+    margin-top: 0;
+    overflow: visible;
     transform: none;
   }
 }

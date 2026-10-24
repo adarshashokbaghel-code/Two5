@@ -20,7 +20,7 @@ function AdmitPass({ name, accountId }: { name: string; accountId: string }) {
   const bars = Array.from(accountId || "TW", (char, index) => (char.charCodeAt(0) + index) % 3);
 
   return (
-    <div className="relative -ml-2 -mr-5 mt-4 overflow-hidden rounded-2xl bg-paper text-ink sm:-ml-3 lg:-ml-4 lg:-mr-8">
+    <div className="relative mt-6 overflow-hidden rounded-xl border border-ink/10 bg-paper text-ink">
       <div className="flex items-center justify-between bg-signal px-4 py-2.5 font-mono text-[11px] tracking-[0.08em] uppercase">
         <span>Two5</span>
         <span>You&apos;re in</span>
@@ -54,8 +54,8 @@ function AdmitPass({ name, accountId }: { name: string; accountId: string }) {
         </div>
       </div>
       <div className="relative mt-4">
-        <span className="absolute top-0 -left-2 size-4 -translate-y-1/2 rounded-full bg-[#312e2b]" aria-hidden="true" />
-        <span className="absolute top-0 -right-2 size-4 -translate-y-1/2 rounded-full bg-[#312e2b]" aria-hidden="true" />
+        <span className="absolute top-0 -left-2 size-4 -translate-y-1/2 rounded-full bg-white" aria-hidden="true" />
+        <span className="absolute top-0 -right-2 size-4 -translate-y-1/2 rounded-full bg-white" aria-hidden="true" />
         <div className="mx-4 border-t border-dashed border-ink/30" />
         <div className="flex items-end justify-between gap-4 px-4 py-4">
           <div className="min-w-0">
@@ -81,15 +81,19 @@ function Stepper({ step }: { step: Step }) {
   const current = STEP_INDEX[step];
 
   return (
-    <ol className="flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[10px] tracking-[0.16em] uppercase">
-      {STEPS.map((label, index) => (
-        <li key={label} className="flex items-center gap-2">
-          <span className={index <= current ? "text-signal" : "text-[#f3f0e8]/40"}>
-            {String(index + 1).padStart(2, "0")} {label}
-          </span>
-          {index < STEPS.length - 1 ? <span className="text-[#f3f0e8]/25">/</span> : null}
-        </li>
-      ))}
+    <ol className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm font-semibold">
+      {STEPS.map((label, index) => {
+        const on = index === current;
+        const done = index < current;
+        return (
+          <li key={label} className="flex items-center gap-3">
+            <span className={on ? "text-ink" : done ? "text-ink/70" : "text-ink/35"}>
+              {index + 1}. {label}
+            </span>
+            {index < STEPS.length - 1 ? <span className="h-px w-5 bg-ink/15" aria-hidden="true" /> : null}
+          </li>
+        );
+      })}
     </ol>
   );
 }
@@ -242,19 +246,16 @@ export function HeroWaitlist() {
       <Stepper step={step} />
 
       {step === "details" ? (
-        <form onSubmit={continueToCode} noValidate className="mt-4">
-          <h2 className="font-display text-[1.85rem] leading-none font-normal tracking-[0.02em] text-[#f3f0e8]">
-            Leave the grind. <span className="text-signal">Play a round.</span>
+        <form onSubmit={continueToCode} noValidate className="mt-6">
+          <h2 className="font-sans text-[1.65rem] leading-tight font-bold tracking-tight text-ink">
+            Leave the grind. <span className="underline decoration-signal decoration-[3px] underline-offset-[5px]">Play a round.</span>
           </h2>
-          <p className="mt-3 text-sm leading-6 text-[#f3f0e8]/70">
+          <p className="mt-2 text-sm leading-6 text-ink/65">
             Numbers and logic, scored like a match. No forty-minute bullet for
             three points. We&apos;ll write when your seat is open.
           </p>
 
-          <label
-            htmlFor={nameId}
-            className="mt-5 block font-mono text-[11px] tracking-[0.16em] text-[#f3f0e8]/55 uppercase"
-          >
+          <label htmlFor={nameId} className="mt-5 block text-sm font-medium text-ink/80">
             Name
           </label>
           <input
@@ -268,13 +269,10 @@ export function HeroWaitlist() {
             aria-invalid={Boolean(message)}
             aria-describedby={message ? errorId : undefined}
             placeholder="Your name"
-            className="mt-2 h-12 w-full rounded-xl border border-ink/15 bg-white px-3 text-base text-ink outline-none placeholder:text-ink/35 focus-visible:border-volt"
+            className="mt-1.5 h-11 w-full rounded-lg border border-ink/15 bg-paper px-3 text-base text-ink outline-none placeholder:text-ink/35 focus-visible:border-ink"
           />
 
-          <label
-            htmlFor={emailId}
-            className="mt-4 block font-mono text-[11px] tracking-[0.16em] text-[#f3f0e8]/55 uppercase"
-          >
+          <label htmlFor={emailId} className="mt-4 block text-sm font-medium text-ink/80">
             Email address
           </label>
           <input
@@ -289,13 +287,10 @@ export function HeroWaitlist() {
             aria-invalid={Boolean(message)}
             aria-describedby={message ? errorId : undefined}
             placeholder="you@email.com"
-            className="mt-2 h-12 w-full rounded-xl border border-ink/15 bg-white px-3 text-base text-ink outline-none placeholder:text-ink/35 focus-visible:border-volt"
+            className="mt-1.5 h-11 w-full rounded-lg border border-ink/15 bg-paper px-3 text-base text-ink outline-none placeholder:text-ink/35 focus-visible:border-ink"
           />
 
-          <label
-            htmlFor={ageId}
-            className="mt-4 block font-mono text-[11px] tracking-[0.16em] text-[#f3f0e8]/55 uppercase"
-          >
+          <label htmlFor={ageId} className="mt-4 block text-sm font-medium text-ink/80">
             Age
           </label>
           <input
@@ -309,14 +304,14 @@ export function HeroWaitlist() {
             aria-invalid={Boolean(message)}
             aria-describedby={message ? errorId : undefined}
             placeholder="18"
-            className="mt-2 h-12 w-full rounded-xl border border-ink/15 bg-white px-3 text-base text-ink outline-none placeholder:text-ink/35 focus-visible:border-volt"
+            className="mt-1.5 h-11 w-full rounded-lg border border-ink/15 bg-paper px-3 text-base text-ink outline-none placeholder:text-ink/35 focus-visible:border-ink"
           />
 
           <button
             type="submit"
             onClick={() => track("waitlist_cta_click", { source: "hero-form" })}
             disabled={busy === "send"}
-            className="mt-4 flex h-12 w-full items-center justify-center rounded-full bg-signal text-base font-medium text-ink disabled:opacity-60"
+            className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-ink text-[15px] font-semibold text-paper disabled:opacity-60"
           >
             {busy === "send" ? "Sending…" : "Continue"}
           </button>
@@ -330,19 +325,16 @@ export function HeroWaitlist() {
       ) : null}
 
       {step === "code" ? (
-        <form onSubmit={verify} className="mt-4 min-w-0">
-          <p className="font-mono text-[11px] tracking-[0.18em] text-signal uppercase">
-            02 / Code
-          </p>
-          <h2 className="mt-2 font-display text-[1.85rem] leading-none font-normal tracking-[0.02em] text-[#f3f0e8]">
+        <form onSubmit={verify} className="mt-6 min-w-0">
+          <h2 className="font-sans text-[1.65rem] leading-tight font-bold tracking-tight text-ink">
             Enter the code.
           </h2>
-          <p className="mt-2 text-sm leading-5 text-[#f3f0e8]/65">
+          <p className="mt-2 text-sm leading-6 text-ink/65">
             We sent a 6-digit code to {email}. It expires in 10 minutes.
           </p>
 
           <fieldset className="mt-5 w-full min-w-0">
-            <legend className="font-mono text-[11px] tracking-[0.16em] text-[#f3f0e8]/55 uppercase">
+            <legend className="text-sm font-medium text-ink/80">
               One-time code
             </legend>
             <div className="mt-2 grid w-full grid-cols-6 gap-1.5 sm:gap-2">
@@ -359,7 +351,7 @@ export function HeroWaitlist() {
                   value={digit}
                   onChange={(event) => writeCode(index, event.target.value)}
                   onKeyDown={(event) => onCodeKeyDown(index, event)}
-                  className="h-12 w-full min-w-0 rounded-xl border border-ink/15 bg-white px-0 text-center font-mono text-lg text-ink outline-none focus-visible:border-volt"
+                  className="h-11 w-full min-w-0 rounded-lg border border-ink/15 bg-paper px-0 text-center font-mono text-base text-ink outline-none focus-visible:border-ink"
                 />
               ))}
             </div>
@@ -368,7 +360,7 @@ export function HeroWaitlist() {
           <button
             type="submit"
             disabled={busy !== null}
-            className="mt-4 flex h-12 w-full items-center justify-center rounded-full bg-signal text-base font-medium text-ink disabled:opacity-60"
+            className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-ink text-[15px] font-semibold text-paper disabled:opacity-60"
           >
             {busy === "verify" ? "Verifying…" : "Verify"}
           </button>
@@ -380,7 +372,7 @@ export function HeroWaitlist() {
                 setNotice("");
                 setStep("details");
               }}
-              className="text-[#f3f0e8]/60 underline-offset-4 hover:text-[#f3f0e8] hover:underline"
+              className="font-medium text-ink/60 underline-offset-4 hover:text-ink hover:underline"
             >
               Edit details
             </button>
@@ -388,12 +380,12 @@ export function HeroWaitlist() {
               type="button"
               onClick={resend}
               disabled={busy !== null}
-              className="text-[#f3f0e8]/60 underline-offset-4 hover:text-[#f3f0e8] hover:underline disabled:opacity-60"
+              className="font-medium text-ink/60 underline-offset-4 hover:text-ink hover:underline disabled:opacity-60"
             >
               {busy === "resend" ? "Sending…" : "Resend code"}
             </button>
           </div>
-          {notice ? <p className="mt-3 text-sm text-[#f3f0e8]/70">{notice}</p> : null}
+          {notice ? <p className="mt-3 text-sm text-ink/70">{notice}</p> : null}
 
           {message ? (
             <p role="alert" className="mt-3 text-sm text-ember">
