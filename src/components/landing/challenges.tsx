@@ -2,315 +2,962 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+  type ReactNode,
+} from "react";
 
-import { TextReveal } from "@/components/ui/text-reveal";
+import { ResearchFigure } from "@/components/research/research-motif";
+import { getResearchPost, type ResearchPost } from "@/content/research";
 import { track } from "@/lib/analytics";
+import { cn } from "@/lib/utils";
+
+const CELL = 248;
+const GAP = 60;
+const STRIDE = CELL + GAP;
+const COLS = 9;
+const BOARD = COLS * CELL + (COLS - 1) * GAP;
+const MIN_SCALE = 0.7;
+const MAX_SCALE = 1.35;
+
+type Shot = { src: string; alt: string };
+
+type Arena = {
+  id: string;
+  topic: string;
+  title: string;
+  subtitle: string;
+  col: number;
+  row: number;
+  circle: string;
+  images: Shot[];
+  status: string;
+  stage: string;
+  practice: string;
+  lede: string;
+  body: string;
+  notes: { heading: string; body: string }[];
+  cta: { href: string; label: string; onClick: () => void };
+};
+
+const researchSlug: Record<string, string> = {
+  numbers: "numbers",
+  logic: "logic",
+  cs: "computer-science",
+  daily: "daily",
+  versus: "versus",
+};
+
+const arenas: Arena[] = [
+  {
+    id: "numbers",
+    topic: "Open",
+    title: "Numbers",
+    subtitle: "Sequences · Patterns",
+    col: 4,
+    row: 4,
+    circle: "/art/numbers-object.jpg",
+    images: [
+      { src: "/art/numbers-25-green.jpg", alt: "A stylish shiny green 25" },
+      { src: "/art/numbers-object.jpg", alt: "A rising sequence of yellow blocks" },
+    ],
+    status: "Open now",
+    stage: "First arena · Numerical reasoning",
+    practice: "Sequences, Patterns, Mental Maths, Numerical Reasoning",
+    lede: "Find the pattern. Work out the sequence. Trust your reasoning.",
+    body: "From number sequences and mental calculations to mathematical thinking and problems that reward a different way of looking at numbers.",
+    notes: [
+      {
+        heading: "Sequences",
+        body: "Short problems in patterns, mental maths, and numerical reasoning.",
+      },
+      {
+        heading: "Look again",
+        body: "The same numbers, seen from another angle, until the sequence gives.",
+      },
+    ],
+    cta: {
+      href: "/research/numbers",
+      label: "Explore Numbers",
+      onClick: () =>
+        track("category_selected", { category: "numbers", source: "challenges" }),
+    },
+  },
+  {
+    id: "logic",
+    topic: "Open",
+    title: "Logic",
+    subtitle: "Deduce · Connect",
+    col: 5,
+    row: 4,
+    circle: "/art/offer-logic.jpg",
+    images: [
+      {
+        src: "/art/offer-logic.jpg",
+        alt: "A floating three-dimensional node with four connected forms",
+      },
+    ],
+    status: "Open now",
+    stage: "First arena · Careful thinking",
+    practice: "Deduce, Connect, Reason, Adapt",
+    lede: "Spot the clue. Make the connection. Find the answer.",
+    body: "Short puzzles that reward careful thinking, then a new problem that asks you to use the same rules a different way.",
+    notes: [
+      {
+        heading: "Deduce",
+        body: "Patterns, missing pieces, and relationships that are not immediately obvious.",
+      },
+      {
+        heading: "Adapt",
+        body: "Familiar rules. Different problems. A new way to think each time.",
+      },
+    ],
+    cta: {
+      href: "/research/logic",
+      label: "Explore Logic",
+      onClick: () =>
+        track("category_selected", { category: "logic", source: "challenges" }),
+    },
+  },
+  {
+    id: "cs",
+    topic: "Planned",
+    title: "Computer Science",
+    subtitle: "DSA · Algorithms",
+    col: 6,
+    row: 4,
+    circle: "/art/offer-cs.jpg",
+    images: [
+      {
+        src: "/art/offer-cs.jpg",
+        alt: "A blue glass tree of nodes standing in an empty dark field",
+      },
+      { src: "/art/arena-cs.jpg", alt: "A node diagram on a black field" },
+    ],
+    status: "Coming to Two5",
+    stage: "Also planned · Beyond the code",
+    practice: "DSA, Algorithms, Data Structures, CS Fundamentals",
+    lede: "Think beyond the code.",
+    body: "From data structures and algorithms to the computer science concepts you use to solve real problems.",
+    notes: [
+      {
+        heading: "Practice",
+        body: "Work through problems, compare approaches, and challenge yourself beyond the usual coding routine.",
+      },
+      {
+        heading: "Fundamentals",
+        body: "The thinking behind the code — data structures, algorithms, and the ideas that hold them together.",
+      },
+    ],
+    cta: {
+      href: "/research/computer-science",
+      label: "Explore Computer Science",
+      onClick: () =>
+        track("category_selected", { category: "cs", source: "challenges" }),
+    },
+  },
+  {
+    id: "daily",
+    topic: "Planned",
+    title: "Daily",
+    subtitle: "One challenge",
+    col: 5,
+    row: 5,
+    circle: "/art/offer-daily.jpg",
+    images: [
+      {
+        src: "/art/offer-daily-line.jpg",
+        alt: "A tall yellow line and a tall black line on white",
+      },
+    ],
+    status: "Planned for launch",
+    stage: "A reason to return",
+    practice: "Daily Challenges, Personal Scores, New Problems",
+    lede: "One challenge. Every day.",
+    body: "A fresh problem to take on. A new score to chase. One more reason to see what you can solve.",
+    notes: [
+      {
+        heading: "Return",
+        body: "From numbers and logic to new categories as Two5 grows, the idea stays the same: a challenge worth coming back for.",
+      },
+      {
+        heading: "Score",
+        body: "Personal scores and new problems, so yesterday’s result is the one you try to beat.",
+      },
+    ],
+    cta: {
+      href: "/research/daily",
+      label: "Explore Daily",
+      onClick: () =>
+        track("category_selected", { category: "daily", source: "challenges" }),
+    },
+  },
+  {
+    id: "versus",
+    topic: "Roadmap",
+    title: "Versus",
+    subtitle: "Solve · Send",
+    col: 6,
+    row: 5,
+    circle: "/art/versus-object.jpg",
+    images: [
+      {
+        src: "/art/versus-challenge.png",
+        alt: "A solved yellow mark beside the red challenge you send",
+      },
+    ],
+    status: "On the roadmap",
+    stage: "Your score is just the beginning",
+    practice: "Solve, Share, Compare, Rematch",
+    lede: "You solved it. Now send the challenge.",
+    body: "Challenge a friend to solve the same problem. Compare results. See who comes out ahead.",
+    notes: [
+      {
+        heading: "Compare",
+        body: "A number sequence, a logic puzzle, or a future DSA challenge. Solving it is one thing. Beating a friend’s score is another.",
+      },
+      {
+        heading: "Friendly",
+        body: "Built around friendly competition. Social challenges are part of the Two5 vision, not a live multiplayer feature yet.",
+      },
+    ],
+    cta: {
+      href: "/research/versus",
+      label: "Explore Versus",
+      onClick: () =>
+        track("category_selected", { category: "versus", source: "challenges" }),
+    },
+  },
+];
+
+type View = { x: number; y: number; scale: number };
+
+function focusView(width: number, height: number, arena: Arena, scale = 1): View {
+  const cx = (arena.col - 1) * STRIDE + CELL / 2;
+  const cy = (arena.row - 1) * STRIDE + CELL / 2;
+  return {
+    x: width / 2 - cx * scale,
+    y: height / 2 - cy * scale,
+    scale,
+  };
+}
+
+function scrollStepsEnabled() {
+  return window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)").matches;
+}
+
+function pad(n: number) {
+  return String(n).padStart(2, "0");
+}
 
 export function Challenges() {
+  const boardRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const home = useRef<View>({ x: 0, y: 0, scale: 1 });
+  const activeRef = useRef(0);
+  const lockRef = useRef<number | null>(null);
+  const moved = useRef(false);
+  const suppressClick = useRef(false);
+  const drag = useRef<{
+    id: number;
+    sx: number;
+    sy: number;
+    ox: number;
+    oy: number;
+    moved: boolean;
+    axis: "x" | "y" | null;
+  } | null>(null);
+
+  const [active, setActive] = useState(0);
+  const [view, setView] = useState<View>({ x: 0, y: 0, scale: 1 });
+  const [ready, setReady] = useState(false);
+  const [grabbing, setGrabbing] = useState(false);
+  const [settling, setSettling] = useState(false);
+  const [showHint, setShowHint] = useState(true);
+  const [caseOpen, setCaseOpen] = useState(false);
+  const caseRef = useRef<HTMLDivElement>(null);
+
+  const arena = arenas[active];
+  const research = getResearchPost(researchSlug[arena.id] ?? arena.id);
+  const offCenter =
+    Math.hypot(view.x - home.current.x, view.y - home.current.y) > 18 ||
+    Math.abs(view.scale - home.current.scale) > 0.02;
+
+  useLayoutEffect(() => {
+    const board = boardRef.current;
+    if (!board) return;
+
+    const apply = () => {
+      const next = focusView(
+        board.clientWidth,
+        board.clientHeight,
+        arenas[activeRef.current],
+      );
+      home.current = next;
+      if (!moved.current) {
+        setView(next);
+        setReady(true);
+      }
+    };
+
+    apply();
+    const observer = new ResizeObserver(apply);
+    observer.observe(board);
+    return () => observer.disconnect();
+  }, []);
+
+  function settleTo(next: View) {
+    moved.current = true;
+    setSettling(true);
+    setView(next);
+  }
+
+  function select(index: number) {
+    const next = (index + arenas.length) % arenas.length;
+    setActive(next);
+    activeRef.current = next;
+    const track = trackRef.current;
+    if (!track || !scrollStepsEnabled()) return;
+    lockRef.current = next;
+    const top = track.getBoundingClientRect().top + window.scrollY;
+    const scrollable = track.offsetHeight - window.innerHeight;
+    const slice = scrollable / arenas.length;
+    window.scrollTo({ top: top + slice * next + 4, behavior: "smooth" });
+    window.setTimeout(() => {
+      if (lockRef.current === next) lockRef.current = null;
+    }, 900);
+  }
+
+  function stepArena(dir: number) {
+    select(activeRef.current + dir);
+  }
+
+  useEffect(() => {
+    const board = boardRef.current;
+    if (!board) return;
+    const next = focusView(board.clientWidth, board.clientHeight, arenas[active]);
+    home.current = next;
+    if (drag.current) return;
+    settleTo(next);
+    if (active > 0) setShowHint(false);
+    setCaseOpen(false);
+  }, [active]);
+
+  useEffect(() => {
+    if (!caseOpen) return;
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setCaseOpen(false);
+    };
+    const onPointer = (event: PointerEvent) => {
+      const node = caseRef.current;
+      if (!node || node.contains(event.target as Node)) return;
+      setCaseOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    window.addEventListener("pointerdown", onPointer);
+    return () => {
+      window.removeEventListener("keydown", onKey);
+      window.removeEventListener("pointerdown", onPointer);
+    };
+  }, [caseOpen]);
+
+  useEffect(() => {
+    let frameId = 0;
+
+    const read = () => {
+      const track = trackRef.current;
+      if (!track || !scrollStepsEnabled()) return;
+      const rect = track.getBoundingClientRect();
+      const scrollable = track.offsetHeight - window.innerHeight;
+      if (scrollable <= 0) return;
+      if (rect.top > window.innerHeight * 0.45) return;
+      if (rect.bottom < window.innerHeight * 0.4) return;
+      const passed = Math.min(scrollable, Math.max(0, -rect.top));
+      const index = Math.min(
+        arenas.length - 1,
+        Math.floor((passed / scrollable) * arenas.length),
+      );
+      if (lockRef.current !== null) {
+        if (index === lockRef.current) lockRef.current = null;
+        return;
+      }
+      if (index === activeRef.current) return;
+      activeRef.current = index;
+      setActive(index);
+    };
+
+    const onScroll = () => {
+      cancelAnimationFrame(frameId);
+      frameId = requestAnimationFrame(read);
+    };
+
+    const release = () => {
+      lockRef.current = null;
+    };
+
+    read();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    window.addEventListener("wheel", release, { passive: true });
+    window.addEventListener("touchstart", release, { passive: true });
+    return () => {
+      cancelAnimationFrame(frameId);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      window.removeEventListener("wheel", release);
+      window.removeEventListener("touchstart", release);
+    };
+  }, []);
+
+  function zoomBy(delta: number) {
+    const board = boardRef.current;
+    if (!board) return;
+    const width = board.clientWidth;
+    const height = board.clientHeight;
+    setView((current) => {
+      const scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, current.scale + delta));
+      const wx = (width / 2 - current.x) / current.scale;
+      const wy = (height / 2 - current.y) / current.scale;
+      return { scale, x: width / 2 - wx * scale, y: height / 2 - wy * scale };
+    });
+    moved.current = true;
+    setShowHint(false);
+    setSettling(true);
+  }
+
+  function onPointerDown(event: ReactPointerEvent<HTMLDivElement>) {
+    if (event.button !== 0) return;
+    if ((event.target as HTMLElement).closest("[data-arena-control]")) return;
+    const board = boardRef.current;
+    if (!board) return;
+    drag.current = {
+      id: event.pointerId,
+      sx: event.clientX,
+      sy: event.clientY,
+      ox: view.x,
+      oy: view.y,
+      moved: false,
+      axis: null,
+    };
+  }
+
+  function onPointerMove(event: ReactPointerEvent<HTMLDivElement>) {
+    const current = drag.current;
+    const board = boardRef.current;
+    if (!current || !board || current.id !== event.pointerId) return;
+    const dx = event.clientX - current.sx;
+    const dy = event.clientY - current.sy;
+    if (!current.axis) {
+      if (Math.hypot(dx, dy) < 6) return;
+      current.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+      if (current.axis === "y") {
+        drag.current = null;
+        return;
+      }
+      board.setPointerCapture(event.pointerId);
+      setGrabbing(true);
+      setSettling(false);
+    }
+    current.moved = true;
+    moved.current = true;
+    suppressClick.current = true;
+    setShowHint(false);
+    setView({ x: current.ox + dx, y: current.oy + dy, scale: view.scale });
+  }
+
+  function onPointerUp(event: ReactPointerEvent<HTMLDivElement>) {
+    if (drag.current?.id === event.pointerId) drag.current = null;
+    setGrabbing(false);
+  }
+
   return (
-    <section id="challenges">
-      <div className="bg-ink">
-        <div className="mx-auto max-w-6xl px-5 pt-20 pb-10 lg:px-8 lg:pt-28">
-          <p className="font-mono text-[11px] tracking-[0.22em] text-mist uppercase">
-            02 / Challenges
-          </p>
-          <h2 className="mt-4 max-w-xl text-4xl leading-[0.94] font-semibold tracking-tight text-paper sm:text-6xl">
-            Choose your arena.
+    <section id="challenges" className="bg-paper text-ink">
+      <header className="flex flex-col gap-12 lg:gap-16">
+        <div className="arena-band">
+          <p>Challenges</p>
+        </div>
+        <div className="px-5 text-center lg:px-8">
+          <h2 className="font-display text-[clamp(2.5rem,5vw,4.25rem)] leading-none font-normal tracking-[0.02em]">
+            Pick a game.
           </h2>
-          <p className="mt-5 max-w-lg text-base leading-7 text-paper/60">
-            Numbers and Logic first. Computer science, a daily problem, and a
-            challenge you can send — as Two5 grows.
+          <p className="mx-auto mt-3 max-w-md font-mono text-base leading-snug text-ink/60">
+            Numbers and Logic are open.
+            <br className="sm:hidden" /> Computer science, a daily problem,
+            and a challenge you can send are on the way.
           </p>
         </div>
+      </header>
 
-        <article className="mx-auto max-w-6xl px-5 pb-16 lg:px-8 lg:pb-24">
-          <div className="relative min-h-[32rem] lg:min-h-[38rem]">
-            <Image
-              src="/art/offer-numbers.jpg"
-              alt="A yellow three-dimensional numeral resting in a dark field"
-              fill
-              sizes="100vw"
-              className="object-contain object-[center_30%] p-4 sm:p-10"
-            />
-            <div className="relative z-10 flex min-h-[32rem] items-end lg:min-h-[38rem]">
-              <div className="max-w-md">
-                <p className="font-mono text-[11px] tracking-[0.2em] text-signal uppercase">
-                  01 — Numbers
-                </p>
-                <h3 className="mt-2 text-5xl font-semibold tracking-tight text-paper sm:text-7xl">
-                  Numbers.
-                </h3>
-                <p className="mt-4 text-base leading-7 text-paper/80">
-                  Find the pattern. Work out the sequence. Trust your reasoning.
-                </p>
-                <p className="mt-4 text-sm leading-6 text-paper/55">
-                  From number sequences and mental calculations to mathematical
-                  thinking and problems that reward a different way of looking
-                  at numbers.
-                </p>
-                <p className="mt-5 font-mono text-[11px] tracking-[0.14em] text-paper/45 uppercase">
-                  Sequences · Patterns · Mental Maths · Numerical Reasoning
-                </p>
-                <Link
-                  href="#waitlist"
-                  onClick={() =>
-                    track("category_selected", {
-                      category: "numbers",
-                      source: "challenges",
-                    })
-                  }
-                  className="mt-6 inline-flex h-12 items-center bg-signal px-5 text-base font-medium text-ink"
-                >
-                  Explore Numbers
-                </Link>
-              </div>
-            </div>
-          </div>
-        </article>
-
-        <article className="border-t border-line">
-          <div className="mx-auto grid max-w-6xl items-end gap-10 px-5 py-16 lg:grid-cols-[1.15fr_0.85fr] lg:gap-8 lg:px-8 lg:py-24">
-            <div className="lg:pb-4">
-              <p className="font-mono text-[11px] tracking-[0.2em] text-volt uppercase">
-                02 — Logic
-              </p>
-              <h3 className="mt-3 text-[4.2rem] leading-[0.84] font-semibold tracking-tight text-paper sm:text-[7rem]">
-                Logic.
-              </h3>
-              <p className="mt-6 max-w-md text-lg leading-8 text-paper/65">
-                Spot the clue. Make the connection. Find the answer.
-              </p>
-              <dl className="mt-10 grid max-w-lg grid-cols-2 gap-x-6 gap-y-7">
-                {[
-                  [
-                    "Deduce",
-                    "Short puzzles that reward careful thinking.",
-                  ],
-                  [
-                    "Connect",
-                    "Patterns, missing pieces and relationships that aren't immediately obvious.",
-                  ],
-                  [
-                    "Reason",
-                    "Work through a problem, test your thinking and find the answer.",
-                  ],
-                  [
-                    "Adapt",
-                    "Familiar rules. Different problems. A new way to think each time.",
-                  ],
-                ].map(([term, line]) => (
-                  <div key={term}>
-                    <dt className="font-mono text-[11px] tracking-[0.16em] text-signal uppercase">
-                      {term}
-                    </dt>
-                    <dd className="mt-2 text-sm leading-6 text-paper/55">
-                      {line}
-                    </dd>
-                  </div>
-                ))}
-              </dl>
-              <Link
-                href="#waitlist"
-                onClick={() =>
-                  track("category_selected", {
-                    category: "logic",
-                    source: "challenges",
-                  })
-                }
-                className="mt-10 inline-flex h-12 items-center border border-paper/20 px-5 text-base text-paper transition-colors hover:border-paper hover:bg-paper hover:text-ink"
-              >
-                Explore Logic
-              </Link>
-            </div>
-            <div className="relative aspect-square lg:aspect-auto lg:h-[36rem]">
-              <Image
-                src="/art/offer-logic.jpg"
-                alt="A floating three-dimensional node with four connected forms"
-                fill
-                sizes="(max-width: 1024px) 100vw, 40vw"
-                className="object-contain"
-              />
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <div className="bg-white text-ink">
-        <article>
-          <div className="mx-auto grid max-w-6xl items-center gap-10 px-5 py-16 lg:grid-cols-[minmax(0,22rem)_minmax(16rem,1fr)] lg:gap-16 lg:px-8 lg:py-20">
-            <div>
-              <p className="font-mono text-[11px] tracking-[0.2em] text-volt uppercase">
-                04 — Daily Challenge
-              </p>
-              <p className="mt-3 font-mono text-[11px] tracking-[0.18em] text-ink/40 uppercase">
-                A reason to return
-              </p>
-              <h3 className="mt-5 text-4xl leading-[0.94] font-semibold tracking-tight sm:text-5xl">
-                One challenge.
-                <br />
-                Every day.
-              </h3>
-              <p className="mt-5 max-w-sm text-base leading-7 text-ink/65">
-                A fresh problem to take on. A new score to chase. One more
-                reason to see what you can solve.
-              </p>
-              <p className="mt-4 max-w-sm text-sm leading-6 text-ink/50">
-                From numbers and logic to new categories as Two5 grows, the idea
-                stays the same: give yourself a challenge worth coming back for.
-              </p>
-              <p className="mt-8 font-mono text-[11px] tracking-[0.14em] text-ink/40 uppercase">
-                Daily Challenges · Personal Scores · New Problems
-              </p>
-              <p className="mt-3 font-mono text-[11px] tracking-[0.18em] text-ember uppercase">
-                Planned for launch
-              </p>
-            </div>
-            <div className="relative mx-auto h-[28rem] w-full max-w-sm lg:h-[36rem] lg:max-w-md">
-              <Image
-                src="/art/offer-daily-line.jpg"
-                alt="A tall yellow line and a tall black line on white"
-                fill
-                sizes="(max-width: 1024px) 80vw, 28rem"
-                className="object-contain"
-              />
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <div className="bg-ink">
-        <article>
-          <div className="mx-auto max-w-6xl px-5 py-16 lg:px-8 lg:py-24">
-            <div className="flex flex-wrap items-baseline justify-between gap-3">
-              <p className="font-mono text-[11px] tracking-[0.2em] text-volt uppercase">
-                03 — Computer Science
-              </p>
-              <p className="font-mono text-[11px] tracking-[0.18em] text-paper/40 uppercase">
-                Also planned
-              </p>
-            </div>
-
-            <div className="mt-10 grid items-center gap-12 lg:grid-cols-[0.7fr_1fr] lg:gap-16">
-              <div className="relative mx-auto aspect-square w-full max-w-sm">
-                <Image
-                  src="/art/offer-cs.jpg"
-                  alt="A blue glass tree of nodes standing in an empty dark field"
-                  fill
-                  sizes="(max-width: 1024px) 80vw, 28vw"
-                  className="object-contain"
-                />
-              </div>
-              <div>
-                <h3 className="max-w-md text-4xl leading-[0.94] font-semibold tracking-tight text-paper sm:text-6xl">
-                  Think beyond the code.
-                </h3>
-                <p className="mt-6 max-w-md text-base leading-7 text-paper/65">
-                  From data structures and algorithms to the computer science
-                  concepts you use to solve real problems.
-                </p>
-                <p className="mt-4 max-w-md text-sm leading-6 text-paper/50">
-                  Practice the thinking behind the code. Work through problems,
-                  compare approaches and challenge yourself beyond the usual
-                  coding routine.
-                </p>
-                <p className="mt-8 font-mono text-[11px] tracking-[0.14em] text-paper/40 uppercase">
-                  DSA · Algorithms · Data Structures · CS Fundamentals
-                </p>
-                <p className="mt-4 font-mono text-[11px] tracking-[0.18em] text-signal uppercase">
-                  Coming to Two5
-                </p>
-              </div>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <div className="bg-paper text-ink">
-        <article>
-          <div className="mx-auto grid max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-[1fr_1.1fr] lg:gap-20 lg:px-8 lg:py-24">
-            <div className="relative aspect-[5/4]">
-              <Image
-                src="/art/offer-versus.jpg"
-                alt="Two opposing three-dimensional forms, yellow and red, facing across a cream field"
-                fill
-                sizes="(max-width: 1024px) 100vw, 45vw"
-                className="object-contain"
-              />
-            </div>
-            <div>
-              <p className="font-mono text-[11px] tracking-[0.2em] text-ember uppercase">
-                05 — Versus
-              </p>
-              <p className="mt-3 font-mono text-[11px] tracking-[0.18em] text-ink/40 uppercase">
-                Your score is just the beginning
-              </p>
-              <h3 className="mt-5 text-4xl leading-[0.94] font-semibold tracking-tight sm:text-5xl">
-                You solved it.
-                <br />
-                Now send the challenge.
-              </h3>
-              <p className="mt-6 max-w-md text-base leading-7 text-ink/65">
-                Challenge a friend to solve the same problem. Compare results.
-                See who comes out ahead.
-              </p>
-              <p className="mt-4 max-w-md text-sm leading-6 text-ink/50">
-                Whether it&apos;s a number sequence, a logic puzzle or a future
-                DSA challenge, solving it is one thing. Beating your
-                friend&apos;s score is another.
-              </p>
-              <p className="mt-8 font-mono text-[11px] tracking-[0.14em] text-ink/40 uppercase">
-                Solve · Share · Compare · Rematch
-              </p>
-              <p className="mt-4 max-w-sm text-sm leading-6 text-ink/50">
-                Built around friendly competition. Social challenges are part of
-                the Two5 vision, not a live multiplayer feature yet.
-              </p>
-              <Link
-                href="#waitlist"
-                onClick={() =>
-                  track("waitlist_cta_click", { source: "challenges-versus" })
-                }
-                className="mt-8 inline-flex h-12 items-center bg-ink px-5 text-base font-medium text-paper"
-              >
-                Want in on the first rounds?
-              </Link>
-            </div>
-          </div>
-        </article>
-      </div>
-
-      <TextReveal
-        className="bg-paper text-ink"
-        lead={
-          <div className="mb-6 lg:mb-8">
-            <h3 className="max-w-none text-[clamp(2.75rem,7vw,7rem)] leading-[0.9] font-semibold tracking-tight">
-              One place.
-              <br />
-              Different ways to think.
-            </h3>
-          </div>
-        }
-        trail={
-          <div className="mt-6 lg:mt-8">
-            <p className="max-w-3xl text-sm leading-6 text-ink/50 sm:text-base">
-              Start with the numbers. Work through the logic. Take on DSA.
-              Discover what you&apos;re good at — and what you want to get
-              better at.
-            </p>
-            <Link
-              href="#waitlist"
-              onClick={() =>
-                track("waitlist_cta_click", { source: "challenges-more" })
-              }
-              className="mt-5 inline-flex h-12 items-center bg-signal px-5 text-base font-medium text-ink"
-            >
-              Get early access
-            </Link>
-          </div>
-        }
+      <div
+        ref={trackRef}
+        className="arena-track relative mt-10 pb-16 md:mt-12 md:pb-0 lg:mt-14"
+        style={{ ["--arena-steps" as string]: arenas.length + 0.35 }}
       >
-        {"Maths, logic, computer science and more over time. Number sequences, logic puzzles, algorithms and problems that ask you to look again. Two5 is being built to bring those skill challenges together in one place, so you can practice how you think, chase a score, and always find another kind of problem to take on."}
-      </TextReveal>
+      <div className="arena-stage">
+      <div className="grid w-full items-center gap-8 px-5 md:grid-cols-2 md:gap-8 lg:px-8 xl:px-16">
+        <div
+          ref={boardRef}
+          className={cn(
+            "arena-board relative h-[300px] overflow-hidden rounded-lg border border-ink/10 md:h-[min(440px,48vh)] lg:h-[min(500px,52vh)]",
+            grabbing && "is-grabbing",
+            ready ? "opacity-100" : "opacity-0",
+          )}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
+          onDoubleClick={(event) => {
+            if ((event.target as HTMLElement).closest("[data-arena-control]")) return;
+            settleTo(home.current);
+          }}
+          onDragStart={(event) => event.preventDefault()}
+        >
+          <Image
+            src="/art/arena-numbers.jpg"
+            alt=""
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="pointer-events-none object-cover opacity-80"
+            style={{ transform: "translate(-6%, -12%) scale(1.65)" }}
+          />
+          <div className="pointer-events-none absolute inset-0 bg-ink/15" />
+
+          <div
+            className={cn("arena-plane absolute top-0 left-0", settling && "is-settling")}
+            style={{
+              width: BOARD,
+              height: BOARD,
+              ["--x" as string]: `${view.x}px`,
+              ["--y" as string]: `${view.y}px`,
+              ["--s" as string]: view.scale,
+            }}
+            onTransitionEnd={(event) => {
+              if (event.target === event.currentTarget) setSettling(false);
+            }}
+          >
+            {Array.from({ length: COLS + 1 }, (_, index) => {
+              const pos = index === COLS ? BOARD - 1 : index * STRIDE;
+              return (
+                <span key={`line-${index}`}>
+                  <span
+                    className="absolute top-0 w-px bg-white/35"
+                    style={{ left: pos, height: BOARD }}
+                  />
+                  <span
+                    className="absolute left-0 h-px bg-white/35"
+                    style={{ top: pos, width: BOARD }}
+                  />
+                </span>
+              );
+            })}
+
+            {arenas.map((item, index) => {
+              const selected = index === active;
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  data-tile={item.id}
+                  aria-pressed={selected}
+                  onClick={() => {
+                    if (suppressClick.current) {
+                      suppressClick.current = false;
+                      return;
+                    }
+                    select(index);
+                  }}
+                  className={cn(
+                    "group absolute flex cursor-pointer flex-col items-center justify-center gap-3 overflow-hidden rounded-lg border border-black/10 px-6 text-center transition-colors",
+                    selected ? "bg-white" : "bg-white/75 hover:bg-white/90",
+                  )}
+                  style={{
+                    left: (item.col - 1) * STRIDE,
+                    top: (item.row - 1) * STRIDE,
+                    width: CELL,
+                    height: CELL,
+                  }}
+                >
+                  <span className="font-mono text-[11px] tracking-[0.1em] text-mist uppercase">
+                    <span className={selected ? "text-volt" : undefined}>{item.topic}</span>
+                  </span>
+                  <span className="relative block size-20 shrink-0 overflow-hidden rounded-full bg-[#d8c89e]">
+                    <Image
+                      src={item.circle}
+                      alt=""
+                      fill
+                      sizes="80px"
+                      className={cn(
+                        "object-cover transition duration-300",
+                        selected ? "scale-100 grayscale-0" : "grayscale group-hover:scale-105",
+                      )}
+                    />
+                  </span>
+                  <span className="flex w-full flex-col items-center gap-1">
+                    <span className="w-full truncate text-xl leading-tight font-normal">
+                      {item.title}
+                    </span>
+                    <span className="w-full truncate text-sm tracking-[0.01em] text-ink/60">
+                      {item.subtitle}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="absolute bottom-2 left-2 z-10 flex gap-1">
+            <ZoomButton
+              label="Zoom out"
+              disabled={view.scale <= MIN_SCALE + 0.001}
+              onClick={() => zoomBy(-0.15)}
+            >
+              <path d="M2 7h10" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+            </ZoomButton>
+            <ZoomButton
+              label="Zoom in"
+              disabled={view.scale >= MAX_SCALE - 0.001}
+              onClick={() => zoomBy(0.15)}
+            >
+              <path d="M7 2v10M2 7h10" stroke="currentColor" strokeWidth="1" strokeLinecap="round" />
+            </ZoomButton>
+          </div>
+
+          <div
+            className={cn(
+              "pointer-events-none absolute right-2 bottom-2 z-10 rounded-full border border-black/10 bg-paper/80 px-3 py-1.5 font-mono text-[10px] tracking-[0.02em] transition duration-200",
+              offCenter ? "translate-y-0 opacity-100" : "translate-y-1 opacity-0",
+            )}
+          >
+            Double-click to reset
+          </div>
+
+          <div
+            className={cn(
+              "pointer-events-none absolute top-3 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2 rounded-full border border-white/15 bg-ink px-3.5 py-2 font-mono text-[11px] tracking-[0.02em] text-paper transition-opacity duration-300",
+              showHint ? "opacity-100" : "opacity-0",
+            )}
+          >
+            <span className="arena-drag-cursor inline-flex" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path
+                  d="M3.5 7h7M3.5 7l2-2M3.5 7l2 2M10.5 7l-2-2M10.5 7l-2 2"
+                  stroke="currentColor"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </span>
+            <span className="md:hidden">Drag to explore</span>
+            <span className="hidden md:inline">Scroll to the next</span>
+          </div>
+        </div>
+
+        <div className="flex min-w-0 flex-col lg:py-6">
+          <div className="grid gap-6 sm:grid-cols-2 sm:items-start">
+            <div className="flex items-end justify-between gap-4 sm:col-span-2">
+              <div>
+                <p className="font-mono text-[11px] tracking-[0.1em] text-volt uppercase">
+                  {arena.topic}
+                </p>
+                <h3 className="mt-3 font-display text-[clamp(2.25rem,3.4vw,2.75rem)] leading-none font-normal tracking-[0.02em]">
+                  {arena.title}
+                </h3>
+              </div>
+              <div className="flex items-center gap-3 lg:hidden">
+                <NavButton label="Previous arena" onClick={() => stepArena(-1)} />
+                <p className="font-mono text-[11px] tracking-[0.1em] text-volt">
+                  {pad(active + 1)}
+                  <span className="text-[10px] text-mist"> / {pad(arenas.length)}</span>
+                </p>
+                <NavButton label="Next arena" direction="next" onClick={() => stepArena(1)} />
+              </div>
+            </div>
+
+            <hr className="arena-rule sm:col-span-2" />
+
+            <div
+              ref={caseRef}
+              className={cn("relative sm:col-span-2", caseOpen && "z-20")}
+              onClick={(event) => {
+                if ((event.target as HTMLElement).closest("a, button")) return;
+                if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+                setCaseOpen((open) => !open);
+              }}
+              onPointerEnter={(event) => {
+                if (event.pointerType === "touch") return;
+                setCaseOpen(true);
+              }}
+              onPointerLeave={(event) => {
+                if (event.pointerType === "touch") return;
+                setCaseOpen(false);
+              }}
+              onFocus={() => setCaseOpen(true)}
+              onBlur={(event) => {
+                const next = event.relatedTarget;
+                if (next instanceof Node && event.currentTarget.contains(next)) return;
+                setCaseOpen(false);
+              }}
+            >
+              <div className="grid gap-6 sm:grid-cols-2 sm:items-start">
+                <dl className="flex flex-col gap-4">
+                  <Spec term="Status" value={arena.status} />
+                  <Spec term="Stage" value={arena.stage} />
+                  <Spec term="Practice" value={arena.practice} />
+                  <Link
+                    href={arena.cta.href}
+                    onClick={arena.cta.onClick}
+                    className="inline-flex items-center gap-1.5 text-sm text-ink underline decoration-ink/30 underline-offset-[3px] transition-colors hover:text-volt hover:decoration-volt"
+                  >
+                    {arena.cta.label}
+                    <ArrowUpRight />
+                  </Link>
+                </dl>
+
+                <button
+                  type="button"
+                  aria-label={`${arena.title} research case`}
+                  className="block w-full min-w-0 cursor-default rounded-lg border-0 bg-transparent p-0 text-left outline-offset-4"
+                  aria-expanded={caseOpen}
+                  aria-controls="arena-case"
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+                    if (fine && event.detail !== 0) return;
+                    setCaseOpen((open) => !open);
+                  }}
+                >
+                  <ResearchFigure arena={arena.id} compact />
+                </button>
+              </div>
+
+              {research ? (
+                <CasePopup post={research} open={caseOpen} href={arena.cta.href} onOpen={arena.cta.onClick} />
+              ) : null}
+            </div>
+          </div>
+
+          <hr className="arena-rule my-4" />
+
+          <div className="flex flex-col gap-3">
+            <p className="text-2xl leading-snug font-normal">{arena.lede}</p>
+            <p className="text-sm leading-relaxed tracking-[0.01em] text-ink/70">{arena.body}</p>
+          </div>
+
+          <hr className="arena-rule my-4" />
+
+          <div className="grid gap-5 sm:grid-cols-2">
+            {arena.notes.map((note) => (
+              <article key={note.heading}>
+                <h4 className="font-mono text-[11px] tracking-[0.1em] text-mist uppercase">
+                  {note.heading}
+                </h4>
+                <p className="mt-3 text-sm leading-relaxed text-ink/70">{note.body}</p>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-4 hidden items-center justify-between lg:flex">
+            <p className="font-mono text-[11px] tracking-[0.1em] text-volt">
+              {pad(active + 1)}
+              <span className="text-[10px] text-mist"> / {pad(arenas.length)}</span>
+            </p>
+            <div className="flex items-center gap-3">
+              <NavButton label="Previous arena" onClick={() => stepArena(-1)} />
+              <NavButton label="Next arena" direction="next" onClick={() => stepArena(1)} />
+            </div>
+          </div>
+
+          <div className="mt-8 flex items-center justify-center gap-5 lg:hidden">
+            <Chevron className="size-3.5 text-mist" />
+            <div className="flex items-center gap-2" role="tablist" aria-label="Arenas">
+              {arenas.map((item, index) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  role="tab"
+                  aria-label={item.title}
+                  aria-selected={index === active}
+                  onClick={() => select(index)}
+                  className={cn(
+                    "size-[5px] rounded-full bg-ink/25",
+                    index === active && "scale-150 bg-volt",
+                  )}
+                />
+              ))}
+            </div>
+            <Chevron direction="next" className="size-3.5 text-mist" />
+          </div>
+        </div>
+      </div>
+      </div>
+      </div>
     </section>
+  );
+}
+
+const caseHints: Record<string, string> = {
+  numbers: "Seen it before? It comes back faster.",
+  logic: "Slow down on the clue you want to skip.",
+  "computer-science": "Same problem. Cheaper path.",
+  daily: "One tomorrow beats ten tonight.",
+  versus: "Rematch a puzzle you know. That’s when it helps.",
+};
+
+const caseThemes: Record<string, { bg: string; fg: string }> = {
+  numbers: { bg: "#3dce55", fg: "#000000" },
+  logic: { bg: "#2f6fed", fg: "#f5f2ea" },
+  "computer-science": { bg: "#5ec8ff", fg: "#000000" },
+  daily: { bg: "#f0c020", fg: "#000000" },
+  versus: { bg: "#ef3b2e", fg: "#ffffff" },
+};
+
+function CasePopup({
+  post,
+  open,
+  href,
+  onOpen,
+}: {
+  post: ResearchPost;
+  open: boolean;
+  href: string;
+  onOpen: () => void;
+}) {
+  const mark = post.motif.metric.charAt(0) + post.motif.metric.slice(1).toLowerCase();
+  const hint = caseHints[post.slug] ?? post.lede;
+  const theme = caseThemes[post.slug] ?? caseThemes.daily;
+
+  return (
+    <div
+      id="arena-case"
+      role="region"
+      aria-label={`${post.arena} research case`}
+      aria-hidden={!open}
+      inert={open ? undefined : true}
+      className={cn(
+        "absolute top-full left-0 z-20 w-[min(16rem,100%)] origin-top-left sm:left-auto sm:right-0 sm:w-[14.5rem] sm:origin-top-right",
+        "motion-safe:transition motion-safe:duration-150",
+        open
+          ? "visible translate-y-0 scale-100 opacity-100"
+          : "pointer-events-none invisible -translate-y-1 scale-95 opacity-0",
+      )}
+    >
+      <span
+        aria-hidden="true"
+        className="ml-8 block size-2.5 translate-y-1 rotate-45 sm:mr-8 sm:ml-auto"
+        style={{ backgroundColor: theme.bg }}
+      />
+      <div className="rounded-2xl px-4 pt-3 pb-3.5" style={{ backgroundColor: theme.bg, color: theme.fg }}>
+        <p className="font-display text-[2.4rem] leading-none tracking-[0.02em]">{mark}</p>
+        <p className="mt-1.5 text-[13px] leading-snug">{hint}</p>
+        <Link
+          href={href}
+          onClick={onOpen}
+          className="mt-2 inline-block text-[13px] underline decoration-current/35 underline-offset-[3px] hover:decoration-current"
+          style={{ color: theme.fg }}
+        >
+          Why it works
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+function Spec({ term, value }: { term: string; value: string }) {
+  return (
+    <div>
+      <dt className="font-mono text-[11px] tracking-[0.1em] text-mist uppercase">{term}</dt>
+      <dd className="mt-1 font-mono text-sm leading-snug text-ink/70">{value}</dd>
+    </div>
+  );
+}
+
+function NavButton({
+  label,
+  direction = "prev",
+  onClick,
+}: {
+  label: string;
+  direction?: "prev" | "next";
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      aria-label={label}
+      onClick={onClick}
+      className="flex size-6 items-center justify-center text-mist transition-colors hover:text-volt"
+    >
+      <Chevron direction={direction} />
+    </button>
+  );
+}
+
+function ZoomButton({
+  label,
+  disabled,
+  onClick,
+  children,
+}: {
+  label: string;
+  disabled: boolean;
+  onClick: () => void;
+  children: ReactNode;
+}) {
+  return (
+    <button
+      type="button"
+      data-arena-control
+      aria-label={label}
+      disabled={disabled}
+      onPointerDown={(event) => event.stopPropagation()}
+      onClick={onClick}
+      className="flex size-8 items-center justify-center rounded-full border border-black/10 bg-paper/80 text-ink transition-colors hover:bg-paper disabled:cursor-not-allowed disabled:opacity-40"
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        {children}
+      </svg>
+    </button>
+  );
+}
+
+function Chevron({
+  direction = "prev",
+  className,
+}: {
+  direction?: "prev" | "next";
+  className?: string;
+}) {
+  return (
+    <svg
+      viewBox="0 0 16 16"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={cn("size-4", className)}
+    >
+      <path d={direction === "next" ? "M6 4l4 4-4 4" : "M10 4 6 8l4 4"} />
+    </svg>
+  );
+}
+
+function ArrowUpRight() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path
+        d="M3 9 9 3M4.5 3H9v4.5"
+        stroke="currentColor"
+        strokeWidth="1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
   );
 }

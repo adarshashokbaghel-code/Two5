@@ -1,14 +1,20 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Space_Grotesk } from "next/font/google";
+import { Bebas_Neue, Geist_Mono, Montserrat } from "next/font/google";
 
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { siteConfig } from "@/config/site";
 
 import "./globals.css";
 
-const sans = Space_Grotesk({
+const sans = Montserrat({
   subsets: ["latin"],
-  variable: "--font-space",
+  variable: "--font-montserrat",
+});
+
+const display = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-bebas",
 });
 
 const mono = Geist_Mono({
@@ -19,7 +25,7 @@ const mono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Two5 — Your Brain’s Gym",
+    default: "Two5 — Play a sharper game",
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -27,7 +33,7 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Two5 — Your Brain’s Gym",
+    title: "Two5 — Play a sharper game",
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
@@ -48,9 +54,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-reel="out"
-      className={`${sans.variable} ${mono.variable} h-full`}
+      className={`${sans.variable} ${display.variable} ${mono.variable} h-full`}
     >
-      <body className="min-h-full bg-ink font-sans text-paper antialiased">
+      <body className="min-h-full bg-paper font-sans text-ink antialiased">
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

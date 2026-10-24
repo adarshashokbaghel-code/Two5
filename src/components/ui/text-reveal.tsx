@@ -41,6 +41,16 @@ export function TextReveal({
 
   const words = children.trim().split(/\s+/);
 
+  const readable = (
+    <>
+      {lead}
+      <p className="w-full font-display text-2xl leading-none font-normal tracking-[0.02em] text-ember sm:text-3xl">
+        {children}
+      </p>
+      {trail}
+    </>
+  );
+
   if (reduceMotion) {
     return (
       <div
@@ -50,24 +60,20 @@ export function TextReveal({
         )}
         {...props}
       >
-        {lead}
-        <p className="w-full text-[clamp(1.2rem,2.6vw,3.15rem)] leading-[1.08] font-semibold tracking-tight text-ember">
-          {children}
-        </p>
-        {trail}
+        {readable}
       </div>
     );
   }
 
   return (
-    <div
-      ref={sectionRef}
-      className={cn("relative z-0 h-[200vh]", className)}
-      {...props}
-    >
+    <div className={cn("relative z-0", className)} {...props}>
+      <div className="flex w-full flex-col justify-center px-5 py-16 pb-28 sm:px-8 lg:hidden">
+        {readable}
+      </div>
+      <div ref={sectionRef} className="relative hidden h-[200vh] lg:block">
       <div className="sticky top-0 flex h-svh w-full flex-col justify-center overflow-hidden px-5 pt-8 pb-28 sm:px-8 lg:px-12 lg:pt-12">
         {lead}
-        <p className="flex w-full flex-wrap text-[clamp(1.2rem,2.6vw,3.15rem)] leading-[1.08] font-semibold tracking-tight text-ember/30">
+        <p className="flex w-full flex-wrap font-display text-[clamp(1.6rem,3.2vw,3.75rem)] leading-none font-normal tracking-[0.02em] text-ember/30">
           {words.map((word, index) => {
             const start = index / words.length;
             const end = start + 1 / words.length;
@@ -79,6 +85,7 @@ export function TextReveal({
           })}
         </p>
         {trail}
+      </div>
       </div>
     </div>
   );
