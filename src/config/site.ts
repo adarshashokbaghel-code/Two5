@@ -2,14 +2,15 @@ import type { NavItem } from "@/types";
 
 export const siteConfig = {
   name: "Two5",
-  tagline: "Your Brain’s Gym.",
+  tagline: "Play a sharper game.",
   headline: "Think fast. Know more. Compete.",
   description:
-    "From Mathematics and Logical Reasoning to Computer Science and DSA, Two5 turns the subjects you enjoy into challenges worth solving — and scores worth beating.",
+    "Numbers, logic, and computer science, turned into short rounds you can play. Beat a score. Send one to a friend.",
   url: "https://two5.in",
   nav: [
-    { label: "The experience", href: "#experience", index: "01" },
+    { label: "Play", href: "#experience", index: "01" },
     { label: "Challenges", href: "#challenges", index: "02" },
-    { label: "FAQ", href: "#faq", index: "03" },
+    { label: "Learn", href: "/research", index: "03" },
+    { label: "FAQ", href: "#faq", index: "04" },
   ] satisfies NavItem[],
 };

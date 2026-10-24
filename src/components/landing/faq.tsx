@@ -10,12 +10,12 @@ const questions = [
   {
     index: "01",
     q: "What is Two5?",
-    a: "Two5 is a skill-challenge platform built around solving problems, testing your thinking and competing with others. Starting with Numbers and Logic, the idea is to make short challenges more engaging through scores, friendly competition and new problems to take on.",
+    a: "Two5 is a game of short challenges. Start with Numbers and Logic, get a score, and try to beat it. More rounds show up as we open them.",
   },
   {
     index: "02",
     q: "What can I do on Two5?",
-    a: "Two5 is being designed around a simple loop: choose a challenge, solve it, see your result and challenge yourself to do better. Social challenges and additional competitive features are part of the product vision as Two5 develops.",
+    a: "Pick a challenge, solve it, see your score, then try again. Sending one to a friend is part of what we're building next.",
   },
   {
     index: "03",
@@ -30,12 +30,12 @@ const questions = [
   {
     index: "05",
     q: "Can I challenge my friends?",
-    a: "Friend challenges and score comparisons are central to the Two5 vision. The goal is to let you take on a problem and give your friends a chance to beat your score. These features are still planned and aren't being presented as live multiplayer functionality.",
+    a: "That's the idea. You'll be able to send a problem and see who gets the better score. Friend challenges aren't open yet.",
   },
   {
     index: "06",
     q: "Will Two5 have daily challenges and leaderboards?",
-    a: "Daily challenges and competitive features are part of the planned experience. The goal is to give players fresh problems to solve, personal milestones to pursue and ways to compare their performance. Availability will be confirmed as the product develops.",
+    a: "A daily problem and a board of scores are on the list. We'll say when they're open to play.",
   },
   {
     index: "07",
@@ -64,13 +64,13 @@ export function Faq() {
   const current = questions[open];
 
   return (
-    <section id="faq" className="border-t border-line bg-paper text-ink">
+    <section id="faq" className="border-t border-ink/10 bg-paper text-ink">
       <div className="mx-auto max-w-6xl px-5 pt-20 pb-6 lg:px-8 lg:pt-28">
         <p className="font-mono text-[11px] tracking-[0.22em] text-ink/40 uppercase">
-          03 / FAQ
+          Before you play
         </p>
-        <h2 className="mt-4 max-w-xl text-4xl leading-[0.94] font-semibold tracking-tight sm:text-6xl">
-          Frequently asked questions.
+        <h2 className="mt-4 max-w-xl font-display text-5xl leading-none font-normal tracking-[0.02em] sm:text-7xl">
+          Good questions.
         </h2>
       </div>
 
@@ -97,7 +97,7 @@ export function Faq() {
                   </span>
                   <span
                     className={cn(
-                      "text-xl leading-snug font-semibold tracking-tight sm:text-2xl",
+                      "font-display text-2xl leading-none font-normal tracking-[0.02em] sm:text-3xl",
                       selected ? "text-ink" : "text-ink/45",
                     )}
                   >
@@ -119,14 +119,14 @@ export function Faq() {
             <p className="font-mono text-[11px] tracking-[0.18em] text-ember uppercase">
               {current.index}
             </p>
-            <h3 className="mt-4 text-4xl leading-[0.95] font-semibold tracking-tight">
+            <h3 className="mt-4 font-display text-4xl leading-none font-normal tracking-[0.02em] sm:text-5xl">
               {current.q}
             </h3>
             <p className="mt-6 max-w-lg text-lg leading-8 text-ink/65">{current.a}</p>
             <Link
               href="#waitlist"
               onClick={() => track("waitlist_cta_click", { source: "faq" })}
-              className="mt-10 inline-flex h-12 items-center bg-ink px-5 text-base font-medium text-paper"
+              className="mt-10 inline-flex h-12 items-center rounded-full bg-signal px-5 text-base font-medium text-ink"
             >
               Join the waitlist
             </Link>
@@ -134,11 +134,11 @@ export function Faq() {
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-5 pb-16 lg:hidden">
+      <div className="mx-auto max-w-6xl px-5 pb-28 lg:hidden">
         <Link
           href="#waitlist"
           onClick={() => track("waitlist_cta_click", { source: "faq" })}
-          className="inline-flex h-12 items-center bg-ink px-5 text-base font-medium text-paper"
+          className="inline-flex h-12 items-center rounded-full bg-signal px-5 text-base font-medium text-ink"
         >
           Join the waitlist
         </Link>

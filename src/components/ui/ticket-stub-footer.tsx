@@ -349,7 +349,7 @@ const CSS =
   ".tsf-caret{display:inline-block;width:.55em;height:1.05em;margin-left:2px;vertical-align:-.18em;background:var(--tsf-accent);animation:tsf-blink 1s steps(1) infinite}" +
   ".tsf-dots{flex:1;min-width:24px;height:10px;opacity:.6;background-image:radial-gradient(circle,var(--dot,var(--tsf-ink)) .85px,transparent 1.25px);background-size:6px 5px;background-position:0 0;" +
   "-webkit-mask-image:linear-gradient(90deg,#000 0,#000 35%,rgba(0,0,0,.25) 50%,#000 65%,#000 100%);mask-image:linear-gradient(90deg,#000 0,#000 35%,rgba(0,0,0,.25) 50%,#000 65%,#000 100%);-webkit-mask-size:200% 100%;mask-size:200% 100%;animation:tsf-march 3.6s linear infinite}" +
-  ".tsf-h{margin:clamp(28px,4.6cqw,64px) 0 0;font-weight:300;font-size:clamp(30px,3.65cqw,56px);line-height:1.12;letter-spacing:-.035em;color:var(--tsf-ink)}" +
+  ".tsf-h{margin:clamp(28px,4.6cqw,64px) 0 0;font-family:var(--font-bebas),\"Bebas Neue\",sans-serif;font-weight:400;font-size:clamp(30px,3.65cqw,56px);line-height:.95;letter-spacing:.02em;color:var(--tsf-ink)}" +
   ".tsf-h span{display:block;overflow:hidden;padding-bottom:.06em;margin-bottom:-.06em}" +
   ".tsf-h span span{display:block;transform:translateY(0);transition:transform .9s cubic-bezier(.2,.8,.2,1)}" +
   ".tsf[data-seen='0'] .tsf-h span span{transform:translateY(110%)}" +
