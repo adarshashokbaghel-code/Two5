@@ -18,10 +18,10 @@ const PAPER = { x: 1006, y: 671, w: 177, h: 85 };
 const PAPER_ANGLE = 13;
 
 const RIVALS = [
-  { id: "chess", name: "chess.com", word: "" },
-  { id: "matiks", name: "Matiks", word: "Matiks" },
-  { id: "brilliant", name: "Brilliant", word: "Brilliant" },
-  { id: "elevate", name: "Elevate", word: "Elevate" },
+  { id: "chess", name: "chess.com", word: "", left: "Clock", leftValue: "41:08", right: "Rating", rightValue: "+3" },
+  { id: "matiks", name: "Matiks", word: "Matiks", left: "Timer", leftValue: "0:45", right: "Score", rightValue: "120" },
+  { id: "brilliant", name: "Brilliant", word: "Brilliant", left: "Lesson", leftValue: "14:02", right: "Streak", rightValue: "2" },
+  { id: "elevate", name: "Elevate", word: "Elevate", left: "Session", leftValue: "5:00", right: "Score", rightValue: "890" },
 ] as const;
 
 const LINES = [
@@ -69,6 +69,7 @@ export function HeroReel({ sectionRef }: HeroReelProps) {
   const introRestRef = useRef<HTMLSpanElement>(null);
   const introCaretRef = useRef<HTMLSpanElement>(null);
   const rivalRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const screenRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -145,7 +146,9 @@ export function HeroReel({ sectionRef }: HeroReelProps) {
       const x = cx + (gx - cx) * cardEase;
       const y = cy + (gy - cy) * cardEase;
       const angle = PAPER_ANGLE * (1 - cardEase);
-      const font = Math.min(w * (wide ? 0.064 : 0.09), h * 0.2);
+      const font = wide
+        ? Math.min(w * 0.064, h * 0.2)
+        : Math.min(w * 0.145, h * 0.105, 54);
       const radius = 6 + (0.5 * root - 6) * cardEase;
       card.style.left = "0px";
       card.style.top = "0px";
@@ -353,8 +356,8 @@ export function HeroReel({ sectionRef }: HeroReelProps) {
       rootStyle.setProperty("--intro", introShow.toFixed(4));
       rootStyle.setProperty("--mark-show", markShow.toFixed(4));
       rootStyle.setProperty("--copy-on", ((1 - typeReveal) * (1 - logoOn)).toFixed(4));
-      RIVALS.forEach((_, index) => {
-        const node = rivalRefs.current[index];
+      const crisp = window.matchMedia("(max-width: 1023px)").matches;
+      const paintRival = (node: HTMLElement | null, index: number) => {
         if (!node) return;
         const local = rival - index;
         let opacity = 0;
@@ -363,18 +366,22 @@ export function HeroReel({ sectionRef }: HeroReelProps) {
           if (local < 0.34) {
             const t = local / 0.34;
             opacity = t;
-            blur = 2 + 8 * (1 - t);
+            blur = crisp ? 8 * (1 - t) : 2 + 8 * (1 - t);
           } else if (local > 0.66) {
             const t = (local - 0.66) / 0.34;
             opacity = 1 - t;
-            blur = 2 + 8 * t;
+            blur = crisp ? 8 * t : 2 + 8 * t;
           } else {
             opacity = 1;
-            blur = 2;
+            blur = crisp ? 0 : 2;
           }
         }
         node.style.opacity = opacity.toFixed(3);
         node.style.filter = `blur(${blur.toFixed(2)}px)`;
+      };
+      RIVALS.forEach((_, index) => {
+        paintRival(rivalRefs.current[index], index);
+        paintRival(screenRefs.current[index], index);
       });
       document.documentElement.dataset.reel =
         reel > 0.78 ? "lock" : reel > 0.46 ? "form" : reel > 0.16 ? "copy" : "out";
@@ -567,24 +574,26 @@ export function HeroReel({ sectionRef }: HeroReelProps) {
                 </div>
               ))}
             </div>
-            <p className="hero-card-jab">
-              Forty-one minutes. A rating that moved by three.
-              <span> The clock had a better game than you did.</span>
-            </p>
-            <ul className="hero-card-stats">
-              <li>
-                <span>Time</span>
-                <strong>41:08</strong>
-              </li>
-              <li>
-                <span>Rating</span>
-                <strong className="is-ember">+3</strong>
-              </li>
-              <li>
-                <span>Fun</span>
-                <strong className="is-signal">Low</strong>
-              </li>
-            </ul>
+            <div className="hero-card-screens">
+              {RIVALS.map((item, index) => (
+                <div
+                  key={item.id}
+                  ref={(node) => {
+                    screenRefs.current[index] = node;
+                  }}
+                  className={`hero-card-screen is-${item.id}`}
+                >
+                  <div className="hero-card-pane">
+                    <span>{item.left}</span>
+                    <strong>{item.leftValue}</strong>
+                  </div>
+                  <div className="hero-card-pane">
+                    <span>{item.right}</span>
+                    <strong>{item.rightValue}</strong>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
           <div className="hero-card-type">
             <div className="hero-type-sheet">

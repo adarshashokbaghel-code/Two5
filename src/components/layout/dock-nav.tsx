@@ -89,12 +89,17 @@ export function DockNav() {
   }, [open]);
 
   return (
-    <header className="dock-enter pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-3 pb-[max(1rem,env(safe-area-inset-bottom))]">
-      <div className="pointer-events-auto w-fit max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-xl bg-white/60 shadow-[0_0_0_1px_rgba(12,16,28,0.06),0_18px_36px_-24px_rgba(12,16,28,0.42)] backdrop-blur-[22px] backdrop-saturate-150">
+    <header className="dock-enter pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+      <div
+        className={cn(
+          "pointer-events-auto w-fit max-w-[calc(100vw-2rem)] overflow-hidden bg-white/75 shadow-[0_0_0_1px_rgba(12,16,28,0.08),0_10px_24px_-16px_rgba(12,16,28,0.4)] backdrop-blur-xl backdrop-saturate-150",
+          open ? "rounded-2xl" : "rounded-full",
+        )}
+      >
         {open ? (
           <div
             id={menuId}
-            className="border-b border-black/[0.08] px-1.5 pt-1.5 pb-1 text-ink"
+            className="border-b border-black/[0.06] px-1 py-1 text-ink"
             role="dialog"
             aria-modal="true"
             aria-label="Chapters"
@@ -110,7 +115,7 @@ export function DockNav() {
                         href={siteHref(item.href, pathname)}
                         onClick={() => setOpen(false)}
                         className={cn(
-                          "flex items-baseline justify-center gap-3 rounded-md px-3 py-2.5 text-[1.0625rem] tracking-tight",
+                          "flex items-baseline justify-center gap-2.5 rounded-lg px-3 py-2 text-[0.95rem] tracking-tight",
                           isCurrent ? "bg-ink/[0.05]" : "hover:bg-ink/[0.04]",
                         )}
                         aria-current={isCurrent ? "location" : undefined}
@@ -133,17 +138,14 @@ export function DockNav() {
           </div>
         ) : null}
 
-        <nav
-          aria-label="Primary"
-          className="flex items-center gap-1.5 py-[7px] pr-1.5 pl-[7px]"
-        >
+        <nav aria-label="Primary" className="flex items-center gap-1 p-1">
           <Link
             href={siteHref("#waitlist", pathname)}
             onClick={() => {
               setOpen(false);
               track("waitlist_cta_click", { source: "dock" });
             }}
-            className="flex h-[58px] min-w-[9.5rem] items-center justify-center rounded-full bg-signal px-8 text-[1.0625rem] font-medium tracking-[-0.012em] text-ink shadow-[0_10px_24px_-14px_rgba(0,0,0,0.45)] transition-transform active:translate-y-0.5 sm:min-w-[13.5rem] sm:px-11"
+            className="flex h-10 items-center justify-center rounded-full bg-signal px-4 text-sm font-medium tracking-[-0.01em] text-ink transition-transform active:translate-y-px sm:h-11 sm:px-5"
           >
             <span className="sm:hidden">Join</span>
             <span className="hidden sm:inline">Join the waitlist</span>
@@ -151,7 +153,7 @@ export function DockNav() {
 
           <button
             type="button"
-            className="grid h-[58px] w-[58px] shrink-0 place-items-center rounded-lg border border-black/15 bg-white/80"
+            className="grid size-10 shrink-0 place-items-center rounded-full border border-black/10 bg-white/80 sm:size-11"
             aria-expanded={open}
             aria-controls={menuId}
             aria-label={open ? "Close chapters" : "Open chapters. Compass follows the page."}
@@ -177,7 +179,7 @@ function CompassMark({ heading }: { heading: number }) {
   return (
     <svg
       viewBox="0 0 32 32"
-      className="compass-spin h-7 w-7"
+      className="compass-spin h-5 w-5 sm:h-[1.35rem] sm:w-[1.35rem]"
       style={{ transform: `rotate(${heading}deg)` }}
       aria-hidden="true"
     >

@@ -10,10 +10,15 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setEnabled(!motion.matches);
+    const desktop = window.matchMedia("(min-width: 1024px)");
+    const sync = () => setEnabled(desktop.matches && !motion.matches);
     sync();
     motion.addEventListener("change", sync);
-    return () => motion.removeEventListener("change", sync);
+    desktop.addEventListener("change", sync);
+    return () => {
+      motion.removeEventListener("change", sync);
+      desktop.removeEventListener("change", sync);
+    };
   }, []);
 
   if (!enabled) return children;

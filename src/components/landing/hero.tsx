@@ -35,10 +35,10 @@ function Eyebrow() {
   const text = reduced ? (PHRASES[0] ?? "") : typeFrame(PHRASES, ms).text;
 
   return (
-    <div className="inline-flex h-8 w-fit max-w-full items-center gap-2 text-sm font-semibold whitespace-nowrap text-ink">
+    <div className="inline-flex h-auto w-fit max-w-full items-center gap-2 text-base font-semibold text-ink lg:h-8 lg:text-sm lg:whitespace-nowrap">
       <span className="size-1.5 shrink-0 rounded-full bg-ink" aria-hidden="true" />
       <span className="sr-only">{PHRASES[0]}</span>
-      <span className="min-w-0 overflow-hidden" aria-hidden="true">
+      <span className="min-w-0 overflow-visible lg:overflow-hidden" aria-hidden="true">
         {text}
         {reduced ? null : <span className="hero-caret !bg-ink" />}
       </span>
@@ -57,9 +57,9 @@ export function Hero() {
     <section
       ref={sectionRef}
       id="experience"
-      className="relative isolate h-[860vh] bg-paper lg:h-[900vh] motion-reduce:h-auto"
+      className="relative isolate h-[760vh] bg-paper lg:h-[900vh] motion-reduce:h-auto"
     >
-      <div className="relative sticky top-0 h-[100svh] overflow-hidden motion-reduce:static motion-reduce:h-auto motion-reduce:overflow-visible">
+      <div className="sticky top-0 h-[100svh] overflow-hidden motion-reduce:static motion-reduce:h-auto motion-reduce:overflow-visible">
         <HeroReel sectionRef={sectionRef} />
 
         <div className="reel-hint pointer-events-none absolute inset-x-0 bottom-8 z-30 flex justify-center">
@@ -94,17 +94,17 @@ export function Hero() {
           <div className="hero-gate-left relative flex w-full flex-col justify-center bg-signal px-5 py-8 text-ink lg:h-full lg:px-10 lg:py-12">
             <div className="hero-copy-inner w-full max-w-none">
               <Eyebrow />
-              <h1 className="hero-title mt-4 max-w-[16ch] font-sans text-[clamp(1.9rem,4.2vw,2.75rem)] leading-[1.08] font-bold tracking-tight text-ink sm:mt-5 lg:mt-5 lg:max-w-none lg:text-[clamp(1.85rem,2.5vw,2.7rem)] lg:whitespace-nowrap">
+              <h1 className="hero-title mt-4 max-w-none font-sans text-[2.35rem] leading-[1.02] font-bold tracking-tight text-ink sm:text-5xl lg:mt-5 lg:text-[clamp(1.85rem,2.5vw,2.7rem)] lg:leading-[1.08] lg:whitespace-nowrap">
                 Two5 — Play a <span className="underline decoration-ink decoration-[3px] underline-offset-[5px]">sharper</span> game
               </h1>
-              <p className="mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-sm font-semibold text-ink/80">
+              <p className="mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-lg font-semibold text-ink/80 lg:text-sm">
                 <span>Think fast</span>
                 <span className="text-ink/25" aria-hidden="true">·</span>
                 Know more
                 <span className="text-ink/25" aria-hidden="true">·</span>
                 <span>Compete</span>
               </p>
-              <p className="mt-4 max-w-md text-base leading-7 text-ink/70 sm:mt-5">
+              <p className="mt-4 max-w-none text-lg leading-8 text-ink/75 sm:mt-5 lg:max-w-md lg:text-base lg:leading-7">
                 Numbers, logic, and computer science, turned into short rounds
                 you can play. Beat a score. Send one to a friend. Come back
                 for the next one.
@@ -113,14 +113,14 @@ export function Hero() {
                 <Link
                   href="#waitlist"
                   onClick={() => track("hero_cta_click", { source: "hero-primary" })}
-                  className="flex h-11 w-full items-center justify-center rounded-lg bg-ink px-5 text-[15px] font-semibold text-paper sm:w-auto"
+                  className="flex h-12 w-full items-center justify-center rounded-lg bg-ink px-5 text-lg font-semibold text-paper sm:w-auto lg:h-11 lg:text-[15px]"
                 >
                   Join the waitlist
                 </Link>
                 <Link
                   href="#challenges"
                   onClick={() => track("hero_cta_click", { source: "hero-explore" })}
-                  className="flex h-11 w-full items-center justify-center rounded-lg border border-ink/20 bg-white px-5 text-[15px] font-semibold text-ink sm:w-auto"
+                  className="flex h-12 w-full items-center justify-center rounded-lg border border-ink/20 bg-white px-5 text-lg font-semibold text-ink sm:w-auto lg:h-11 lg:text-[15px]"
                 >
                   See the games
                 </Link>
