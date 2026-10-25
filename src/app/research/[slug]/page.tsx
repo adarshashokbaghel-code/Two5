@@ -3,7 +3,6 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
 import { ResearchArticle } from "@/components/research/research-article";
-import { SiteFooter } from "@/components/landing/site-footer";
 import { DockNav } from "@/components/layout/dock-nav";
 import { getResearchPost, researchPosts } from "@/content/research";
 import { siteConfig } from "@/config/site";
@@ -78,7 +77,6 @@ async function ResearchPost({ params }: { params: Promise<{ slug: string }> }) {
         />
         <ResearchArticle post={post} />
       </main>
-      <SiteFooter />
     </>
   );
 }
