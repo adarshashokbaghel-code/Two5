@@ -67,27 +67,27 @@ export function Hero() {
 
           <h1 className="font-display text-5xl leading-[0.98] tracking-[0.0em] sm:text-7xl lg:text-8xl">
             Two5 - Give your brain {" "}
-       <br />
-            <span className="text-yellow-500">a run.</span>
+            <br />
+            <span className="text-green-500">a run.</span>
           </h1>
 
           <p className="mx-auto mt-7 max-w-xl text-base leading-7 text-white/55 sm:text-lg sm:leading-8">
-          Short brain games and logic challenges that put your problem-solving skills to the test. Solve a round, build your score, and come back for more.
+            Short brain games and logic challenges that put your problem-solving skills to the test. Solve a round, build your score, and come back for more.
           </p>
 
           <div className="mt-9 flex flex-col items-center justify-center gap-3 sm:flex-row">
-       
-<button
-  type="button"
-  data-waitlist-trigger
-  className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-yellow-500 px-7 text-sm font-semibold text-black transition-colors hover:bg-yellow-400"
->
-  Join the Waitlist
-  <ArrowRight
-    size={17}
-    className="transition-transform group-hover:translate-x-1"
-  />
-</button>
+
+            <button
+              type="button"
+              data-waitlist-trigger
+              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-green-500 px-7 text-sm font-semibold text-black transition-colors hover:bg-green-400"
+            >
+              Join the Waitlist
+              <ArrowRight
+                size={17}
+                className="transition-transform group-hover:translate-x-1"
+              />
+            </button>
 
 
             <Link
@@ -101,45 +101,45 @@ export function Hero() {
         </div>
 
         {/* Phone showcase */}
-        
-{/* Phone showcase */}
-<div className="relative mx-auto mt-16 h-[370px] w-full max-w-6xl sm:mt-20 sm:h-[470px] lg:mt-24 lg:h-[540px]">
-  {/* Ambient glow behind the phones */}
-  <div
-    aria-hidden="true"
-    className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-[90%]
-      -translate-x-1/2 -translate-y-1/2 rounded-full
-      bg-[#E9F078]/[0.06] blur-[100px]"
-  />
 
-  {/* Left phone — behind */}
-  <div
-    className="absolute left-1/2 top-8 z-0 w-[55%] max-w-[260px]
+        {/* Phone showcase */}
+        <div className="relative mx-auto mt-16 h-[370px] w-full max-w-6xl sm:mt-20 sm:h-[470px] lg:mt-24 lg:h-[540px]">
+         {/* Ambient glow behind the phones */}
+<div
+  aria-hidden="true"
+  className="pointer-events-none absolute left-1/2 top-1/2 h-72 w-[90%]
+    -translate-x-1/2 -translate-y-1/2 rounded-full
+    bg-red-400/12 blur-[120px]"
+/>
+
+          {/* Left phone — behind */}
+          <div
+            className="absolute left-1/2 top-8 z-0 w-[55%] max-w-[260px]
       -translate-x-[112%] translate-y-5
       scale-[0.88] opacity-80
       sm:top-10 sm:-translate-x-[115%] sm:scale-95"
-  >
-    <HeroPhone size="hero" className="w-full" />
-  </div>
+          >
+            <HeroPhone size="hero" className="w-full" />
+          </div>
 
-  {/* Right phone — behind */}
-  <div
-    className="absolute left-1/2 top-8 z-0 w-[55%] max-w-[260px]
+          {/* Right phone — behind */}
+          <div
+            className="absolute left-1/2 top-8 z-0 w-[55%] max-w-[260px]
       translate-x-[12%] translate-y-5
       scale-[0.88] opacity-80
       sm:top-10 sm:translate-x-[15%] sm:scale-95"
-  >
-    <HeroPhone size="hero" className="w-full" />
-  </div>
+          >
+            <HeroPhone size="hero" className="w-full" />
+          </div>
 
-  {/* Center phone — foreground */}
-  <div
-    className="absolute left-1/2 top-[-30px] z-10 w-[55%] max-w-[280px]
+          {/* Center phone — foreground */}
+          <div
+            className="absolute left-1/2 top-[-30px] z-10 w-[55%] max-w-[280px]
       -translate-x-1/2 drop-shadow-[0_24px_50px_rgba(0,0,0,0.5)]"
-  >
-    <HeroPhone size="hero" className="w-full" />
-  </div>
-</div>
+          >
+            <HeroPhone size="hero" className="w-full" />
+          </div>
+        </div>
 
 
         {/* Footer line */}

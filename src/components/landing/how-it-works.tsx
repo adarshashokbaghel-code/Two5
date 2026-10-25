@@ -30,7 +30,7 @@ const STOPS: Stop[] = [
     index: "01",
     game: "Choose an arena",
     status: "Start here",
-    tone: "signal",
+    tone: "green",
     title: "Pick what you want to test.",
     body: "Start with Mathematics, Computer Science, or Knowledge & Reasoning. Each arena is built around questions that test how you think—not long lessons or endless scrolling.",
     screen: "arena",
@@ -318,9 +318,9 @@ export function HowItWorks() {
     <section id="how" aria-labelledby="how-title" className="relative overflow-hidden bg-black text-paper">
       <div className="mx-auto w-full max-w-[1500px] px-4 py-12 pb-24 sm:px-8 lg:px-14 lg:py-28 lg:pb-40">
         <header className="mx-auto max-w-3xl text-center">
-          <p className="mb-4 font-mono text-xs tracking-[0.2em] text-signal uppercase">How Two5 works</p>
+          <p className="mb-4 font-mono text-xs tracking-[0.2em]  text-blue-500 uppercase">How Two5 works</p>
           <h2 id="how-title" className="font-display text-[clamp(2.6rem,12vw,6.5rem)] leading-[0.9] font-normal tracking-[0.03em]">
-            Pick a <span className="text-yellow-500">challenge.</span>  Make your <span className="text-red-500">move.</span> 
+            Pick a <span className="text-green-500">challenge.</span>  Make your <span className="text-red-500">move.</span> 
           </h2>
         
         </header>
@@ -330,10 +330,10 @@ export function HowItWorks() {
             <path ref={pathRef} fill="none" stroke={`url(#${gradId})`} strokeWidth="3" strokeLinecap="round" />
             <defs>
               <linearGradient id={gradId} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#f0c020" />
+                <stop offset="0%" stopColor="#22C55E" />
                 <stop offset="38%" stopColor="#1060f8" />
                 <stop offset="72%" stopColor="#d82010" />
-                <stop offset="100%" stopColor="#f0c020" />
+                <stop offset="100%" stopColor="#22C55E" />
               </linearGradient>
             </defs>
           </svg>
