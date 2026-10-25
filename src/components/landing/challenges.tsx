@@ -500,7 +500,7 @@ export function Challenges() {
     <section id="challenges" className="bg-ink text-paper">
       <header className="pt-16 lg:pt-24">
         <div className="relative px-5 pb-2 text-center lg:px-8">
-          <h2 className="font-display text-[clamp(2.5rem,5vw,4.25rem)] leading-none font-normal tracking-[0.02em]">
+          <h2 className="font-display text-[clamp(2.5rem,5vw,4.25rem)] leading-none font-display tracking-[0.02em]">
             Pick a game.
           </h2>
           <p className="mx-auto mt-3 max-w-md font-mono text-base leading-snug text-paper/60">
@@ -517,7 +517,7 @@ export function Challenges() {
         style={{ ["--arena-steps" as string]: arenas.length + 0.35 }}
       >
       <div className="arena-stage relative">
-      <div className="arena-wash" style={{ backgroundColor: wash }} />
+      <div className="arena-wash" />
       <div className="relative grid w-full items-center gap-8 px-5 md:grid-cols-2 md:gap-8 lg:px-8 xl:px-16">
         <div
           ref={boardRef}
@@ -681,9 +681,7 @@ export function Challenges() {
         <div key={arena.id} className="arena-swap flex min-w-0 flex-col lg:py-6">
           <div className="flex items-end justify-between gap-4">
             <div>
-              <p className="font-mono text-[11px] tracking-[0.16em] uppercase" style={{ color: wash }}>
-                {arena.topic}
-              </p>
+            
               <h3 className="mt-2 font-display text-6xl leading-none font-normal tracking-[0.03em] md:text-7xl">
                 {arena.title}
               </h3>
@@ -716,17 +714,7 @@ export function Challenges() {
           </div>
 
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
-            <Link
-              href={arena.cta.href}
-              onClick={arena.cta.onClick}
-              className="inline-flex h-12 w-full items-center justify-between gap-3 rounded-full pr-1.5 pl-5 text-[15px] font-semibold sm:w-auto"
-              style={{ backgroundColor: wash, color: ink }}
-            >
-              {arena.cta.label}
-              <span className="grid size-9 place-items-center rounded-full bg-black/15" aria-hidden="true">
-                <Chevron direction="next" className="size-4" />
-              </span>
-            </Link>
+            
             <button
               type="button"
               className="font-mono text-[11px] tracking-[0.14em] text-paper/55 uppercase sm:ml-1"
@@ -740,10 +728,10 @@ export function Challenges() {
 
           <nav
             aria-label="Arenas"
-            className="mt-8 flex items-center gap-1 rounded-full border border-white/10 bg-black/45 p-1.5 backdrop-blur-md"
+            className="mt-8 flex items-center  gap-1 rounded-full  bg-black/45 p-1.5 backdrop-blur-md"
           >
             <NavButton label="Previous arena" onClick={() => stepArena(-1)} />
-            <div className="flex min-w-0 flex-1 items-center justify-center gap-2 px-2" role="tablist">
+            <div className="flex min-w-0  flex-1 items-center justify-center gap-2 px-2" role="tablist">
               {arenas.map((item, index) => (
                 <button
                   key={item.id}

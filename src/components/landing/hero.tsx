@@ -65,9 +65,9 @@ export function Hero() {
             </span>
           </div>
 
-          <h1 className="font-display text-5xl leading-[0.98] tracking-[-0.055em] sm:text-7xl lg:text-8xl">
+          <h1 className="font-display text-5xl leading-[0.98] tracking-[0.0em] sm:text-7xl lg:text-8xl">
             Two5 - Give your brain {" "}
-       
+       <br />
             <span className="text-yellow-500">a run.</span>
           </h1>
 
@@ -114,7 +114,7 @@ export function Hero() {
 
   {/* Left phone — behind */}
   <div
-    className="absolute left-1/2 top-8 z-0 w-[45%] max-w-[230px]
+    className="absolute left-1/2 top-8 z-0 w-[55%] max-w-[260px]
       -translate-x-[112%] translate-y-5
       scale-[0.88] opacity-80
       sm:top-10 sm:-translate-x-[115%] sm:scale-95"
@@ -124,7 +124,7 @@ export function Hero() {
 
   {/* Right phone — behind */}
   <div
-    className="absolute left-1/2 top-8 z-0 w-[45%] max-w-[230px]
+    className="absolute left-1/2 top-8 z-0 w-[55%] max-w-[260px]
       translate-x-[12%] translate-y-5
       scale-[0.88] opacity-80
       sm:top-10 sm:translate-x-[15%] sm:scale-95"
@@ -134,7 +134,7 @@ export function Hero() {
 
   {/* Center phone — foreground */}
   <div
-    className="absolute left-1/2 top-[-30px] z-10 w-[50%] max-w-[280px]
+    className="absolute left-1/2 top-[-30px] z-10 w-[55%] max-w-[280px]
       -translate-x-1/2 drop-shadow-[0_24px_50px_rgba(0,0,0,0.5)]"
   >
     <HeroPhone size="hero" className="w-full" />

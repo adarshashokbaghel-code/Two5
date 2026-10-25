@@ -7,6 +7,7 @@ import { useEffect, useId, useState } from "react";
 import { siteConfig } from "@/config/site";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
+import { ArrowBigRight, ArrowRight } from "lucide-react";
 
 const chapters = siteConfig.nav;
 const sectionIds = chapters.map((item) => item.href.split("#").pop() ?? item.href);
@@ -99,7 +100,7 @@ export function DockNav() {
         {open ? (
           <div
             id={menuId}
-            className="border-b border-white/10 px-1 py-1"
+            className="border-b border-white/10 px-5 py-2"
             role="dialog"
             aria-modal="true"
             aria-label="Chapters"
@@ -122,7 +123,7 @@ export function DockNav() {
                       >
                         <span
                           className={cn(
-                            "font-mono text-[11px]",
+                            "font-mono text-[13px]",
                             isCurrent ? "text-signal" : "text-paper/40",
                           )}
                         >
@@ -138,17 +139,17 @@ export function DockNav() {
           </div>
         ) : null}
 
-        <nav aria-label="Primary" className="flex items-center gap-1 p-1">
+        <nav aria-label="Primary" className="flex items-center gap-2 px-5 py-3">
           <Link
             href={siteHref("#waitlist", pathname)}
             onClick={() => {
               setOpen(false);
               track("waitlist_cta_click", { source: "dock" });
             }}
-            className="flex h-10 items-center justify-center rounded-full bg-green-500 px-4 text-sm font-medium tracking-[-0.01em] text-ink transition-transform active:translate-y-px sm:h-11 sm:px-5"
+            className="flex h-10 items-center text-display justify-center rounded-full bg-green-500 px-4 text-md font-medium tracking-[-0.01em] text-ink transition-transform active:translate-y-px sm:h-11 sm:px-5"
           >
-            <span className="sm:hidden">Join</span>
-            <span className="hidden sm:inline">Join the waitlist</span>
+            <span className="sm:hidden">Join Now</span> 
+            <span className="hidden sm:inline font-display">Join the waitlist</span>
           </Link>
 
           <button
