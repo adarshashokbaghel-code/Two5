@@ -21,21 +21,21 @@ export function Hero() {
             backgroundImage: `
               linear-gradient(
                 to right,
-                rgba(255, 255, 255, 0.065) 1px,
+                rgba(255, 255, 255, 0.04) 1px,,
                 transparent 1px
               ),
               linear-gradient(
                 to bottom,
-                rgba(255, 255, 255, 0.065) 1px,
+                rgba(255, 255, 255, 0.04) 1px,
                 transparent 1px
               )
             `,
             backgroundSize: "48px 48px",
             backgroundPosition: "center top",
             maskImage:
-              "linear-gradient(to bottom, black 0%, black 48%, transparent 100%)",
-            WebkitMaskImage:
-              "linear-gradient(to bottom, black 0%, black 48%, transparent 100%)",
+  "radial-gradient(ellipse 75% 65% at 50% 38%, black 0%, rgba(0,0,0,0.7) 40%, transparent 100%)",
+WebkitMaskImage:
+  "radial-gradient(ellipse 75% 65% at 50% 38%, black 0%, rgba(0,0,0,0.7) 40%, transparent 100%)",
           }}
         />
 
