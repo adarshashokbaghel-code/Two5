@@ -9,7 +9,7 @@ export const siteConfig = {
   url: "https://two5.in",
   nav: [
     { label: "Play", href: "#experience", index: "01" },
-    { label: "Challenges", href: "#challenges", index: "02" },
+    { label: "What", href: "#challenges", index: "02" },
     { label: "Learn", href: "/research", index: "03" },
     { label: "FAQ", href: "#faq", index: "04" },
   ] satisfies NavItem[],

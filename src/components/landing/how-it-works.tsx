@@ -68,7 +68,7 @@ function PhoneScreen({ screen }: { screen: Screen }) {
   if (screen === "arena") {
     return (
       <>
-        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Choose an arena</p>
+        <p className="font-display text-[9px] tracking-[0.16em] text-paper/45 uppercase">Choose an arena</p>
         <p className="mt-1 text-[11px] text-paper/70">What are you in the mood for?</p>
         <div className="mt-4 space-y-2">
           <div className="flex items-center justify-between rounded-lg border border-signal/50 bg-signal/10 px-3 py-2.5">
@@ -320,7 +320,7 @@ export function HowItWorks() {
         <header className="mx-auto max-w-3xl text-center">
           <p className="mb-4 font-mono text-xs tracking-[0.2em] text-signal uppercase">How Two5 works</p>
           <h2 id="how-title" className="font-display text-[clamp(2.6rem,12vw,6.5rem)] leading-[0.9] font-normal tracking-[0.03em]">
-            Pick a <span className="text-green-500">challenge.</span>  Make your <span className="text-red-500">move.</span> 
+            Pick a <span className="text-yellow-500">challenge.</span>  Make your <span className="text-red-500">move.</span> 
           </h2>
         
         </header>
@@ -381,18 +381,18 @@ export function HowItWorks() {
                       : "mr-auto text-left lg:justify-self-start",
                   )}
                 >
-                  <p className={cn("font-display text-5xl leading-none sm:text-6xl lg:text-7xl", TONE[stop.tone].text )}>
+                  <p className={cn("font-display text-3xl leading-none sm:text-6xl lg:text-7xl", TONE[stop.tone].text )}>
                     {stop.index}
                   </p>
-                  <p className={cn("mt-1.5 font-mono text-[11px] tracking-[0.16em] uppercase sm:mt-3", TONE[stop.tone].text)}>
+                  <p className={cn("mt-1.5 font-mono text-[8px] tracking-[0.16em] uppercase sm:mt-3", TONE[stop.tone].text)}>
                     {stop.game}
                     <span className="text-paper/25"> · </span>
                     {stop.status}
                   </p>
-                  <h3 className="mt-1.5 font-display text-[2.15rem] leading-[0.88] font-normal tracking-[0.03em] sm:mt-3 sm:text-5xl lg:text-6xl">
+                  <h3 className="mt-1.5 font-display text-[1.6rem] leading-[0.88] font-normal tracking-[0.03em] sm:mt-3 sm:text-5xl lg:text-6xl">
                     {stop.title}
                   </h3>
-                  <p className={cn("mt-2 max-w-md text-[15px] leading-6 text-paper/75 sm:mt-4 sm:text-base sm:leading-7", flip && "ml-auto")}>
+                  <p className={cn("mt-2 max-w-md text-[12px] leading-6 text-paper/75 sm:mt-4 sm:text-base sm:leading-7", flip && "ml-auto")}>
                     {stop.body}
                   </p>
                 </div>
