@@ -11,7 +11,6 @@ import {
   type ReactNode,
 } from "react";
 
-import { ResearchFigure } from "@/components/research/research-motif";
 import { getResearchPost, type ResearchPost } from "@/content/research";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -251,6 +250,22 @@ function focusView(width: number, height: number, arena: Arena, scale = boardSca
   };
 }
 
+const arenaWash: Record<string, string> = {
+  numbers: "#3dce55",
+  logic: "#2f6fed",
+  cs: "#5ec8ff",
+  daily: "#f0c020",
+  versus: "#ef3b2e",
+};
+
+const arenaInk: Record<string, string> = {
+  numbers: "#000000",
+  logic: "#f5f2ea",
+  cs: "#000000",
+  daily: "#000000",
+  versus: "#ffffff",
+};
+
 function scrollStepsEnabled() {
   return window.matchMedia("(min-width: 768px) and (prefers-reduced-motion: no-preference)").matches;
 }
@@ -287,6 +302,8 @@ export function Challenges() {
   const caseRef = useRef<HTMLDivElement>(null);
 
   const arena = arenas[active];
+  const wash = arenaWash[arena.id] ?? arenaWash.numbers;
+  const ink = arenaInk[arena.id] ?? "#000000";
   const research = getResearchPost(researchSlug[arena.id] ?? arena.id);
   const offCenter =
     Math.hypot(view.x - home.current.x, view.y - home.current.y) > 18 ||
@@ -480,16 +497,13 @@ export function Challenges() {
   }
 
   return (
-    <section id="challenges" className="bg-paper text-ink">
-      <header className="flex flex-col gap-12 lg:gap-16">
-        <div className="arena-band">
-          <p>Challenges</p>
-        </div>
-        <div className="px-5 text-center lg:px-8">
+    <section id="challenges" className="bg-ink text-paper">
+      <header className="pt-16 lg:pt-24">
+        <div className="relative px-5 pb-2 text-center lg:px-8">
           <h2 className="font-display text-[clamp(2.5rem,5vw,4.25rem)] leading-none font-normal tracking-[0.02em]">
             Pick a game.
           </h2>
-          <p className="mx-auto mt-3 max-w-md font-mono text-base leading-snug text-ink/60">
+          <p className="mx-auto mt-3 max-w-md font-mono text-base leading-snug text-paper/60">
             Numbers and Logic are open.
             <br className="sm:hidden" /> Computer science, a daily problem,
             and a challenge you can send are on the way.
@@ -502,12 +516,13 @@ export function Challenges() {
         className="arena-track relative mt-10 pb-16 md:mt-12 md:pb-0 lg:mt-14"
         style={{ ["--arena-steps" as string]: arenas.length + 0.35 }}
       >
-      <div className="arena-stage">
-      <div className="grid w-full items-center gap-8 px-5 md:grid-cols-2 md:gap-8 lg:px-8 xl:px-16">
+      <div className="arena-stage relative">
+      <div className="arena-wash" style={{ backgroundColor: wash }} />
+      <div className="relative grid w-full items-center gap-8 px-5 md:grid-cols-2 md:gap-8 lg:px-8 xl:px-16">
         <div
           ref={boardRef}
           className={cn(
-            "arena-board relative h-[min(52svh,460px)] min-h-[380px] overflow-hidden rounded-lg border border-ink/10 md:h-[min(440px,48vh)] md:min-h-0 lg:h-[min(500px,52vh)]",
+            "arena-board relative h-[min(52svh,460px)] min-h-[380px] overflow-hidden rounded-lg border border-white/10 md:h-[min(440px,48vh)] md:min-h-0 lg:h-[min(500px,52vh)]",
             grabbing && "is-grabbing",
             ready ? "opacity-100" : "opacity-0",
           )}
@@ -576,7 +591,7 @@ export function Challenges() {
                     select(index);
                   }}
                   className={cn(
-                    "group absolute flex cursor-pointer flex-col items-center justify-center gap-3 overflow-hidden rounded-lg border border-black/10 px-6 text-center transition-colors",
+                    "group absolute flex cursor-pointer flex-col items-center justify-center gap-3 overflow-hidden rounded-lg border border-black/10 bg-white px-6 text-center text-ink transition-colors",
                     selected ? "bg-white" : "bg-white/75 hover:bg-white/90",
                   )}
                   style={{
@@ -584,6 +599,7 @@ export function Challenges() {
                     top: (item.row - 1) * STRIDE,
                     width: CELL,
                     height: CELL,
+                    boxShadow: selected ? `0 0 0 3px ${arenaWash[item.id]}` : undefined,
                   }}
                 >
                   <span className="font-mono text-sm tracking-[0.08em] text-mist uppercase md:text-[11px]">
@@ -662,124 +678,72 @@ export function Challenges() {
           </div>
         </div>
 
-        <div className="flex min-w-0 flex-col lg:py-6">
-          <div className="grid gap-6 sm:grid-cols-2 sm:items-start">
-            <div className="flex items-end justify-between gap-4 sm:col-span-2">
-              <div>
-                <p className="font-mono text-sm tracking-[0.1em] text-volt uppercase md:text-[11px]">
-                  {arena.topic}
-                </p>
-                <h3 className="mt-3 font-display text-5xl leading-none font-normal tracking-[0.02em] md:text-[clamp(2.25rem,3.4vw,2.75rem)]">
-                  {arena.title}
-                </h3>
-              </div>
-              <div className="flex items-center gap-3 lg:hidden">
-                <NavButton label="Previous arena" onClick={() => stepArena(-1)} />
-                <p className="font-mono text-[11px] tracking-[0.1em] text-volt">
-                  {pad(active + 1)}
-                  <span className="text-[10px] text-mist"> / {pad(arenas.length)}</span>
-                </p>
-                <NavButton label="Next arena" direction="next" onClick={() => stepArena(1)} />
-              </div>
+        <div key={arena.id} className="arena-swap flex min-w-0 flex-col lg:py-6">
+          <div className="flex items-end justify-between gap-4">
+            <div>
+              <p className="font-mono text-[11px] tracking-[0.16em] uppercase" style={{ color: wash }}>
+                {arena.topic}
+              </p>
+              <h3 className="mt-2 font-display text-6xl leading-none font-normal tracking-[0.03em] md:text-7xl">
+                {arena.title}
+              </h3>
             </div>
+          </div>
 
-            <hr className="arena-rule sm:col-span-2" />
+          <p className="mt-4 max-w-md text-lg leading-snug text-paper/80">{arena.lede}</p>
+          <p className="mt-2 max-w-md text-sm leading-6 text-paper/55">{arena.body}</p>
 
-            <div
-              ref={caseRef}
-              className={cn("relative sm:col-span-2", caseOpen && "z-20")}
-              onClick={(event) => {
-                if ((event.target as HTMLElement).closest("a, button")) return;
-                if (window.matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-                setCaseOpen((open) => !open);
-              }}
-              onPointerEnter={(event) => {
-                if (event.pointerType === "touch") return;
-                setCaseOpen(true);
-              }}
-              onPointerLeave={(event) => {
-                if (event.pointerType === "touch") return;
-                setCaseOpen(false);
-              }}
-              onFocus={() => setCaseOpen(true)}
-              onBlur={(event) => {
-                const next = event.relatedTarget;
-                if (next instanceof Node && event.currentTarget.contains(next)) return;
-                setCaseOpen(false);
-              }}
+          <div
+            ref={caseRef}
+            className={cn("relative mt-6", caseOpen && "z-20")}
+            onPointerEnter={(event) => {
+              if (event.pointerType === "touch") return;
+              setCaseOpen(true);
+            }}
+            onPointerLeave={(event) => {
+              if (event.pointerType === "touch") return;
+              setCaseOpen(false);
+            }}
+          >
+            <div className="grid grid-cols-3 gap-2">
+              <HudStat label="Status" value={arena.topic} accent={wash} />
+              <HudStat label="Play" value={arena.subtitle.split("·")[0].trim()} />
+              <HudStat label="Round" value={pad(active + 1)} />
+            </div>
+            {research ? (
+              <CasePopup post={research} open={caseOpen} href={arena.cta.href} onOpen={arena.cta.onClick} />
+            ) : null}
+          </div>
+
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center">
+            <Link
+              href={arena.cta.href}
+              onClick={arena.cta.onClick}
+              className="inline-flex h-12 w-full items-center justify-between gap-3 rounded-full pr-1.5 pl-5 text-[15px] font-semibold sm:w-auto"
+              style={{ backgroundColor: wash, color: ink }}
             >
-              <div className="grid gap-6 sm:grid-cols-2 sm:items-start">
-                <dl className="flex flex-col gap-4">
-                  <Spec term="Status" value={arena.status} />
-                  <Spec term="Stage" value={arena.stage} />
-                  <Spec term="Practice" value={arena.practice} />
-                  <Link
-                    href={arena.cta.href}
-                    onClick={arena.cta.onClick}
-                    className="inline-flex items-center gap-1.5 text-sm text-ink underline decoration-ink/30 underline-offset-[3px] transition-colors hover:text-volt hover:decoration-volt"
-                  >
-                    {arena.cta.label}
-                    <ArrowUpRight />
-                  </Link>
-                </dl>
-
-                <button
-                  type="button"
-                  aria-label={`${arena.title} research case`}
-                  className="block w-full min-w-0 cursor-default rounded-lg border-0 bg-transparent p-0 text-left outline-offset-4"
-                  aria-expanded={caseOpen}
-                  aria-controls="arena-case"
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    const fine = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-                    if (fine && event.detail !== 0) return;
-                    setCaseOpen((open) => !open);
-                  }}
-                >
-                  <ResearchFigure arena={arena.id} compact />
-                </button>
-              </div>
-
-              {research ? (
-                <CasePopup post={research} open={caseOpen} href={arena.cta.href} onOpen={arena.cta.onClick} />
-              ) : null}
-            </div>
+              {arena.cta.label}
+              <span className="grid size-9 place-items-center rounded-full bg-black/15" aria-hidden="true">
+                <Chevron direction="next" className="size-4" />
+              </span>
+            </Link>
+            <button
+              type="button"
+              className="font-mono text-[11px] tracking-[0.14em] text-paper/55 uppercase sm:ml-1"
+              aria-expanded={caseOpen}
+              aria-controls="arena-case"
+              onClick={() => setCaseOpen((open) => !open)}
+            >
+              Why it works
+            </button>
           </div>
 
-          <hr className="arena-rule my-4" />
-
-          <div className="flex flex-col gap-3">
-            <p className="text-3xl leading-snug font-normal md:text-2xl">{arena.lede}</p>
-            <p className="text-base leading-relaxed tracking-[0.01em] text-ink/70 md:text-sm">{arena.body}</p>
-          </div>
-
-          <hr className="arena-rule my-4" />
-
-          <div className="grid gap-5 sm:grid-cols-2">
-            {arena.notes.map((note) => (
-              <article key={note.heading}>
-                <h4 className="font-mono text-[11px] tracking-[0.1em] text-mist uppercase">
-                  {note.heading}
-                </h4>
-                <p className="mt-3 text-sm leading-relaxed text-ink/70">{note.body}</p>
-              </article>
-            ))}
-          </div>
-
-          <div className="mt-4 hidden items-center justify-between lg:flex">
-            <p className="font-mono text-[11px] tracking-[0.1em] text-volt">
-              {pad(active + 1)}
-              <span className="text-[10px] text-mist"> / {pad(arenas.length)}</span>
-            </p>
-            <div className="flex items-center gap-3">
-              <NavButton label="Previous arena" onClick={() => stepArena(-1)} />
-              <NavButton label="Next arena" direction="next" onClick={() => stepArena(1)} />
-            </div>
-          </div>
-
-          <div className="mt-8 flex items-center justify-center gap-5 lg:hidden">
-            <Chevron className="size-3.5 text-mist" />
-            <div className="flex items-center gap-2" role="tablist" aria-label="Arenas">
+          <nav
+            aria-label="Arenas"
+            className="mt-8 flex items-center gap-1 rounded-full border border-white/10 bg-black/45 p-1.5 backdrop-blur-md"
+          >
+            <NavButton label="Previous arena" onClick={() => stepArena(-1)} />
+            <div className="flex min-w-0 flex-1 items-center justify-center gap-2 px-2" role="tablist">
               {arenas.map((item, index) => (
                 <button
                   key={item.id}
@@ -789,14 +753,19 @@ export function Challenges() {
                   aria-selected={index === active}
                   onClick={() => select(index)}
                   className={cn(
-                    "size-[5px] rounded-full bg-ink/25",
-                    index === active && "scale-150 bg-volt",
+                    "h-1.5 rounded-full bg-paper/25 transition-all duration-300",
+                    index === active ? "w-6" : "w-1.5",
                   )}
+                  style={index === active ? { backgroundColor: wash } : undefined}
                 />
               ))}
             </div>
-            <Chevron direction="next" className="size-3.5 text-mist" />
-          </div>
+            <p className="pr-2 font-mono text-[11px] tracking-[0.12em] tabular-nums">
+              <span style={{ color: wash }}>{pad(active + 1)}</span>
+              <span className="text-paper/35"> / {pad(arenas.length)}</span>
+            </p>
+            <NavButton label="Next arena" direction="next" onClick={() => stepArena(1)} />
+          </nav>
         </div>
       </div>
       </div>
@@ -872,11 +841,16 @@ function CasePopup({
   );
 }
 
-function Spec({ term, value }: { term: string; value: string }) {
+function HudStat({ label, value, accent }: { label: string; value: string; accent?: string }) {
   return (
-    <div>
-      <dt className="font-mono text-[11px] tracking-[0.1em] text-mist uppercase">{term}</dt>
-      <dd className="mt-1 font-mono text-sm leading-snug text-ink/70">{value}</dd>
+    <div className="min-w-0 rounded-xl bg-white/8 px-3 py-3">
+      <p className="font-mono text-[10px] tracking-[0.14em] text-paper/40 uppercase">{label}</p>
+      <p
+        className="mt-2 truncate font-display text-2xl leading-none tracking-[0.03em]"
+        style={accent ? { color: accent } : undefined}
+      >
+        {value}
+      </p>
     </div>
   );
 }
@@ -895,7 +869,7 @@ function NavButton({
       type="button"
       aria-label={label}
       onClick={onClick}
-      className="flex size-6 items-center justify-center text-mist transition-colors hover:text-volt"
+      className="grid size-10 shrink-0 place-items-center rounded-full text-paper/80 transition-colors hover:bg-white/10 hover:text-paper"
     >
       <Chevron direction={direction} />
     </button>
@@ -949,20 +923,6 @@ function Chevron({
       className={cn("size-4", className)}
     >
       <path d={direction === "next" ? "M6 4l4 4-4 4" : "M10 4 6 8l4 4"} />
-    </svg>
-  );
-}
-
-function ArrowUpRight() {
-  return (
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-      <path
-        d="M3 9 9 3M4.5 3H9v4.5"
-        stroke="currentColor"
-        strokeWidth="1"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
     </svg>
   );
 }

@@ -92,14 +92,14 @@ export function DockNav() {
     <header className="dock-enter pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
       <div
         className={cn(
-          "pointer-events-auto w-fit max-w-[calc(100vw-2rem)] overflow-hidden bg-white/75 shadow-[0_0_0_1px_rgba(12,16,28,0.08),0_10px_24px_-16px_rgba(12,16,28,0.4)] backdrop-blur-xl backdrop-saturate-150",
+          "pointer-events-auto w-fit max-w-[calc(100vw-2rem)] overflow-hidden border border-white/10 bg-ink/80 text-paper shadow-[0_12px_32px_-16px_rgba(0,0,0,0.7)] backdrop-blur-xl",
           open ? "rounded-2xl" : "rounded-full",
         )}
       >
         {open ? (
           <div
             id={menuId}
-            className="border-b border-black/[0.06] px-1 py-1 text-ink"
+            className="border-b border-white/10 px-1 py-1"
             role="dialog"
             aria-modal="true"
             aria-label="Chapters"
@@ -116,14 +116,14 @@ export function DockNav() {
                         onClick={() => setOpen(false)}
                         className={cn(
                           "flex items-baseline justify-center gap-2.5 rounded-lg px-3 py-2 text-[0.95rem] tracking-tight",
-                          isCurrent ? "bg-ink/[0.05]" : "hover:bg-ink/[0.04]",
+                          isCurrent ? "bg-white/10" : "hover:bg-white/6",
                         )}
                         aria-current={isCurrent ? "location" : undefined}
                       >
                         <span
                           className={cn(
                             "font-mono text-[11px]",
-                            isCurrent ? "text-ember" : "text-ink/35",
+                            isCurrent ? "text-signal" : "text-paper/40",
                           )}
                         >
                           {item.index}
@@ -153,7 +153,7 @@ export function DockNav() {
 
           <button
             type="button"
-            className="grid size-10 shrink-0 place-items-center rounded-full border border-black/10 bg-white/80 sm:size-11"
+            className="grid size-10 shrink-0 place-items-center rounded-full border border-white/10 bg-white/8 text-paper sm:size-11"
             aria-expanded={open}
             aria-controls={menuId}
             aria-label={open ? "Close chapters" : "Open chapters. Compass follows the page."}
@@ -183,16 +183,16 @@ function CompassMark({ heading }: { heading: number }) {
       style={{ transform: `rotate(${heading}deg)` }}
       aria-hidden="true"
     >
-      <circle cx="16" cy="16" r="11" fill="none" stroke="#000" strokeWidth="1.7" />
+      <circle cx="16" cy="16" r="11" fill="none" stroke="currentColor" strokeWidth="1.7" />
       <path
         d="M16 3.2v2.2M16 26.6v2.2M3.2 16h2.2M26.6 16h2.2"
         fill="none"
-        stroke="#000"
+        stroke="currentColor"
         strokeWidth="1.6"
         strokeLinecap="round"
       />
-      <path d="M16 5.2 18.2 17.4 16 15.2 13.8 17.4Z" fill="#000" />
-      <circle cx="16" cy="16" r="1.45" fill="#000" />
+      <path d="M16 5.2 18.2 17.4 16 15.2 13.8 17.4Z" fill="#f0c020" />
+      <circle cx="16" cy="16" r="1.45" fill="currentColor" />
     </svg>
   );
 }

@@ -1,50 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
+import { HeroPhone } from "@/components/landing/hero-phone";
 import { HeroReel } from "@/components/landing/hero-reel";
 import { HeroWaitlist } from "@/components/landing/hero-waitlist";
-import { typeFrame } from "@/components/ui/ticket-stub-footer";
 import { track } from "@/lib/analytics";
 
-const PHRASES = [
-  "A game for sharp minds",
-  "Numbers, logic, friends",
-  "Early access is open",
-];
-
-function Eyebrow() {
-  const [ms, setMs] = useState(0);
-  const [reduced, setReduced] = useState(false);
-
-  useEffect(() => {
-    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const sync = () => setReduced(mq.matches);
-    sync();
-    mq.addEventListener("change", sync);
-    if (mq.matches) return () => mq.removeEventListener("change", sync);
-    const t0 = performance.now();
-    const id = window.setInterval(() => setMs(performance.now() - t0), 40);
-    return () => {
-      window.clearInterval(id);
-      mq.removeEventListener("change", sync);
-    };
-  }, []);
-
-  const text = reduced ? (PHRASES[0] ?? "") : typeFrame(PHRASES, ms).text;
-
-  return (
-    <div className="inline-flex h-auto w-fit max-w-full items-center gap-2 text-base font-semibold text-ink lg:h-8 lg:text-sm lg:whitespace-nowrap">
-      <span className="size-1.5 shrink-0 rounded-full bg-ink" aria-hidden="true" />
-      <span className="sr-only">{PHRASES[0]}</span>
-      <span className="min-w-0 overflow-visible lg:overflow-hidden" aria-hidden="true">
-        {text}
-        {reduced ? null : <span className="hero-caret !bg-ink" />}
-      </span>
-    </div>
-  );
-}
+const PLAY = [
+  { k: "Round", v: "60s" },
+  { k: "Score", v: "Beat" },
+  { k: "Send", v: "Friend" },
+] as const;
 
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -91,36 +59,75 @@ export function Hero() {
 
         <div className="hero-stage absolute inset-x-0 bottom-0 z-10 h-[86svh] overflow-hidden motion-reduce:relative motion-reduce:inset-auto motion-reduce:h-auto motion-reduce:overflow-visible lg:bg-transparent">
           <div className="hero-sheet-track flex min-h-full flex-col lg:contents">
-          <div className="hero-gate-left relative flex w-full flex-col justify-center bg-signal px-5 py-8 text-ink lg:h-full lg:px-10 lg:py-12">
-            <div className="hero-copy-inner w-full max-w-none">
-              <Eyebrow />
-              <h1 className="hero-title mt-4 max-w-none font-sans text-[2.35rem] leading-[1.02] font-bold tracking-tight text-ink sm:text-5xl lg:mt-5 lg:text-[clamp(1.85rem,2.5vw,2.7rem)] lg:leading-[1.08] lg:whitespace-nowrap">
-                Two5 — Play a <span className="underline decoration-ink decoration-[3px] underline-offset-[5px]">sharper</span> game
-              </h1>
-              <p className="mt-4 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-lg font-semibold text-ink/80 lg:text-sm">
-                <span>Think fast</span>
-                <span className="text-ink/25" aria-hidden="true">·</span>
-                Know more
-                <span className="text-ink/25" aria-hidden="true">·</span>
-                <span>Compete</span>
-              </p>
-              <p className="mt-4 max-w-none text-lg leading-8 text-ink/75 sm:mt-5 lg:max-w-md lg:text-base lg:leading-7">
-                Numbers, logic, and computer science, turned into short rounds
-                you can play. Beat a score. Send one to a friend. Come back
-                for the next one.
-              </p>
-              <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:flex-row sm:flex-wrap sm:items-center">
+          <div className="hero-gate-left relative flex w-full flex-col justify-center bg-signal px-5 pt-5 pb-[4.75rem] text-ink lg:h-full lg:px-10 lg:py-10">
+            <div className="hero-copy-inner mx-auto flex w-full max-w-5xl flex-col items-center gap-2 lg:flex-row lg:items-center lg:justify-center lg:gap-6">
+              <div className="w-full max-w-sm text-center lg:text-left">
+                <p className="inline-flex items-center gap-2 rounded-full bg-ink px-3 py-1 font-mono text-[10px] tracking-[0.16em] text-paper uppercase">
+                  <span className="size-1.5 rounded-full bg-signal" aria-hidden="true" />
+                  Early access is open
+                </p>
+                <p className="mt-3 font-display text-[4.25rem] leading-[0.8] tracking-[0.04em] text-ink lg:text-7xl">
+                  TWO5
+                </p>
+                <h1 className="hero-title mt-1 font-display text-[clamp(1.7rem,7.2vw,2.35rem)] leading-none font-normal tracking-[0.02em] whitespace-nowrap lg:text-[clamp(1.85rem,2vw,2.45rem)]">
+                  Your brain&apos;s <span className="text-ember">gym</span>
+                </h1>
+                <ul className="mx-auto mt-4 grid max-w-sm grid-cols-3 overflow-hidden rounded-lg bg-ink text-paper lg:mx-0">
+                  {PLAY.map((item, index) => (
+                    <li key={item.k} className="border-l border-white/10 px-2 py-2.5 first:border-l-0">
+                      <p className="font-mono text-[10px] tracking-[0.14em] text-paper/45 uppercase">{item.k}</p>
+                      <p className={index === 1 ? "mt-1 text-sm leading-none font-bold text-signal" : "mt-1 text-sm leading-none font-bold"}>
+                        {item.v}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-4 hidden flex-col gap-2 lg:flex">
+                  <Link
+                    href="#waitlist"
+                    onClick={() => track("hero_cta_click", { source: "hero-primary" })}
+                    className="flex h-11 items-center justify-center gap-2 rounded-lg bg-ink px-5 text-[15px] font-semibold text-paper"
+                  >
+                    <span className="size-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-paper" aria-hidden="true" />
+                    Join the waitlist
+                  </Link>
+                  <Link
+                    href="#challenges"
+                    onClick={() => track("hero_cta_click", { source: "hero-explore" })}
+                    className="flex h-11 items-center justify-center rounded-lg bg-white px-5 text-[15px] font-semibold text-ink"
+                  >
+                    See the games
+                  </Link>
+                </div>
+              </div>
+
+              <div className="relative w-[15.5rem] shrink-0 translate-x-4 sm:w-[17rem] lg:w-[18.5rem] lg:translate-x-10">
+                <span className="absolute -top-3 left-1 z-10 rounded-full bg-ink px-2.5 py-1 font-mono text-[10px] tracking-[0.14em] text-signal uppercase">
+                  Live
+                </span>
+                <span className="absolute top-16 -right-1 z-10 rounded-full bg-white px-2.5 py-1 text-xs font-bold text-ink shadow-[0_8px_18px_rgba(0,0,0,0.12)] lg:top-20">
+                  Beat a score
+                </span>
+                <div className="[perspective:1100px]">
+                  <div className="origin-center [transform:rotateY(-14deg)_rotateX(7deg)] motion-reduce:[transform:none]">
+                    <HeroPhone />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex w-full max-w-sm flex-col gap-2 lg:hidden">
                 <Link
                   href="#waitlist"
                   onClick={() => track("hero_cta_click", { source: "hero-primary" })}
-                  className="flex h-12 w-full items-center justify-center rounded-lg bg-ink px-5 text-lg font-semibold text-paper sm:w-auto lg:h-11 lg:text-[15px]"
+                  className="flex h-11 items-center justify-center gap-2 rounded-lg bg-ink px-5 text-[15px] font-semibold text-paper"
                 >
+                  <span className="size-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-paper" aria-hidden="true" />
                   Join the waitlist
                 </Link>
                 <Link
                   href="#challenges"
                   onClick={() => track("hero_cta_click", { source: "hero-explore" })}
-                  className="flex h-12 w-full items-center justify-center rounded-lg border border-ink/20 bg-white px-5 text-lg font-semibold text-ink sm:w-auto lg:h-11 lg:text-[15px]"
+                  className="flex h-11 items-center justify-center rounded-lg bg-white px-5 text-[15px] font-semibold text-ink"
                 >
                   See the games
                 </Link>
@@ -128,7 +135,7 @@ export function Hero() {
             </div>
           </div>
 
-          <div className="hero-gate-right relative flex w-full flex-col justify-center bg-white px-5 py-6 text-ink lg:h-full lg:overflow-y-auto lg:px-8 lg:py-12">
+          <div className="hero-gate-right relative flex w-full flex-col justify-center bg-ink px-5 py-6 text-paper lg:h-full lg:overflow-y-auto lg:px-8 lg:py-12">
             <div className="hero-form-inner w-full max-w-md">
               <HeroWaitlist />
             </div>

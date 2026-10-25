@@ -18,10 +18,50 @@ const PAPER = { x: 1006, y: 671, w: 177, h: 85 };
 const PAPER_ANGLE = 13;
 
 const RIVALS = [
-  { id: "chess", name: "chess.com", word: "", left: "Clock", leftValue: "41:08", right: "Rating", rightValue: "+3" },
-  { id: "matiks", name: "Matiks", word: "Matiks", left: "Timer", leftValue: "0:45", right: "Score", rightValue: "120" },
-  { id: "brilliant", name: "Brilliant", word: "Brilliant", left: "Lesson", leftValue: "14:02", right: "Streak", rightValue: "2" },
-  { id: "elevate", name: "Elevate", word: "Elevate", left: "Session", leftValue: "5:00", right: "Score", rightValue: "890" },
+  {
+    id: "chess",
+    name: "chess.com",
+    word: "",
+    stats: [
+      { label: "Clock", value: "41:08" },
+      { label: "Rating", value: "+3", accent: true },
+      { label: "Moves", value: "62" },
+      { label: "Acc", value: "71" },
+    ],
+  },
+  {
+    id: "matiks",
+    name: "Matiks",
+    word: "Matiks",
+    stats: [
+      { label: "Timer", value: "0:45" },
+      { label: "Score", value: "120", accent: true },
+      { label: "Streak", value: "4" },
+      { label: "Rank", value: "84" },
+    ],
+  },
+  {
+    id: "brilliant",
+    name: "Brilliant",
+    word: "Brilliant",
+    stats: [
+      { label: "Lesson", value: "14:02" },
+      { label: "Streak", value: "2", accent: true },
+      { label: "Level", value: "6" },
+      { label: "Done", value: "1/5" },
+    ],
+  },
+  {
+    id: "elevate",
+    name: "Elevate",
+    word: "Elevate",
+    stats: [
+      { label: "Session", value: "5:00" },
+      { label: "Score", value: "890", accent: true },
+      { label: "Games", value: "6" },
+      { label: "Best", value: "1.2k" },
+    ],
+  },
 ] as const;
 
 const LINES = [
@@ -583,14 +623,12 @@ export function HeroReel({ sectionRef }: HeroReelProps) {
                   }}
                   className={`hero-card-screen is-${item.id}`}
                 >
-                  <div className="hero-card-pane">
-                    <span>{item.left}</span>
-                    <strong>{item.leftValue}</strong>
-                  </div>
-                  <div className="hero-card-pane">
-                    <span>{item.right}</span>
-                    <strong>{item.rightValue}</strong>
-                  </div>
+                  {item.stats.map((stat) => (
+                    <div className="hero-card-pane" key={stat.label}>
+                      <span>{stat.label}</span>
+                      <strong className={"accent" in stat && stat.accent ? "is-accent" : undefined}>{stat.value}</strong>
+                    </div>
+                  ))}
                 </div>
               ))}
             </div>
