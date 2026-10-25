@@ -89,7 +89,7 @@ export function DockNav() {
   }, [open]);
 
   return (
-    <header className="dock-enter pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+    <header className="dock-enter pointer-events-none fixed inset-x-0 xl:inset-x-300 xl:right-0 bottom-0 z-50 flex justify-center px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
       <div
         className={cn(
           "pointer-events-auto w-fit max-w-[calc(100vw-2rem)] overflow-hidden border border-white/10 bg-ink/80 text-paper shadow-[0_12px_32px_-16px_rgba(0,0,0,0.7)] backdrop-blur-xl",
@@ -145,7 +145,7 @@ export function DockNav() {
               setOpen(false);
               track("waitlist_cta_click", { source: "dock" });
             }}
-            className="flex h-10 items-center justify-center rounded-full bg-signal px-4 text-sm font-medium tracking-[-0.01em] text-ink transition-transform active:translate-y-px sm:h-11 sm:px-5"
+            className="flex h-10 items-center justify-center rounded-full bg-green-500 px-4 text-sm font-medium tracking-[-0.01em] text-ink transition-transform active:translate-y-px sm:h-11 sm:px-5"
           >
             <span className="sm:hidden">Join</span>
             <span className="hidden sm:inline">Join the waitlist</span>

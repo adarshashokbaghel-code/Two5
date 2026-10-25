@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from "next/link";
@@ -64,9 +65,9 @@ export function Faq() {
   const current = questions[open];
 
   return (
-    <section id="faq" className="border-t border-ink/10 bg-paper text-ink">
+    <section id="faq" className="border-t border-white/10 bg-black text-white">
       <div className="mx-auto max-w-6xl px-5 pt-20 pb-6 lg:px-8 lg:pt-28">
-        <p className="font-mono text-[11px] tracking-[0.22em] text-ink/40 uppercase">
+        <p className="font-mono text-[11px] tracking-[0.22em] text-white/40 uppercase">
           Before you play
         </p>
         <h2 className="mt-4 max-w-xl font-display text-5xl leading-none font-normal tracking-[0.02em] sm:text-7xl">
@@ -80,7 +81,7 @@ export function Faq() {
             const selected = index === open;
 
             return (
-              <div key={item.index} className="border-t border-ink/10">
+              <div key={item.index} className="border-t border-white/10">
                 <button
                   type="button"
                   aria-expanded={selected}
@@ -90,7 +91,7 @@ export function Faq() {
                   <span
                     className={cn(
                       "font-mono text-[11px] tracking-[0.18em]",
-                      selected ? "text-ember" : "text-ink/35",
+                      selected ? "text-ember" : "text-white/35",
                     )}
                   >
                     {item.index}
@@ -98,14 +99,14 @@ export function Faq() {
                   <span
                     className={cn(
                       "font-display text-2xl leading-none font-normal tracking-[0.02em] sm:text-3xl",
-                      selected ? "text-ink" : "text-ink/45",
+                      selected ? "text-white" : "text-white/45",
                     )}
                   >
                     {item.q}
                   </span>
                 </button>
                 {selected ? (
-                  <p className="pb-6 pl-9 text-base leading-7 text-ink/65 lg:hidden">
+                  <p className="pb-6 pl-9 text-base leading-7 text-white/65 lg:hidden">
                     {item.a}
                   </p>
                 ) : null}
@@ -119,14 +120,16 @@ export function Faq() {
             <p className="font-mono text-[11px] tracking-[0.18em] text-ember uppercase">
               {current.index}
             </p>
-            <h3 className="mt-4 font-display text-4xl leading-none font-normal tracking-[0.02em] sm:text-5xl">
+            <h3 className="mt-4 font-display text-4xl leading-none font-normal tracking-[0.02em] text-white sm:text-5xl">
               {current.q}
             </h3>
-            <p className="mt-6 max-w-lg text-lg leading-8 text-ink/65">{current.a}</p>
+            <p className="mt-6 max-w-lg text-lg leading-8 text-white/65">
+              {current.a}
+            </p>
             <Link
               href="#waitlist"
               onClick={() => track("waitlist_cta_click", { source: "faq" })}
-              className="mt-10 inline-flex h-12 items-center rounded-full bg-signal px-5 text-base font-medium text-ink"
+              className="mt-10 inline-flex h-12 items-center rounded-full bg-red-600 px-5 text-white font-medium text-ink"
             >
               Join the waitlist
             </Link>

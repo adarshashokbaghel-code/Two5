@@ -4,21 +4,21 @@ import { useEffect, useId, useRef } from "react";
 
 import { cn } from "@/lib/utils";
 
-type Screen = "numbers" | "logic" | "daily" | "versus";
+type Screen = "arena" | "play" | "result" | "rank";
 
-type Tone = "signal" | "volt" | "ember";
+type Tone = "signal" | "volt" | "ember" | "green";
 
 const TONE: Record<Tone, { text: string; hex: string }> = {
   signal: { text: "text-signal", hex: "#f0c020" },
   volt: { text: "text-volt", hex: "#1060f8" },
   ember: { text: "text-ember", hex: "#d82010" },
+  green: { text: "text-green-500", hex: "#22C55E" },
 };
 
 type Stop = {
   index: string;
   game: string;
   status: string;
-  open: boolean;
   tone: Tone;
   title: string;
   body: string;
@@ -28,110 +28,98 @@ type Stop = {
 const STOPS: Stop[] = [
   {
     index: "01",
-    game: "Numbers",
-    status: "Open",
-    open: true,
+    game: "Choose an arena",
+    status: "Start here",
     tone: "signal",
-    title: "Name the next one.",
-    body: "A minute on the clock. Four terms on the board. You enter what comes next. The round scores the answer.",
-    screen: "numbers",
+    title: "Pick what you want to test.",
+    body: "Start with Mathematics, Computer Science, or Knowledge & Reasoning. Each arena is built around questions that test how you think—not long lessons or endless scrolling.",
+    screen: "arena",
   },
   {
     index: "02",
-    game: "Logic",
-    status: "Open",
-    open: true,
+    game: "Take the challenge",
+    status: "Play",
     tone: "volt",
-    title: "Apply the rule.",
-    body: "Read the clue once. Mark the piece that has to follow. The next problem keeps the rule and changes the board.",
-    screen: "logic",
+    title: "Think it through. Lock in your answer.",
+    body: "Solve a short, carefully chosen question. Work through a number pattern, reason through a problem, or test your CS knowledge. Every challenge gives you something specific to figure out.",
+    screen: "play",
   },
   {
     index: "03",
-    game: "Daily",
-    status: "Soon",
-    open: false,
+    game: "See how you did",
+    status: "Review",
     tone: "ember",
-    title: "Beat your score.",
-    body: "One problem when you open it. Yesterday’s mark stays on the board. Today you try to pass it.",
-    screen: "daily",
+    title: "Get the answer. Know your score.",
+    body: "Review the correct answer and the reasoning behind it. Build your score, track personal bests, and—where ratings are available—see your progress in each subject.",
+    screen: "result",
   },
   {
     index: "04",
-    game: "Versus",
-    status: "Soon",
-    open: false,
-    tone: "signal",
-    title: "Send the same round.",
-    body: "You solved it. A friend gets the same problem. The higher score takes the match.",
-    screen: "versus",
+    game: "Track your standing",
+    status: "More to come",
+    tone: "green",
+    title: "Improve your best. Compare your skill.",
+    body: "Use your results to keep improving and compare your performance on subject leaderboards as those features roll out. Daily challenges and friend-versus-friend rounds are planned next.",
+    screen: "rank",
   },
 ];
 
 function PhoneScreen({ screen }: { screen: Screen }) {
-  if (screen === "numbers") {
+  if (screen === "arena") {
     return (
       <>
-        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Numbers · Round 04</p>
-        <p className="mt-1 text-[11px] text-paper/70">What comes next</p>
+        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Choose an arena</p>
+        <p className="mt-1 text-[11px] text-paper/70">What are you in the mood for?</p>
+        <div className="mt-4 space-y-2">
+          <div className="flex items-center justify-between rounded-lg border border-signal/50 bg-signal/10 px-3 py-2.5">
+            <span className="text-xs font-semibold">Mathematics</span><span className="text-signal">↗</span>
+          </div>
+          <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2.5">
+            <span className="text-xs font-semibold">Computer Science</span><span className="text-paper/35">→</span>
+          </div>
+          <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2.5">
+            <span className="text-xs font-semibold">Knowledge & Reasoning</span><span className="text-paper/35">→</span>
+          </div>
+        </div>
+        <p className="mt-auto pt-3 font-mono text-[9px] tracking-[0.12em] text-paper/40 uppercase">Pick a subject. Start thinking.</p>
+      </>
+    );
+  }
+
+  if (screen === "play") {
+    return (
+      <>
+        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Mathematics · Challenge 04</p>
+        <p className="mt-1 text-[11px] text-paper/70">Find the next number</p>
         <p className="mt-3 flex items-end justify-between font-display text-[1.35rem] leading-none lg:mt-4 lg:text-[2.75rem]">
-          {["2", "6", "12", "20"].map((term) => (
-            <span key={term}>{term}</span>
-          ))}
+          {["2", "6", "12", "20"].map((term) => <span key={term}>{term}</span>)}
           <span className="text-signal">?</span>
         </p>
-        <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/10">
-          <div className="h-full w-2/3 rounded-full bg-signal" />
-        </div>
-        <div className="mt-auto flex items-end justify-between pt-4">
-          <div>
-            <p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">Score</p>
-            <p className="font-display text-2xl leading-none text-ember lg:text-3xl">+3</p>
-          </div>
-          <div className="text-right">
-            <p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">Time</p>
-            <p className="text-sm font-bold text-signal">0:42</p>
-          </div>
-        </div>
-      </>
-    );
-  }
-
-  if (screen === "logic") {
-    return (
-      <>
-        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Logic · Round 02</p>
-        <p className="mt-1 text-[11px] text-paper/70">Which follows</p>
-        <p className="mt-3 text-sm leading-5 font-medium">All reds are even.</p>
-        <p className="mt-2 text-sm leading-5 text-paper/70">4 is red, so 4 is even.</p>
-        <p className="mt-3 font-display text-2xl leading-none lg:text-3xl">
-          7 is <span className="text-ember">?</span>
-        </p>
+        <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/10"><div className="h-full w-2/3 rounded-full bg-signal" /></div>
         <div className="mt-auto grid grid-cols-2 gap-1.5 pt-4">
-          <span className="flex h-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold">Even</span>
-          <span className="flex h-8 items-center justify-center rounded-lg bg-signal text-xs font-semibold text-ink">Odd</span>
+          <span className="flex h-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold">28</span>
+          <span className="flex h-8 items-center justify-center rounded-lg bg-signal text-xs font-semibold text-ink">30</span>
+          <span className="flex h-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold">32</span>
+          <span className="flex h-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold">42</span>
         </div>
       </>
     );
   }
 
-  if (screen === "daily") {
+  if (screen === "result") {
     return (
       <>
-        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Daily · Today</p>
-        <p className="mt-1 text-[11px] text-paper/70">One problem</p>
-        <p className="mt-3 font-display text-2xl leading-none tracking-[0.04em] lg:text-4xl">
-          12 <span className="text-signal">?</span> 48
-        </p>
-        <div className="mt-auto grid grid-cols-2 gap-2 pt-4">
-          <div className="rounded-lg bg-white/8 px-2 py-2">
-            <p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">Best</p>
-            <p className="mt-1 font-display text-2xl leading-none lg:text-3xl">98</p>
-          </div>
-          <div className="rounded-lg bg-white/8 px-2 py-2">
-            <p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">Today</p>
-            <p className="mt-1 font-display text-2xl leading-none text-ember lg:text-3xl">+12</p>
-          </div>
+        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Challenge complete</p>
+        <div className="mt-4 rounded-xl border border-ember/30 bg-ember/10 p-3">
+          <p className="font-mono text-[9px] tracking-[0.14em] text-paper/45 uppercase">Your result</p>
+          <p className="mt-1 font-display text-4xl leading-none text-ember">+12</p>
+          <p className="mt-2 text-[11px] font-semibold">Correct answer: 30</p>
+        </div>
+        <p className="mt-3 text-[11px] font-semibold">Why?</p>
+        <p className="mt-1 text-[10px] leading-4 text-paper/65">The differences increase by 2: +4, +6, +8, then +10.</p>
+        <div className="mt-auto flex items-center justify-between pt-3">
+          <span className="font-mono text-[9px] tracking-[0.1em] text-paper/40 uppercase">Personal best</span>
+          <span className="font-display text-xl text-signal">84</span>
         </div>
       </>
     );
@@ -139,24 +127,17 @@ function PhoneScreen({ screen }: { screen: Screen }) {
 
   return (
     <>
-      <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Versus · Same problem</p>
-      <p className="mt-1 text-[11px] text-paper/70">Who takes it</p>
-      <div className="mt-3 grid grid-cols-2 gap-2">
-        <div>
-          <p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">You</p>
-          <p className="mt-1 font-display text-2xl leading-none text-ember lg:text-4xl">+3</p>
-        </div>
-        <div className="text-right">
-          <p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">Friend</p>
-          <p className="mt-1 font-display text-2xl leading-none text-paper/35 lg:text-4xl">—</p>
-        </div>
+      <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Your progress</p>
+      <p className="mt-1 text-[11px] text-paper/70">Mathematics · Rating</p>
+      <div className="mt-4 flex items-end justify-between">
+        <div><p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">Current score</p><p className="mt-1 font-display text-4xl leading-none text-signal">840</p></div>
+        <span className="rounded-full bg-green-500/15 px-2 py-1 text-[9px] font-semibold text-green-400">+8%</span>
       </div>
-      <div className="mt-auto pt-4">
-        <span className="flex h-9 items-center justify-center gap-2 rounded-lg bg-signal text-xs font-semibold text-ink">
-          <span className="size-0 border-y-[4px] border-l-[6px] border-y-transparent border-l-ink" aria-hidden="true" />
-          Send the round
-        </span>
+      <div className="mt-4 space-y-3">
+        <div><div className="mb-1 flex justify-between text-[10px]"><span>Mathematics</span><span className="text-paper/45">840</span></div><div className="h-1 rounded-full bg-white/10"><div className="h-full w-4/5 rounded-full bg-signal" /></div></div>
+        <div><div className="mb-1 flex justify-between text-[10px]"><span>Computer Science</span><span className="text-paper/45">Coming soon</span></div><div className="h-1 rounded-full bg-white/10"><div className="h-full w-1/3 rounded-full bg-volt" /></div></div>
       </div>
+      <p className="mt-auto pt-4 font-mono text-[9px] tracking-[0.1em] text-paper/40 uppercase">Keep playing. Keep improving.</p>
     </>
   );
 }
@@ -187,11 +168,20 @@ function Phone({
           <div className="rounded-[1.28rem] bg-[#141311] p-1 lg:rounded-[1.85rem] lg:p-1.5">
             <div className="relative flex h-[13.75rem] flex-col overflow-hidden rounded-[1.1rem] bg-[#10100e] px-2 pt-4 pb-2 text-paper lg:h-[22rem] lg:rounded-[1.55rem] lg:px-4 lg:pt-7 lg:pb-3">
               <span className="absolute top-2 left-1/2 h-1 w-10 -translate-x-1/2 rounded-full bg-[#2c2a26]" aria-hidden="true" />
-              <div className="mb-3 flex items-center justify-between">
-                <span className="font-display text-xl leading-none tracking-[0.06em]">TWO5</span>
-                <span className={cn("font-mono text-[10px] tracking-[0.08em]", TONE[tone].text)}>Live</span>
+              <div className="relative z-0 flex min-h-0 flex-1 flex-col blur-[10px] opacity-75 select-none pointer-events-none">
+                <div className="mb-3 flex items-center justify-between">
+                  <span className="font-display text-xl leading-none tracking-[0.06em]">TWO5</span>
+                  <span className={cn("font-mono text-[10px] tracking-[0.08em]", TONE[tone].text)}>{screen === "rank" ? "Planned" : "Preview"}</span>
+                </div>
+                <PhoneScreen screen={screen} />
               </div>
-              <PhoneScreen screen={screen} />
+              <div
+                className="pointer-events-none absolute inset-0 z-10 rounded-[1.1rem] bg-white/[0.035]"
+                aria-hidden="true"
+              >
+                <div className="absolute inset-0 rounded-[inherit] bg-gradient-to-br from-white/[0.12] via-transparent to-white/[0.025]" />
+                <div className="absolute inset-x-0 top-0 h-1/3 rounded-t-[inherit] bg-gradient-to-b from-white/[0.045] to-transparent" />
+              </div>
             </div>
           </div>
         </div>
@@ -221,8 +211,6 @@ function routePath(points: { x: number; y: number }[], width: number) {
 
 export function HowItWorks() {
   const gradId = useId().replace(/:/g, "");
-  const sectionRef = useRef<HTMLElement>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
   const listRef = useRef<HTMLOListElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
   const dotRefs = useRef<Array<HTMLSpanElement | null>>([]);
@@ -326,92 +314,15 @@ export function HowItWorks() {
     };
   }, []);
 
-  useEffect(() => {
-    const section = sectionRef.current;
-    const video = videoRef.current;
-    if (!section || !video) return;
-
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (reduce.matches) {
-      video.pause();
-      return;
-    }
-
-    let raf = 0;
-    let lastY = window.scrollY;
-    let coast = 0.7;
-
-    const inView = () => {
-      const rect = section.getBoundingClientRect();
-      return rect.top < window.innerHeight && rect.bottom > 0;
-    };
-
-    const play = () => {
-      video.muted = true;
-      video.loop = true;
-      if (video.paused) void video.play().catch(() => undefined);
-    };
-
-    const tick = () => {
-      if (!inView()) {
-        if (!video.paused) video.pause();
-        return;
-      }
-      play();
-      const dy = Math.abs(window.scrollY - lastY);
-      lastY = window.scrollY;
-      if (dy > 1) coast = Math.min(2, 1.15 + dy / 24);
-      else coast += (0.7 - coast) * 0.08;
-      video.playbackRate = Math.min(2, Math.max(0.25, coast));
-    };
-
-    const onScroll = () => {
-      if (inView() && video.paused) play();
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(tick);
-    };
-
-    video.addEventListener("loadeddata", play);
-    const observer = new IntersectionObserver(onScroll, { threshold: [0, 0.2, 0.6] });
-    observer.observe(section);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    tick();
-
-    return () => {
-      cancelAnimationFrame(raf);
-      observer.disconnect();
-      video.removeEventListener("loadeddata", play);
-      window.removeEventListener("scroll", onScroll);
-      video.pause();
-    };
-  }, []);
-
   return (
-    <section ref={sectionRef} id="how" aria-labelledby="how-title" className="relative bg-ink text-paper">
-      <div className="pointer-events-none sticky top-0 z-0 h-[100svh] overflow-hidden" aria-hidden="true">
-        <video
-          ref={videoRef}
-          className="absolute inset-0 h-full w-full scale-105 object-cover"
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload="auto"
-          poster="/brand/how-clouds-poster.jpg"
-        >
-          <source src="/brand/how-clouds.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_20%,rgba(240,192,32,0.07),transparent_42%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-ink/20 via-ink/10 to-ink/45" />
-      </div>
-      <div className="relative z-10 -mt-[100svh] mx-auto w-full max-w-[1500px] px-4 py-12 pb-24 sm:px-8 lg:px-14 lg:py-28 lg:pb-40">
-        <header className="mx-auto max-w-xl text-center">
-          <h2 id="how-title" className="font-display text-[clamp(2.6rem,12vw,4.5rem)] leading-[0.85] font-normal tracking-[0.03em]">
-            How a round works
+    <section id="how" aria-labelledby="how-title" className="relative overflow-hidden bg-black text-paper">
+      <div className="mx-auto w-full max-w-[1500px] px-4 py-12 pb-24 sm:px-8 lg:px-14 lg:py-28 lg:pb-40">
+        <header className="mx-auto max-w-3xl text-center">
+          <p className="mb-4 font-mono text-xs tracking-[0.2em] text-signal uppercase">How Two5 works</p>
+          <h2 id="how-title" className="font-display text-[clamp(2.6rem,12vw,6.5rem)] leading-[0.9] font-normal tracking-[0.03em]">
+            Pick a <span className="text-green-500">challenge.</span>  Make your <span className="text-red-500">move.</span> 
           </h2>
-          <p className="mx-auto mt-4 max-w-md font-mono text-base leading-snug text-paper/60">
-            A minute on the clock. One problem on the board. You answer, and the round keeps the score.
-          </p>
+        
         </header>
 
         <ol ref={listRef} className="relative mt-10 lg:mt-24">
@@ -443,14 +354,14 @@ export function HowItWorks() {
                     ref={(node) => {
                       phoneRefs.current[index] = node;
                     }}
-                    className="relative w-[9rem] max-w-[58%] opacity-45 transition-opacity duration-500 ease-out lg:w-[12.5rem] lg:max-w-none lg:blur-[6px] lg:transition-[filter,opacity] motion-reduce:blur-none motion-reduce:opacity-100 [&.is-reached]:opacity-100 lg:[&.is-reached]:blur-none"
+                    className="relative w-[9rem] max-w-[58%] opacity-80 transition-opacity duration-500 ease-out lg:w-[12.5rem] lg:max-w-none motion-reduce:opacity-100 [&.is-reached]:opacity-100"
                   >
                     <span
                       ref={(node) => {
                         dotRefs.current[index] = node;
                       }}
                       className={cn(
-                        "absolute top-1/2 z-20 size-3 -translate-y-1/2 rounded-full opacity-40 ring-4 ring-ink transition-opacity duration-300 [&.is-reached]:opacity-100 lg:size-3.5",
+                        "absolute top-1/2 z-20 size-3 -translate-y-1/2 rounded-full opacity-40 ring-4 ring-black transition-opacity duration-300 [&.is-reached]:opacity-100 lg:size-3.5",
                         flip ? "-right-1" : "-left-1",
                       )}
                       style={{ backgroundColor: TONE[stop.tone].hex }}
@@ -470,7 +381,7 @@ export function HowItWorks() {
                       : "mr-auto text-left lg:justify-self-start",
                   )}
                 >
-                  <p className={cn("font-display text-5xl leading-none sm:text-6xl lg:text-7xl", TONE[stop.tone].text)}>
+                  <p className={cn("font-display text-5xl leading-none sm:text-6xl lg:text-7xl", TONE[stop.tone].text )}>
                     {stop.index}
                   </p>
                   <p className={cn("mt-1.5 font-mono text-[11px] tracking-[0.16em] uppercase sm:mt-3", TONE[stop.tone].text)}>

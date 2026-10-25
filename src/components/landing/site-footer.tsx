@@ -1,74 +1,90 @@
-import TicketStubFooter from "@/components/ui/ticket-stub-footer";
-import { siteConfig } from "@/config/site";
+import Link from "next/link";
 
-function rootHref(href: string) {
-  return href.startsWith("#") ? `/${href}` : href;
-}
+const links = [
+  { label: "Play", href: "/play" },
+  { label: "How it works", href: "/#how-it-works" },
+  { label: "FAQs", href: "/#faq" },
+  { label: "About", href: "/#about" },
+  { label: "Contact", href: "mailto:hello@two5.com" },
+];
 
-const SANS =
-  'var(--font-montserrat), Montserrat, "Helvetica Neue", Helvetica, Arial, sans-serif';
-const MONO =
-  'var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Consolas, monospace';
+const legalLinks = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
+];
 
-export function SiteFooter() {
+export default function SiteFooter() {
   return (
-    <TicketStubFooter
-      brand={siteConfig.name}
-      company={siteConfig.name}
-      year={2026}
-      eyebrow={[
-        "A game for sharp minds",
-        "Think fast. Know more. Compete.",
-        "Early access is open",
-      ]}
-      headline={["Play a round.", "Then play another."]}
-      description={siteConfig.description}
-      cta={{ label: "Join the waitlist", href: "/#waitlist" }}
-      sections={siteConfig.nav.map((item) => ({
-        label: item.label,
-        href: rootHref(item.href),
-      }))}
-      linkGroups={[
-        {
-          title: "Explore",
-          links: [
-            ...siteConfig.nav.map((item) => ({
-              label: item.label,
-              href: rootHref(item.href),
-            })),
-          ],
-        },
-        {
-          title: "Play",
-          links: [
-            { label: "Numbers", href: "/research/numbers" },
-            { label: "Logic", href: "/research/logic" },
-            { label: "Computer Science", href: "/research/computer-science" },
-            { label: "Daily", href: "/research/daily" },
-            { label: "Versus", href: "/research/versus" },
-            { label: "Waitlist", href: "/#waitlist" },
-          ],
-        },
-      ]}
-      statusLabels={["Open", "Paused"]}
-      statusCaption="First round"
-      count={1280}
-      countLabel="Players waiting"
-      rate={0.4}
-      blurb="Numbers, logic, computer science, and more as we open them. Short rounds, a score you can beat, and a challenge you can send. Two5 is the place those games live."
-      legal={[
-        { label: "All rights reserved" },
-        { label: "Waitlist", href: "/#waitlist" },
-      ]}
-      background="#f6f3ea"
-      ink="#141414"
-      muted="#5c5c5c"
-      accent="#f0c020"
-      accentDeep="#c9a010"
-      accentInk="#000000"
-      fontSans={SANS}
-      fontMono={MONO}
-      className="mx-auto w-full pb-28 sm:w-[min(94%,88rem)]"
-    />
+    <footer className="bg-[#090909] font-display text-[#F4F1E8]">
+      <div className="mx-auto max-w-[1440px] px-5 sm:px-8 lg:px-12">
+        {/* Brand statement */}
+        <div className="flex flex-col gap-8 pb-10 pt-12 sm:flex-row sm:items-end sm:justify-between sm:pb-12 sm:pt-16">
+          <div>
+            <Link
+              href="/"
+              aria-label="TWO5 home"
+              className="inline-flex items-baseline text-5xl font-black leading-none tracking-[0.09em] sm:text-7xl"
+            >
+              TWO5<span className=" rounded-full text-green-500">.</span>
+            </Link>
+
+            <p className="mt-4 text-sm tracking-[-0.02em] text-white/45 sm:text-base">
+              Think sharp. Play smart.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 self-start rounded-full border border-white/10 px-3 py-2 sm:self-auto">
+            <span className="h-1.5 w-1.5 rounded-full bg-yellow-500" />
+            <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-white/60">
+              Made to challenge your mind
+            </span>
+          </div>
+        </div>
+
+        {/* Compact navigation */}
+        <div className="flex flex-col gap-6 border-t border-white/10 py-6 sm:flex-row sm:items-center sm:justify-between">
+          <nav
+            aria-label="Footer navigation"
+            className="flex flex-wrap items-center gap-x-6 gap-y-3 sm:gap-x-8"
+          >
+            {links.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-[12px] text-white/55 transition-colors duration-200 hover:text-[#E9F078] sm:text-[13px]"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <nav
+            aria-label="Legal navigation"
+            className="flex items-center gap-5"
+          >
+            {legalLinks.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-[11px] text-white/35 transition-colors duration-200 hover:text-white/75"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </div>
+
+        {/* Minimal signature */}
+        <div className="flex flex-col gap-2 border-t border-white/[0.07] py-5 sm:flex-row sm:items-center sm:justify-between">
+          <p className="text-[10px] tracking-wide text-white/30">
+            © {new Date().getFullYear()} TWO5. All rights reserved.
+          </p>
+
+          <p className="text-[10px] uppercase tracking-[0.18em] text-white/25">
+            Play with purpose<span className="text-[#E9F078]">.</span>
+          </p>
+        </div>
+      </div>
+    </footer>
   );
 }
