@@ -77,7 +77,7 @@ export default function SiteFooter() {
         {/* Minimal signature */}
         <div className="flex flex-col gap-2 border-t border-white/[0.07] py-5 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[10px] tracking-wide text-white/30">
-            © {new Date().getFullYear()} TWO5. All rights reserved.
+          TWO5. All rights reserved.
           </p>
 
           <p className="text-[10px] uppercase tracking-[0.18em] text-white/25">
