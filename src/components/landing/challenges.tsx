@@ -501,7 +501,7 @@ export function Challenges() {
       <header className="pt-16 lg:pt-24">
         <div className="relative px-5 pb-2 text-center lg:px-8">
           <h2 className="font-display text-[clamp(2.5rem,5vw,4.25rem)] leading-none font-display tracking-[0.02em]">
-            Pick a game.
+            Pick a <span className="text-blue-500">game.</span>
           </h2>
           <p className="mx-auto mt-3 max-w-md font-mono text-base leading-snug text-paper/60">
             Numbers and Logic are open.

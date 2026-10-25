@@ -178,7 +178,7 @@ export function HeroPhone({
         >
           <span className="absolute top-2.5 left-1/2 z-20 h-1.5 w-16 -translate-x-1/2 rounded-full bg-white/15" />
 
-          <div className="relative bg-gradient-to-r from-yellow-500 to-red-500 min-h-0 flex-1 overflow-hidden">
+          <div className="relative bg-gradient-to-r from-green-500 to-red-500 min-h-0 flex-1 overflow-hidden">
             <div
               className="absolute  inset-0 will-change-transform"
               style={{

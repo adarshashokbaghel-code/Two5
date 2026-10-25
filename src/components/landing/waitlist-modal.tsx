@@ -423,7 +423,7 @@ export function WaitlistModal() {
                     source: "waitlist-modal",
                   })
                 }
-                className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-green-500 text-sm font-semibold text-black transition hover:bg-yellow-500 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-green-500 text-sm font-semibold text-black transition hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {busy === "send" ? "Sending code..." : "Join the waitlist"}
                 {busy !== "send" && <ArrowRight size={16} />}
