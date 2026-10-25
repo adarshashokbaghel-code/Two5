@@ -11,7 +11,7 @@
   --color-volt: #1060f8;
   --color-mist: #8a8a8a;
   --color-line: rgba(245, 242, 234, 0.12);
-  --font-sans: var(--font-montserrat), "Montserrat", sans-serif;
+  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
   --font-display: var(--font-bebas), "Bebas Neue", sans-serif;
   --font-mono: var(--font-geist-mono);
 }
@@ -753,9 +753,8 @@ body {
 }
 
 .dock-enter {
-  --dock-in: min(1, max(0, (var(--reel-p, 0) - 0.52) / 0.24));
-  opacity: var(--dock-in);
-  transform: translateY(calc((1 - var(--dock-in)) * 1.6rem));
+  opacity: 1;
+  transform: none;
 }
 
 .compass-leg {
@@ -795,17 +794,6 @@ body {
   }
 }
 
-html[data-reel="out"] .hero-gate-left,
-html[data-reel="out"] .hero-gate-right,
-html[data-reel="out"] .hero-stage,
-html[data-reel="out"] .dock-enter {
-  pointer-events: none;
-}
-
-html[data-reel="copy"] .hero-gate-right,
-html[data-reel="copy"] .dock-enter {
-  pointer-events: none;
-}
 
 @media (min-width: 1024px) {
   .hero-stage,

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { SiteFooter } from "@/components/landing/site-footer";
+
 import { DockNav } from "@/components/layout/dock-nav";
 import { researchPosts } from "@/content/research";
 import { siteConfig } from "@/config/site";
+import SiteFooter from "@/components/landing/site-footer";
 
 export const metadata: Metadata = {
   title: "How the games work",
@@ -81,7 +82,7 @@ export default function ResearchIndexPage() {
           ))}
         </ol>
       </main>
-      <SiteFooter />
+<SiteFooter/>
     </>
   );
 }

@@ -1,8 +1,10 @@
+
 import { Challenges } from "@/components/landing/challenges";
 import { Faq } from "@/components/landing/faq";
 import { Hero } from "@/components/landing/hero";
 import { HowItWorks } from "@/components/landing/how-it-works";
-import { SiteFooter } from "@/components/landing/site-footer";
+import SiteFooter from "@/components/landing/site-footer";
+import { WaitlistModal } from "@/components/landing/waitlist-modal";
 import { DockNav } from "@/components/layout/dock-nav";
 
 export default function HomePage() {
@@ -14,14 +16,20 @@ export default function HomePage() {
       >
         Skip to content
       </a>
+
       <DockNav />
+
       <main>
         <Hero />
         <HowItWorks />
         <Challenges />
         <Faq />
       </main>
+
       <SiteFooter />
+
+      {/* Mount the waitlist popup once for the entire page */}
+      <WaitlistModal />
     </>
   );
 }

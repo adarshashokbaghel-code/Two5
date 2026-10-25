@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Geist_Mono, Montserrat } from "next/font/google";
+import { Bebas_Neue, Geist_Mono, Inter } from "next/font/google";
 
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { siteConfig } from "@/config/site";
 
 import "./globals.css";
 
-const sans = Montserrat({
+const sans = Inter({
   subsets: ["latin"],
-  variable: "--font-montserrat",
+  variable: "--font-inter",
 });
 
 const display = Bebas_Neue({
@@ -51,11 +51,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      data-reel="out"
-      className={`${sans.variable} ${display.variable} ${mono.variable} h-full`}
-    >
+    <html lang="en" className={`${sans.variable} ${display.variable} ${mono.variable} h-full`}>
       <body className="min-h-full bg-paper font-sans text-ink antialiased">
         <SmoothScroll>{children}</SmoothScroll>
       </body>

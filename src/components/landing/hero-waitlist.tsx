@@ -2,7 +2,9 @@
 
 import { useEffect, useId, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
 
+import { waitlistTheme, type WaitlistTheme } from "@/components/landing/hero-waitlist-theme";
 import { track } from "@/lib/analytics";
+import { cn } from "@/lib/utils";
 import { validateWaitlist } from "@/lib/waitlist";
 
 const CODE_LENGTH = 6;
@@ -77,27 +79,32 @@ function AdmitPass({ name, accountId }: { name: string; accountId: string }) {
   );
 }
 
-function Stepper({ step }: { step: Step }) {
+function Stepper({
+  step,
+  theme,
+  compact,
+}: {
+  step: Step;
+  theme: WaitlistTheme;
+  compact?: boolean;
+}) {
   const current = STEP_INDEX[step];
+  const t = waitlistTheme(theme);
 
   return (
-    <ol className="grid grid-cols-3 overflow-hidden rounded-lg bg-white/8 text-paper">
+    <ol className={cn("grid grid-cols-3", compact ? "gap-1" : "gap-1.5")}>
       {STEPS.map((label, index) => {
         const on = index === current;
         const done = index < current;
         return (
           <li
             key={label}
-            className={
-              on
-                ? "bg-signal px-2 py-2.5 text-ink"
-                : "border-l border-white/10 px-2 py-2.5 first:border-l-0"
-            }
+            className={on ? t.stepOn : done ? t.stepDone : t.stepIdle}
           >
-            <p className={on ? "font-mono text-[10px] tracking-[0.14em] text-ink/50" : "font-mono text-[10px] tracking-[0.14em] text-paper/40"}>
+            <p className={on ? t.stepIndexOn : t.stepIndexOff}>
               {String(index + 1).padStart(2, "0")}
             </p>
-            <p className={on ? "mt-1 font-display text-2xl leading-none tracking-[0.04em]" : done ? "mt-1 font-display text-2xl leading-none tracking-[0.04em] text-paper" : "mt-1 font-display text-2xl leading-none tracking-[0.04em] text-paper/35"}>
+            <p className={on ? t.stepLabelOn : done ? t.stepLabelDone : t.stepLabelIdle}>
               {label}
             </p>
           </li>
@@ -107,7 +114,14 @@ function Stepper({ step }: { step: Step }) {
   );
 }
 
-export function HeroWaitlist() {
+export function HeroWaitlist({
+  theme = "dark",
+  compact = false,
+}: {
+  theme?: WaitlistTheme;
+  compact?: boolean;
+}) {
+  const t = waitlistTheme(theme);
   const nameId = useId();
   const emailId = useId();
   const ageId = useId();
@@ -252,18 +266,24 @@ export function HeroWaitlist() {
 
   return (
     <aside id="waitlist" aria-label="Join the Two5 waitlist">
-      <Stepper step={step} />
+      <Stepper step={step} theme={theme} compact={compact} />
 
       {step === "details" ? (
-        <form onSubmit={continueToCode} noValidate className="mt-5">
-          <h2 className="font-display text-[3.25rem] leading-[0.82] font-normal tracking-[0.03em] text-paper">
-            Leave the grind.
-          </h2>
-          <p className="hero-form-kicker mt-1 font-display text-[2rem] leading-none tracking-[0.03em] text-signal">
-            Play a round.
-          </p>
+        <form onSubmit={continueToCode} noValidate className={compact ? "mt-4" : "mt-5"}>
+          {!compact ? (
+            <>
+              <h2 className={cn("text-xl font-bold leading-tight tracking-tight sm:text-2xl", t.heading)}>
+                Create your account
+              </h2>
+              <p className={cn("mt-1.5 text-sm leading-snug", t.body)}>
+                Join the waitlist for Numbers, Logic, and the first Versus rounds.
+              </p>
+            </>
+          ) : (
+            <h2 className={cn("text-lg font-semibold tracking-tight", t.heading)}>Join the waitlist</h2>
+          )}
 
-          <label htmlFor={nameId} className="mt-5 block font-mono text-[10px] tracking-[0.16em] text-paper/50 uppercase">
+          <label htmlFor={nameId} className={cn(compact ? "mt-4 block" : "mt-5 block", t.label)}>
             Name
           </label>
           <input
@@ -277,10 +297,10 @@ export function HeroWaitlist() {
             aria-invalid={Boolean(message)}
             aria-describedby={message ? errorId : undefined}
             placeholder="Your name"
-            className="mt-1.5 h-12 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-base text-paper outline-none placeholder:text-paper/35 focus-visible:border-signal"
+            className={t.input}
           />
 
-          <label htmlFor={emailId} className="mt-3 block font-mono text-[10px] tracking-[0.16em] text-paper/50 uppercase">
+          <label htmlFor={emailId} className={cn("mt-3 block", t.label)}>
             Email address
           </label>
           <input
@@ -295,10 +315,10 @@ export function HeroWaitlist() {
             aria-invalid={Boolean(message)}
             aria-describedby={message ? errorId : undefined}
             placeholder="you@email.com"
-            className="mt-1.5 h-12 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-base text-paper outline-none placeholder:text-paper/35 focus-visible:border-signal"
+            className={t.input}
           />
 
-          <label htmlFor={ageId} className="mt-3 block font-mono text-[10px] tracking-[0.16em] text-paper/50 uppercase">
+          <label htmlFor={ageId} className={cn("mt-3 block", t.label)}>
             Age
           </label>
           <input
@@ -312,16 +332,18 @@ export function HeroWaitlist() {
             aria-invalid={Boolean(message)}
             aria-describedby={message ? errorId : undefined}
             placeholder="18"
-            className="mt-1.5 h-12 w-full rounded-lg border border-white/15 bg-white/5 px-3 text-base text-paper outline-none placeholder:text-paper/35 focus-visible:border-signal"
+            className={t.input}
           />
 
           <button
             type="submit"
             onClick={() => track("waitlist_cta_click", { source: "hero-form" })}
             disabled={busy === "send"}
-            className="mt-4 flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-signal text-[15px] font-semibold text-ink disabled:opacity-60"
+            className={cn(
+              "flex h-11 w-full items-center justify-center rounded-md bg-signal text-sm font-semibold text-ink transition-transform active:translate-y-px disabled:opacity-60",
+              compact ? "mt-4" : "mt-5 shadow-[0_4px_0_#c9a018] disabled:shadow-none",
+            )}
           >
-            <span className="size-0 border-y-[5px] border-l-[8px] border-y-transparent border-l-ink" aria-hidden="true" />
             {busy === "send" ? "Sending…" : "Continue"}
           </button>
 
@@ -335,15 +357,15 @@ export function HeroWaitlist() {
 
       {step === "code" ? (
         <form onSubmit={verify} className="mt-6 min-w-0">
-          <h2 className="font-display text-[3.25rem] leading-[0.82] font-normal tracking-[0.03em] text-paper">
+          <h2 className={cn("text-2xl font-bold leading-tight tracking-tight", t.heading)}>
             Enter the code.
           </h2>
-          <p className="mt-3 text-sm leading-6 text-paper/70">
+          <p className={cn("mt-3 text-sm leading-6", t.body)}>
             We sent a 6-digit code to {email}. It expires in 10 minutes.
           </p>
 
           <fieldset className="mt-5 w-full min-w-0">
-            <legend className="font-mono text-[10px] tracking-[0.16em] text-paper/50 uppercase">
+            <legend className={t.label}>
               One-time code
             </legend>
             <div className="mt-2 grid w-full grid-cols-6 gap-1.5 sm:gap-2">
@@ -360,7 +382,7 @@ export function HeroWaitlist() {
                   value={digit}
                   onChange={(event) => writeCode(index, event.target.value)}
                   onKeyDown={(event) => onCodeKeyDown(index, event)}
-                  className="h-11 w-full min-w-0 rounded-lg border border-white/15 bg-white/5 px-0 text-center font-mono text-base text-paper outline-none focus-visible:border-signal"
+                  className={t.codeInput}
                 />
               ))}
             </div>
@@ -369,7 +391,7 @@ export function HeroWaitlist() {
           <button
             type="submit"
             disabled={busy !== null}
-            className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-signal text-[15px] font-semibold text-ink disabled:opacity-60"
+            className="mt-5 flex h-12 w-full items-center justify-center rounded-md bg-signal text-[15px] font-semibold text-ink shadow-[0_4px_0_#c9a018] disabled:opacity-60 disabled:shadow-none"
           >
             {busy === "verify" ? "Verifying…" : "Verify"}
           </button>
@@ -381,7 +403,7 @@ export function HeroWaitlist() {
                 setNotice("");
                 setStep("details");
               }}
-              className="font-medium text-paper/60 underline-offset-4 hover:text-paper hover:underline"
+              className={t.link}
             >
               Edit details
             </button>
@@ -389,12 +411,12 @@ export function HeroWaitlist() {
               type="button"
               onClick={resend}
               disabled={busy !== null}
-              className="font-medium text-paper/60 underline-offset-4 hover:text-paper hover:underline disabled:opacity-60"
+              className={cn(t.link, "disabled:opacity-60")}
             >
               {busy === "resend" ? "Sending…" : "Resend code"}
             </button>
           </div>
-          {notice ? <p className="mt-3 text-sm text-paper/70">{notice}</p> : null}
+          {notice ? <p className={cn("mt-3 text-sm", t.notice)}>{notice}</p> : null}
 
           {message ? (
             <p role="alert" className="mt-3 text-sm text-ember">
