@@ -1,15 +1,11 @@
 import type { Metadata } from "next";
-import { Bebas_Neue, Geist_Mono, Inter } from "next/font/google";
+import { Bebas_Neue, DM_Sans } from "next/font/google";
 
+import { WaitlistModal } from "@/components/landing/waitlist-modal";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { siteConfig } from "@/config/site";
 
 import "./globals.css";
-
-const sans = Inter({
-  subsets: ["latin"],
-  variable: "--font-inter",
-});
 
 const display = Bebas_Neue({
   subsets: ["latin"],
@@ -17,9 +13,10 @@ const display = Bebas_Neue({
   variable: "--font-bebas",
 });
 
-const mono = Geist_Mono({
+const sans = DM_Sans({
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-dm-sans",
 });
 
 export const metadata: Metadata = {
@@ -51,9 +48,10 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable} ${mono.variable} h-full`}>
+    <html lang="en" className={`${display.variable} ${sans.variable} h-full`}>
       <body className="min-h-full bg-paper font-sans text-ink antialiased">
         <SmoothScroll>{children}</SmoothScroll>
+        <WaitlistModal />
       </body>
     </html>
   );

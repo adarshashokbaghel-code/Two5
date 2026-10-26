@@ -18,6 +18,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 0.8,
     },
+    {
+      url: `${siteConfig.url}/privacy`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${siteConfig.url}/terms`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: `${siteConfig.url}/cookies`,
+      lastModified,
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
     ...researchPosts.map((post) => ({
       url: `${siteConfig.url}/research/${post.slug}`,
       lastModified,

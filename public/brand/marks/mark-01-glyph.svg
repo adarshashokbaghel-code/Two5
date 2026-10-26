@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Two5 glyph mark">
+  <rect width="512" height="512" fill="#000000"/>
+  <!-- 2 body -->
+  <path fill="#f0c020" d="M96 360 L96 300 L250 148 L250 96 L120 96 L120 48 L340 48 L340 150 L190 300 L340 300 L340 360 Z"/>
+  <!-- 5 top bar -->
+  <path fill="#1060f8" d="M286 48 L420 48 L448 96 L286 96 Z"/>
+  <!-- 5 bowl -->
+  <path fill="#d82010" d="M286 168 L420 168 C468 168 492 204 492 248 C492 308 452 360 372 360 L286 360 L286 300 L360 300 C388 300 404 284 404 256 C404 228 388 216 360 216 L286 216 Z"/>
+  <!-- green accent notch -->
+  <rect x="96" y="48" width="24" height="48" fill="#22C55E"/>
+</svg>

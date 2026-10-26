@@ -10,7 +10,7 @@ import SiteFooter from "@/components/landing/site-footer";
 export const metadata: Metadata = {
   title: "How the games work",
   description:
-    "Short notes on Numbers, Logic, Computer Science, a daily challenge, and a game you can send. What each round trains, and what a score does not prove.",
+    "Short notes on Two5’s four categories — Numbers, Logic, Computer Science, and Memory & Visual. What each round trains, and what a score does not prove.",
   alternates: { canonical: "/research" },
   openGraph: {
     title: "How the games work",
@@ -59,9 +59,9 @@ export default function ResearchIndexPage() {
               How each game works.
             </h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-ink/70">
-              Numbers, Logic, Computer Science, a daily problem, and a challenge
-              you can send. A short note on the skill behind each one, and what
-              a score can and cannot say.
+              Two5&apos;s first four categories — Numbers and Logic (MVP),
+              Computer Science and Memory & Visual (next expansion). A short note
+              on the skill behind each one, and what a score can and cannot say.
             </p>
           </div>
         </header>

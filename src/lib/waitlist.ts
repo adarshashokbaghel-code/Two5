@@ -32,6 +32,10 @@ export function validateWaitlist(input: WaitlistPayload) {
     return { ok: false as const, error: "Enter a valid age." };
   }
 
+  if (age < 13) {
+    return { ok: false as const, error: "You must be at least 13 to join Two5." };
+  }
+
   return {
     ok: true as const,
     data: {

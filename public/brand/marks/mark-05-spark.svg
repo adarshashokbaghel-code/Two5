@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Two5 spark mark">
+  <rect width="512" height="512" fill="#000000"/>
+  <!-- single fused 2/5 slash as four flat bands -->
+  <path fill="#f0c020" d="M150 96 H360 L330 156 H180 Z"/>
+  <path fill="#22C55E" d="M180 156 H330 L300 228 H150 Z"/>
+  <path fill="#1060f8" d="M150 228 H300 L340 316 H190 Z"/>
+  <path fill="#d82010" d="M190 316 H340 L300 416 H140 Z"/>
+</svg>

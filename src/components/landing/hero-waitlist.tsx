@@ -276,7 +276,7 @@ export function HeroWaitlist({
                 Create your account
               </h2>
               <p className={cn("mt-1.5 text-sm leading-snug", t.body)}>
-                Join the waitlist for Numbers, Logic, and the first Versus rounds.
+                Join the waitlist for Numbers, Logic, and the next expansions.
               </p>
             </>
           ) : (
@@ -346,6 +346,18 @@ export function HeroWaitlist({
           >
             {busy === "send" ? "Sending…" : "Continue"}
           </button>
+
+          <p className={cn("mt-3 text-center text-[11px] leading-5", t.body)}>
+            By continuing you agree to our{" "}
+            <a href="/terms" className="underline-offset-2 hover:underline">
+              Terms
+            </a>{" "}
+            and{" "}
+            <a href="/privacy" className="underline-offset-2 hover:underline">
+              Privacy Policy
+            </a>
+            .
+          </p>
 
           {message ? (
             <p id={errorId} role="alert" className="mt-3 text-sm text-ember">

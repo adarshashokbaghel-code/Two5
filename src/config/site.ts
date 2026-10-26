@@ -5,12 +5,12 @@ export const siteConfig = {
   tagline: "Play a sharper game.",
   headline: "Think fast. Know more. Compete.",
   description:
-    "Numbers, logic, and computer science, turned into short rounds you can play. Beat a score. Send one to a friend.",
+    "Two5 — the first four categories: Numbers and Logic (MVP), plus Computer Science and Memory & Visual next. Short scored rounds you can play and improve.",
   url: "https://two5.in",
   nav: [
-    { label: "Play", href: "#experience", index: "01" },
-    { label: "What", href: "#challenges", index: "02" },
-    { label: "Learn", href: "/research", index: "03" },
+    { label: "Play", href: "#how", index: "01" },
+    { label: "Arenas", href: "#challenges", index: "02" },
+    { label: "Research", href: "/research", index: "03" },
     { label: "FAQ", href: "#faq", index: "04" },
   ] satisfies NavItem[],
 };

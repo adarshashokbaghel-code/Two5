@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -28,60 +28,90 @@ type Stop = {
 const STOPS: Stop[] = [
   {
     index: "01",
-    game: "Choose an arena",
-    status: "Start here",
+    game: "Choose your arena",
+    status: "Find your game",
     tone: "green",
-    title: "Pick what you want to test.",
-    body: "Start with Mathematics, Computer Science, or Knowledge & Reasoning. Each arena is built around questions that test how you think—not long lessons or endless scrolling.",
+    title: "Pick a brain game arena.",
+    body: "Explore four arenas: Numbers, Logic, Computer Science, and Memory & Visual. Each contains its own games, from fast calculations and number patterns to logic puzzles, code challenges, and memory tests. Pick what interests you and jump straight in.",
     screen: "arena",
   },
   {
     index: "02",
-    game: "Take the challenge",
-    status: "Play",
+    game: "Choose your mode",
+    status: "Take the challenge",
     tone: "volt",
-    title: "Think it through. Lock in your answer.",
-    body: "Solve a short, carefully chosen question. Work through a number pattern, reason through a problem, or test your CS knowledge. Every challenge gives you something specific to figure out.",
+    title: "Solo, bot, or a friend.",
+    body: "Every game starts with a clear goal and simple rules. Play on your own, sharpen your skills against a bot, or send a challenge to a friend. Whether you're solving a sequence or tracing a piece of code, the aim is simple: figure it out and get the best score you can.",
     screen: "play",
   },
   {
     index: "03",
-    game: "See how you did",
-    status: "Review",
+    game: "Make your move",
+    status: "Choose your strategy",
     tone: "ember",
-    title: "Get the answer. Know your score.",
-    body: "Review the correct answer and the reasoning behind it. Build your score, track personal bests, and—where ratings are available—see your progress in each subject.",
+    title: "Win with strategy.",
+    body: "Build a streak with Build or Break. Commit to your confidence with Lock In. In Risk & Reward, decide whether to bank your points or risk them for more. Some games bring special twists or comeback opportunities, giving you new ways to approach the same kind of challenge.",
     screen: "result",
   },
   {
     index: "04",
-    game: "Track your standing",
-    status: "More to come",
+    game: "Track your progress",
+    status: "Challenge again",
     tone: "green",
-    title: "Improve your best. Compare your skill.",
-    body: "Use your results to keep improving and compare your performance on subject leaderboards as those features roll out. Daily challenges and friend-versus-friend rounds are planned next.",
+    title: "Beat your best. Share it.",
+    body: "Review your answers, understand your score, and track your personal bests across games. Take on daily challenges, share a Same Battle so someone else can play under the same conditions, and compare results. As Two5 grows, ratings, leaderboards, live duels, and more competitive formats will give you even more ways to play.",
     screen: "rank",
   },
 ];
+
+function StopBody({ body, flip, tone }: { body: string; flip: boolean; tone: Tone }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className={cn("mt-2 max-w-md sm:mt-4", flip && "ml-auto")}>
+      <p
+        className={cn(
+          "text-[12px] leading-6 text-paper/75 sm:text-base sm:leading-7",
+          !open && "line-clamp-2 sm:line-clamp-3",
+        )}
+      >
+        {body}
+      </p>
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        className={cn(
+          "mt-1.5 text-[11px] font-semibold tracking-wide uppercase transition-opacity hover:opacity-80 sm:mt-2 sm:text-xs",
+          TONE[tone].text,
+          flip && "ml-auto block",
+        )}
+      >
+        {open ? "View less" : "View more"}
+      </button>
+    </div>
+  );
+}
 
 function PhoneScreen({ screen }: { screen: Screen }) {
   if (screen === "arena") {
     return (
       <>
-        <p className="font-display text-[9px] tracking-[0.16em] text-paper/45 uppercase">Choose an arena</p>
-        <p className="mt-1 text-[11px] text-paper/70">What are you in the mood for?</p>
-        <div className="mt-4 space-y-2">
-          <div className="flex items-center justify-between rounded-lg border border-signal/50 bg-signal/10 px-3 py-2.5">
-            <span className="text-xs font-semibold">Mathematics</span><span className="text-signal">↗</span>
+        <p className="font-display text-[9px] tracking-[0.16em] text-paper/45 uppercase">Choose your arena</p>
+        <p className="mt-1 text-[11px] text-paper/70">Find your game</p>
+        <div className="mt-4 space-y-1.5">
+          <div className="flex items-center justify-between rounded-lg border border-green-500/50 bg-green-500/10 px-3 py-2">
+            <span className="text-xs font-semibold">Numbers</span><span className="text-green-400">↗</span>
           </div>
-          <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2.5">
+          <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
+            <span className="text-xs font-semibold">Logic</span><span className="text-paper/35">→</span>
+          </div>
+          <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
             <span className="text-xs font-semibold">Computer Science</span><span className="text-paper/35">→</span>
           </div>
-          <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2.5">
-            <span className="text-xs font-semibold">Knowledge & Reasoning</span><span className="text-paper/35">→</span>
+          <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
+            <span className="text-xs font-semibold">Memory & Visual</span><span className="text-paper/35">→</span>
           </div>
         </div>
-        <p className="mt-auto pt-3 font-mono text-[9px] tracking-[0.12em] text-paper/40 uppercase">Pick a subject. Start thinking.</p>
       </>
     );
   }
@@ -89,18 +119,21 @@ function PhoneScreen({ screen }: { screen: Screen }) {
   if (screen === "play") {
     return (
       <>
-        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Mathematics · Challenge 04</p>
-        <p className="mt-1 text-[11px] text-paper/70">Find the next number</p>
-        <p className="mt-3 flex items-end justify-between font-display text-[1.35rem] leading-none lg:mt-4 lg:text-[2.75rem]">
-          {["2", "6", "12", "20"].map((term) => <span key={term}>{term}</span>)}
-          <span className="text-signal">?</span>
-        </p>
-        <div className="mt-4 h-1 overflow-hidden rounded-full bg-white/10"><div className="h-full w-2/3 rounded-full bg-signal" /></div>
-        <div className="mt-auto grid grid-cols-2 gap-1.5 pt-4">
-          <span className="flex h-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold">28</span>
-          <span className="flex h-8 items-center justify-center rounded-lg bg-signal text-xs font-semibold text-ink">30</span>
-          <span className="flex h-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold">32</span>
-          <span className="flex h-8 items-center justify-center rounded-lg bg-white/10 text-xs font-semibold">42</span>
+        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Choose your mode</p>
+        <p className="mt-1 text-[11px] text-paper/70">Numbers · Number Sprint</p>
+        <div className="mt-4 space-y-2">
+          <div className="rounded-lg border border-volt/50 bg-volt/10 px-3 py-2.5">
+            <p className="text-xs font-semibold">Solo</p>
+            <p className="mt-0.5 text-[9px] text-paper/50">Play on your own</p>
+          </div>
+          <div className="rounded-lg bg-white/5 px-3 py-2.5">
+            <p className="text-xs font-semibold">Vs Bot</p>
+            <p className="mt-0.5 text-[9px] text-paper/50">Sharpen your skills</p>
+          </div>
+          <div className="rounded-lg bg-white/5 px-3 py-2.5">
+            <p className="text-xs font-semibold">Challenge a friend</p>
+            <p className="mt-0.5 text-[9px] text-paper/50">Send a Same Battle</p>
+          </div>
         </div>
       </>
     );
@@ -109,17 +142,21 @@ function PhoneScreen({ screen }: { screen: Screen }) {
   if (screen === "result") {
     return (
       <>
-        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Challenge complete</p>
-        <div className="mt-4 rounded-xl border border-ember/30 bg-ember/10 p-3">
-          <p className="font-mono text-[9px] tracking-[0.14em] text-paper/45 uppercase">Your result</p>
-          <p className="mt-1 font-display text-4xl leading-none text-ember">+12</p>
-          <p className="mt-2 text-[11px] font-semibold">Correct answer: 30</p>
-        </div>
-        <p className="mt-3 text-[11px] font-semibold">Why?</p>
-        <p className="mt-1 text-[10px] leading-4 text-paper/65">The differences increase by 2: +4, +6, +8, then +10.</p>
-        <div className="mt-auto flex items-center justify-between pt-3">
-          <span className="font-mono text-[9px] tracking-[0.1em] text-paper/40 uppercase">Personal best</span>
-          <span className="font-display text-xl text-signal">84</span>
+        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Make your move</p>
+        <p className="mt-1 text-[11px] text-paper/70">Choose your strategy</p>
+        <div className="mt-4 space-y-2">
+          <div className="rounded-lg border border-ember/40 bg-ember/10 px-3 py-2">
+            <p className="text-xs font-semibold text-ember">Risk & Reward</p>
+            <p className="mt-0.5 text-[9px] text-paper/55">Bank points — or risk them</p>
+          </div>
+          <div className="rounded-lg bg-white/5 px-3 py-2">
+            <p className="text-xs font-semibold">Lock In</p>
+            <p className="mt-0.5 text-[9px] text-paper/50">Commit to your confidence</p>
+          </div>
+          <div className="rounded-lg bg-white/5 px-3 py-2">
+            <p className="text-xs font-semibold">Build or Break</p>
+            <p className="mt-0.5 text-[9px] text-paper/50">Keep the streak alive</p>
+          </div>
         </div>
       </>
     );
@@ -128,16 +165,25 @@ function PhoneScreen({ screen }: { screen: Screen }) {
   return (
     <>
       <p className="font-mono text-[9px] tracking-[0.16em] text-paper/45 uppercase">Your progress</p>
-      <p className="mt-1 text-[11px] text-paper/70">Mathematics · Rating</p>
+      <p className="mt-1 text-[11px] text-paper/70">Numbers · Personal best</p>
       <div className="mt-4 flex items-end justify-between">
-        <div><p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">Current score</p><p className="mt-1 font-display text-4xl leading-none text-signal">840</p></div>
+        <div>
+          <p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">Best score</p>
+          <p className="mt-1 font-display text-4xl leading-none text-signal">840</p>
+        </div>
         <span className="rounded-full bg-green-500/15 px-2 py-1 text-[9px] font-semibold text-green-400">+8%</span>
       </div>
-      <div className="mt-4 space-y-3">
-        <div><div className="mb-1 flex justify-between text-[10px]"><span>Mathematics</span><span className="text-paper/45">840</span></div><div className="h-1 rounded-full bg-white/10"><div className="h-full w-4/5 rounded-full bg-signal" /></div></div>
-        <div><div className="mb-1 flex justify-between text-[10px]"><span>Computer Science</span><span className="text-paper/45">Coming soon</span></div><div className="h-1 rounded-full bg-white/10"><div className="h-full w-1/3 rounded-full bg-volt" /></div></div>
+      <div className="mt-4 space-y-2">
+        <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
+          <span className="text-[10px]">Daily challenge</span>
+          <span className="text-[9px] text-paper/40">Today</span>
+        </div>
+        <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
+          <span className="text-[10px]">Same Battle</span>
+          <span className="text-[9px] text-signal">Share</span>
+        </div>
       </div>
-      <p className="mt-auto pt-4 font-mono text-[9px] tracking-[0.1em] text-paper/40 uppercase">Keep playing. Keep improving.</p>
+      <p className="mt-auto pt-3 font-mono text-[9px] tracking-[0.1em] text-paper/40 uppercase">Challenge again</p>
     </>
   );
 }
@@ -317,12 +363,12 @@ export function HowItWorks() {
   return (
     <section id="how" aria-labelledby="how-title" className="relative overflow-hidden bg-black text-paper">
       <div className="mx-auto w-full max-w-[1500px] px-4 py-12 pb-24 sm:px-8 lg:px-14 lg:py-28 lg:pb-40">
-        <header className="mx-auto max-w-3xl text-center">
-          <p className="mb-4 font-mono text-xs tracking-[0.2em]  text-blue-500 uppercase">How Two5 works</p>
-          <h2 id="how-title" className="font-display text-[clamp(2.6rem,12vw,6.5rem)] leading-[0.9] font-normal tracking-[0.03em]">
-            Pick a <span className="text-green-500">challenge.</span>  Make your <span className="text-red-500">move.</span> 
+        <header className="mx-auto max-w-4xl text-center">
+          <p className="mb-4 font-mono text-xs tracking-[0.2em] text-blue-500 uppercase">How Two5 works</p>
+          <h2 id="how-title" className="font-display text-[clamp(2.4rem,10vw,5.5rem)] leading-[0.92] font-normal tracking-[0.03em]">
+            Pick a <span className="text-green-500">game.</span> Play{" "}
+            <span className="text-red-500">smarter.</span>
           </h2>
-        
         </header>
 
         <ol ref={listRef} className="relative mt-10 lg:mt-24">
@@ -384,22 +430,19 @@ export function HowItWorks() {
                   <p className={cn("font-display text-3xl leading-none sm:text-6xl lg:text-7xl", TONE[stop.tone].text )}>
                     {stop.index}
                   </p>
-                  <p className={cn("mt-1.5 font-mono text-[8px] tracking-[0.16em] uppercase sm:mt-3", TONE[stop.tone].text)}>
-                    {stop.game}
-                    <span className="text-paper/25"> · </span>
-                    {stop.status}
-                  </p>
-                  <h3 className="mt-1.5 font-display text-[1.6rem] leading-[0.88] font-normal tracking-[0.03em] sm:mt-3 sm:text-5xl lg:text-6xl">
+                  <h3 className="mt-1.5 line-clamp-2 font-display text-[1.6rem] leading-[0.88] font-normal tracking-[0.03em] sm:mt-3 sm:line-clamp-none sm:text-5xl lg:text-6xl">
                     {stop.title}
                   </h3>
-                  <p className={cn("mt-2 max-w-md text-[12px] leading-6 text-paper/75 sm:mt-4 sm:text-base sm:leading-7", flip && "ml-auto")}>
-                    {stop.body}
-                  </p>
+                  <StopBody body={stop.body} flip={flip} tone={stop.tone} />
                 </div>
               </li>
             );
           })}
         </ol>
+
+        <p className="mx-auto mt-16 max-w-2xl text-center font-display text-2xl leading-snug tracking-[0.03em] text-paper/70 sm:mt-24 sm:text-4xl">
+          Your game. <span className="text-red-500"> Your strategy. </span> Your next challenge.
+        </p>
       </div>
     </section>
   );
