@@ -6,6 +6,12 @@ const nextConfig: NextConfig = {
   },
   cacheComponents: true,
   partialPrefetching: true,
+  async redirects() {
+    return [
+      { source: "/research/daily", destination: "/research/memory-visual", permanent: true },
+      { source: "/research/versus", destination: "/research/numbers", permanent: true },
+    ];
+  },
 };
 
 export default nextConfig;

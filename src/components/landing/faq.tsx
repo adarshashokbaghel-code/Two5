@@ -11,7 +11,7 @@ const questions = [
   {
     index: "01",
     q: "What is Two5?",
-    a: "Two5 is a game of short challenges. Start with Numbers and Logic, get a score, and try to beat it. More rounds show up as we open them.",
+    a: "Two5 is a game of short challenges across four categories. Numbers and Logic are MVP — play them first, get a score, and try to beat it. Computer Science and Memory & Visual are planned as the next expansion.",
   },
   {
     index: "02",
@@ -21,7 +21,7 @@ const questions = [
   {
     index: "03",
     q: "What kinds of challenges will be available?",
-    a: "Numbers and Logic are the initial focus. Expect number sequences, mathematical reasoning, patterns, deduction and problem-solving challenges. Computer Science, including Data Structures and Algorithms (DSA), is planned as a future expansion.",
+    a: "Numbers (Number Sprint, Sequence Hunt, Target Number) and Logic (Pattern Breaker, Hidden Rule, Logic Grid) ship first. Computer Science (Binary Blitz, Code Trace, Bug Hunt) and Memory & Visual (Flash Recall, Grid Memory, Visual Sequence) are the next expansion.",
   },
   {
     index: "04",
@@ -36,7 +36,7 @@ const questions = [
   {
     index: "06",
     q: "Will Two5 have daily challenges and leaderboards?",
-    a: "A daily problem and a board of scores are on the list. We'll say when they're open to play.",
+    a: "Leaderboards and more social play are on the list. The first four categories — two live in MVP — are the focus right now.",
   },
   {
     index: "07",

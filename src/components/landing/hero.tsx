@@ -3,7 +3,6 @@
 
 import Link from "next/link";
 import { ArrowDownRight, ArrowRight } from "lucide-react";
-import { WaitlistModal } from "@/components/landing/waitlist-modal";
 import { HeroPhone } from "@/components/landing/hero-phone";
 
 export function Hero() {
@@ -80,7 +79,7 @@ export function Hero() {
             <button
               type="button"
               data-waitlist-trigger
-              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-green-500 px-7 text-sm font-semibold text-black transition-colors hover:bg-green-400"
+              className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-green-500 px-7 text-[13px] font-semibold tracking-[-0.01em] text-black transition-colors hover:bg-green-400"
             >
               Join the Waitlist
               <ArrowRight
@@ -89,10 +88,9 @@ export function Hero() {
               />
             </button>
 
-
             <Link
-              href="#how-it-works"
-              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/15 px-7 text-sm font-medium text-white/75 transition-colors hover:border-white/30 hover:text-white"
+              href="#how"
+              className="inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-white/15 px-7 text-[13px] font-medium tracking-[-0.01em] text-white/75 transition-colors hover:border-white/30 hover:text-white"
             >
               Explore TWO5
               <ArrowDownRight size={16} />
@@ -149,7 +147,7 @@ export function Hero() {
           </p>
 
           <p className="font-mono text-[10px] tracking-[0.16em] text-white/35 uppercase">
-            Numbers · Logic · Computer Science
+            Numbers · Logic · CS · Memory & Visual
           </p>
         </div>
       </div>

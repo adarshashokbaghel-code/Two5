@@ -3,19 +3,30 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
+import { ArrowRight, X } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
-import { ArrowBigRight, ArrowRight } from "lucide-react";
 
-const chapters = siteConfig.nav;
-const sectionIds = chapters.map((item) => item.href.split("#").pop() ?? item.href);
+const chapters = [
+  { ...siteConfig.nav[0], hint: "How it works", accent: "#22c55e" },
+  { ...siteConfig.nav[1], hint: "The first four", accent: "#f0c020" },
+  { ...siteConfig.nav[2], hint: "Research notes", accent: "#1060f8" },
+  { ...siteConfig.nav[3], hint: "Quick answers", accent: "#d82010" },
+] as const;
+
+const sectionIds = chapters
+  .filter((item) => item.href.startsWith("#"))
+  .map((item) => item.href.slice(1));
 
 function siteHref(href: string, pathname: string) {
   if (!href.startsWith("#")) return href;
+  // Waitlist opens a modal on every page — keep it as a local hash.
+  if (href === "#waitlist") return href;
   return pathname === "/" ? href : `/${href}`;
 }
+
 const bearings = [-36, 18, 128, 214];
 
 export function DockNav() {
@@ -90,77 +101,146 @@ export function DockNav() {
   }, [open]);
 
   return (
-    <header className="dock-enter pointer-events-none fixed inset-x-0 xl:inset-x-300 xl:right-0 bottom-0 z-50 flex justify-center px-4 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+    <header className="dock-enter pointer-events-none fixed inset-x-0 bottom-0 z-50 flex justify-center px-3 pb-[max(0.65rem,env(safe-area-inset-bottom))] sm:px-4">
       <div
         className={cn(
-          "pointer-events-auto w-fit max-w-[calc(100vw-2rem)] overflow-hidden border border-white/10 bg-ink/80 text-paper shadow-[0_12px_32px_-16px_rgba(0,0,0,0.7)] backdrop-blur-xl",
-          open ? "rounded-2xl" : "rounded-full",
+          "pointer-events-auto relative w-fit max-w-[calc(100vw-1.5rem)] overflow-hidden rounded-2xl bg-ink text-paper shadow-[0_16px_40px_-12px_rgba(0,0,0,0.75)] ring-1 ring-white/10 transition-[width,background-color] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          open && "w-full max-w-[20rem] bg-[#0c0c0b]",
         )}
       >
-        {open ? (
-          <div
-            id={menuId}
-            className="border-b border-white/10 px-5 py-2"
-            role="dialog"
-            aria-modal="true"
-            aria-label="Chapters"
-          >
-            <nav aria-label="Chapters">
-              <ol>
-                {chapters.map((item, index) => {
-                  const isCurrent = currentIndex === index;
+        {/* Smooth height expand — no circle morph */}
+        <div
+          id={menuId}
+          className={cn(
+            "grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            open ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
+          )}
+          role={open ? "dialog" : undefined}
+          aria-modal={open ? true : undefined}
+          aria-label={open ? "Jump around" : undefined}
+          aria-hidden={!open}
+        >
+          <div className="overflow-hidden">
+            <div
+              className={cn(
+                "px-3 pt-3 pb-1 transition-opacity duration-200",
+                open ? "opacity-100 delay-75" : "opacity-0",
+              )}
+            >
+              <div className="mb-1.5 flex items-center justify-between px-1">
+                <p className="font-display text-lg leading-none tracking-[0.06em] text-paper">
+                  TWO5
+                </p>
+                <p className="font-sans text-[10px] tracking-[0.08em] text-paper/45 uppercase">
+                  Menu
+                </p>
+              </div>
 
-                  return (
-                    <li key={item.href}>
-                      <Link
-                        href={siteHref(item.href, pathname)}
-                        onClick={() => setOpen(false)}
-                        className={cn(
-                          "flex items-baseline justify-center gap-2.5 rounded-lg px-3 py-2 text-[0.95rem] tracking-tight",
-                          isCurrent ? "bg-white/10" : "hover:bg-white/6",
-                        )}
-                        aria-current={isCurrent ? "location" : undefined}
-                      >
-                        <span
+              <nav aria-label="Chapters">
+                <ul className="grid gap-0.5">
+                  {chapters.map((item, index) => {
+                    const isCurrent = currentIndex === index;
+
+                    return (
+                      <li key={item.href}>
+                        <Link
+                          href={siteHref(item.href, pathname)}
+                          tabIndex={open ? undefined : -1}
+                          onClick={() => setOpen(false)}
                           className={cn(
-                            "font-mono text-[13px]",
-                            isCurrent ? "text-signal" : "text-paper/40",
+                            "group relative flex w-full items-center gap-3 rounded-lg px-2.5 py-2 transition-colors",
+                            isCurrent ? "bg-white/10" : "hover:bg-white/[0.06]",
                           )}
+                          aria-current={isCurrent ? "location" : undefined}
                         >
-                          {item.index}
-                        </span>
-                        <span>{item.label}</span>
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ol>
-            </nav>
-          </div>
-        ) : null}
+                          <span
+                            className={cn(
+                              "w-6 shrink-0 font-display text-xl leading-none tracking-[0.04em]",
+                              isCurrent ? "text-signal" : "text-paper/35",
+                            )}
+                          >
+                            {item.index}
+                          </span>
 
-        <nav aria-label="Primary" className="flex items-center gap-2 px-5 py-3">
+                          <span className="min-w-0 flex-1 text-left">
+                            <span
+                              className={cn(
+                                "block font-display text-[1.45rem] leading-none tracking-[0.03em]",
+                                isCurrent ? "text-paper" : "text-paper/65",
+                              )}
+                            >
+                              {item.label}
+                            </span>
+                            <span
+                              className={cn(
+                                "mt-0.5 block font-sans text-[10px]",
+                                isCurrent ? "text-paper/50" : "text-paper/30",
+                              )}
+                            >
+                              {item.hint}
+                            </span>
+                          </span>
+
+                          <ArrowRight
+                            size={14}
+                            className={cn(
+                              "shrink-0 transition-opacity",
+                              isCurrent ? "text-signal opacity-70" : "opacity-0",
+                            )}
+                          />
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </nav>
+
+              <div className="mx-1 mt-2 h-px bg-white/10" />
+            </div>
+          </div>
+        </div>
+
+        <nav
+          aria-label="Primary"
+          className={cn(
+            "relative flex items-center gap-2 px-2 py-2",
+            open && "w-full",
+          )}
+        >
           <Link
             href={siteHref("#waitlist", pathname)}
             onClick={() => {
               setOpen(false);
               track("waitlist_cta_click", { source: "dock" });
             }}
-            className="flex h-10 items-center text-display justify-center rounded-full bg-green-500 px-4 text-md font-medium tracking-[-0.01em] text-ink transition-transform active:translate-y-px sm:h-11 sm:px-5"
+            className={cn(
+              "group inline-flex h-10 items-center justify-center gap-1.5 rounded-full bg-green-500 px-4 font-display text-[1.05rem] leading-none tracking-[0.04em] text-black transition-[transform,background-color] hover:bg-green-400 active:translate-y-px sm:h-11 sm:px-5 sm:text-[1.15rem]",
+              open && "flex-1",
+            )}
           >
-            <span className="sm:hidden">Join Now</span> 
-            <span className="hidden sm:inline font-display">Join the waitlist</span>
+            Join the waitlist
+            <ArrowRight
+              size={14}
+              className="transition-transform group-hover:translate-x-0.5"
+            />
           </Link>
 
           <button
             type="button"
-            className="grid size-10 shrink-0 place-items-center rounded-full border border-white/10 bg-white/8 text-paper sm:size-11"
+            className={cn(
+              "relative grid size-10 shrink-0 place-items-center rounded-full bg-white/10 text-paper transition-colors hover:bg-white/15 sm:size-11",
+              open && "bg-white/15",
+            )}
             aria-expanded={open}
             aria-controls={menuId}
-            aria-label={open ? "Close chapters" : "Open chapters. Compass follows the page."}
+            aria-label={open ? "Close menu" : "Open menu"}
             onClick={() => setOpen((value) => !value)}
           >
-            <CompassMark heading={heading} />
+            {open ? (
+              <X size={17} strokeWidth={2.25} />
+            ) : (
+              <CompassMark heading={heading} />
+            )}
           </button>
         </nav>
       </div>
@@ -180,7 +260,7 @@ function CompassMark({ heading }: { heading: number }) {
   return (
     <svg
       viewBox="0 0 32 32"
-      className="compass-spin h-5 w-5 sm:h-[1.35rem] sm:w-[1.35rem]"
+      className="compass-spin h-[1.15rem] w-[1.15rem]"
       style={{ transform: `rotate(${heading}deg)` }}
       aria-hidden="true"
     >

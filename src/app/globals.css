@@ -11,9 +11,9 @@
   --color-volt: #1060f8;
   --color-mist: #8a8a8a;
   --color-line: rgba(245, 242, 234, 0.12);
-  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
+  --font-sans: var(--font-dm-sans), "DM Sans", ui-sans-serif, sans-serif;
   --font-display: var(--font-bebas), "Bebas Neue", sans-serif;
-  --font-mono: var(--font-geist-mono);
+  --font-mono: var(--font-dm-sans), "DM Sans", ui-sans-serif, sans-serif;
 }
 
 html {
@@ -1356,6 +1356,52 @@ body {
   }
 }
 
+@keyframes arena-drift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(var(--arena-rot, -12deg));
+  }
+  50% {
+    transform: translate3d(0, -10px, 0) rotate(var(--arena-rot, -12deg));
+  }
+}
+
+@keyframes arena-pop {
+  0%,
+  100% {
+    transform: rotate(-6deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-6deg) translateY(-4px);
+  }
+}
+
+@keyframes arena-rise-cover {
+  0% {
+    transform: translate3d(0, 100%, 0) scale(var(--rise-scale, 1.05));
+    opacity: 0;
+  }
+  10% {
+    opacity: var(--rise-o, 0.5);
+  }
+  90% {
+    opacity: var(--rise-o, 0.5);
+  }
+  100% {
+    transform: translate3d(0, -100%, 0) scale(var(--rise-scale, 1.05));
+    opacity: 0;
+  }
+}
+
+.arena-rise-cover {
+  position: absolute;
+  inset: 0;
+  height: 125%;
+  animation: arena-rise-cover var(--rise-dur, 20s) linear infinite;
+  animation-delay: var(--rise-delay, 0s);
+  will-change: transform, opacity;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .reveal,
   .reveal-fade {
@@ -1368,7 +1414,8 @@ body {
   .cut-flash,
   .arena-band p::after,
   .arena-drag-cursor,
-  .arena-swap {
+  .arena-swap,
+  .arena-rise-cover {
     animation: none;
   }
 

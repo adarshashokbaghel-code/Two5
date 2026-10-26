@@ -20,9 +20,9 @@ const SEQUENCE = ["2", "6", "12", "20"] as const;
 
 const BOARD = [
   { place: "01", name: "You", score: "128", you: true },
-  { place: "02", name: "Seat 2", score: "121", you: false },
-  { place: "03", name: "Seat 3", score: "114", you: false },
-  { place: "04", name: "Seat 4", score: "109", you: false },
+  { place: "02", name: "Maya K.", score: "121", you: false },
+  { place: "03", name: "Ravi S.", score: "114", you: false },
+  { place: "04", name: "Elena V.", score: "109", you: false },
 ] as const;
 
 const ORDERS = [
@@ -34,49 +34,68 @@ const ORDERS = [
 const COMMONS = [
   {
     src: "/art/numbers-25-green.jpg",
-    alt: "A green geometric 25, the Numbers arena",
+    alt: "Numbers arena",
     index: "01",
-    play: "Sequences",
-    mark: "Fluency",
+    play: "Numbers",
+    mark: "Live",
+    markTone: "live" as const,
   },
   {
     src: "/art/offer-logic.jpg",
-    alt: "A connected node, the Logic arena",
+    alt: "Logic arena",
     index: "02",
-    play: "Deduce",
-    mark: "Care",
+    play: "Logic",
+    mark: "Live",
+    markTone: "live" as const,
   },
   {
     src: "/art/offer-cs.jpg",
-    alt: "A blue glass tree, the Computer Science arena",
+    alt: "Computer Science arena",
     index: "03",
-    play: "Algorithms",
-    mark: "Steps",
+    play: "CS",
+    mark: "Soon",
+    markTone: "soon" as const,
   },
   {
     src: "/art/offer-daily-line.jpg",
-    alt: "A yellow line and a black line, the Daily arena",
+    alt: "Memory and Visual arena",
     index: "04",
-    play: "Daily",
-    mark: "Return",
+    play: "Memory",
+    mark: "Soon",
+    markTone: "soon" as const,
   },
 ] as const;
 
+export type PhoneLineupItem = {
+  title: string;
+  tag: string;
+  accent: string;
+  live: boolean;
+  thumb: string;
+};
+
 type HeroPhoneProps = {
   className?: string;
-  size?: "default" | "hero";
+  size?: "default" | "hero" | "arena" | "stage";
   background?: string;
   initialScreen?: 0 | 1 | 2 | 3;
   intervalMs?: number;
+  lineup?: PhoneLineupItem[];
+  lineupActive?: number;
+  onLineupPick?: (index: number) => void;
 };
 
 export function HeroPhone({
   className,
   size = "default",
-  background = "#101710",
+  background = "#0a0a0a",
   initialScreen = 0,
   intervalMs = DEFAULT_HOLD_MS,
+  lineup,
+  lineupActive = 0,
+  onLineupPick,
 }: HeroPhoneProps) {
+  const showLineup = lineup != null && lineup.length > 0;
   const [index, setIndex] = useState(0);
   const [motion, setMotion] = useState(true);
   const indexRef = useRef(0);
@@ -103,6 +122,15 @@ export function HeroPhone({
   } as CSSProperties;
 
   useEffect(() => {
+    if (showLineup) {
+      setMotion(false);
+      return;
+    }
+    if (intervalMs <= 0) {
+      setMotion(false);
+      return;
+    }
+
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
 
     if (media.matches) {
@@ -132,7 +160,7 @@ export function HeroPhone({
       window.cancelAnimationFrame(first);
       window.cancelAnimationFrame(second);
     };
-  }, [intervalMs]);
+  }, [intervalMs, showLineup]);
 
   useEffect(() => {
     if (index < COUNT) return;
@@ -159,64 +187,78 @@ export function HeroPhone({
   return (
     <div
       className={cn(
-        "w-full rounded-[2.5rem] bg-gradient-to-br from-[#343633] via-[#151614] to-[#070807] p-[3px] shadow-[16px_28px_40px_rgba(0,0,0,0.28)]",
+        "w-full rounded-[2.5rem] bg-gradient-to-br from-[#3a3936] via-[#161513] to-[#050505] p-[3px] shadow-[16px_28px_40px_rgba(0,0,0,0.28)]",
         className,
       )}
     >
-      <div className="w-full rounded-[2.05rem]  bg-[#080908] p-2">
+      <div className="w-full rounded-[2.05rem] bg-[#060606] p-2">
         <div
           data-phone-slide={activeScreen}
           data-phone-shell
           className={cn(
             "relative flex w-full flex-col overflow-hidden rounded-[1.9rem]",
-            size === "hero"
-              ? "h-[21.5rem] sm:h-[25rem] lg:h-[29.5rem]"
-              : "h-[29rem] sm:h-[33rem] lg:h-[34rem]",
+            size === "stage"
+              ? "h-[23rem] sm:h-[25rem] lg:h-[26rem]"
+              : size === "arena"
+                ? "h-[23rem] sm:h-[27rem] lg:h-[31rem]"
+                : size === "hero"
+                ? "h-[21.5rem] sm:h-[25rem] lg:h-[29.5rem]"
+                : "h-[29rem] sm:h-[33rem] lg:h-[34rem]",
           )}
           style={phoneStyle}
           aria-hidden="true"
         >
-          <span className="absolute top-2.5 left-1/2 z-20 h-1.5 w-16 -translate-x-1/2 rounded-full bg-white/15" />
+          <span className="absolute top-2.5 left-1/2 z-20 h-1.5 w-16 -translate-x-1/2 rounded-full bg-black/80" />
 
-          <div className="relative bg-gradient-to-r from-green-500 to-red-500 min-h-0 flex-1 overflow-hidden">
-            <div
-              className="absolute  inset-0 will-change-transform"
-              style={{
-                transform: `translate3d(0, -${index * 100}%, 0)`,
-                transition: motion
-                  ? `transform ${SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
-                  : "none",
-              }}
-              onTransitionEnd={onEnd}
-            >
-              {panels.map((Panel, panelIndex) => (
-                <div
-                  key={panelIndex}
-                  className="absolute inset-x-0 top-0 h-full"
-                  style={{
-                    transform: `translate3d(0, ${panelIndex * 100}%, 0)`,
-                  }}
-                >
-                  <Panel />
-                </div>
-              ))}
-            </div>
+          <div className="relative min-h-0 flex-1 overflow-hidden bg-[var(--phone-screen-bg,#0a0a0a)]">
+            {showLineup ? (
+              <LineupScreen
+                items={lineup}
+                active={lineupActive}
+                onPick={onLineupPick}
+              />
+            ) : (
+              <div
+                className="absolute inset-0 will-change-transform"
+                style={{
+                  transform: `translate3d(0, -${index * 100}%, 0)`,
+                  transition: motion
+                    ? `transform ${SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+                    : "none",
+                }}
+                onTransitionEnd={onEnd}
+              >
+                {panels.map((Panel, panelIndex) => (
+                  <div
+                    key={panelIndex}
+                    className="absolute inset-x-0 top-0 h-full"
+                    style={{
+                      transform: `translate3d(0, ${panelIndex * 100}%, 0)`,
+                    }}
+                  >
+                    <Panel />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
-          <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-20 flex justify-center">
-            <div className="flex items-center gap-1 rounded-full bg-[#080908]/80 px-2 py-1.5">
-              {Array.from({ length: COUNT }, (_, i) => (
-                <span
-                  key={i}
-                  className={cn(
-                    "h-1 rounded-full bg-white/35 transition-[width,background-color] duration-300",
-                    i === activeScreen && "w-3.5 bg-[#E9F078]",
-                    i !== activeScreen && "w-1",
-                  )}
-                />
-              ))}
+          {!showLineup ? (
+            <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-20 flex justify-center">
+              <div className="flex items-center gap-1 rounded-full bg-black/70 px-2 py-1.5 backdrop-blur-sm">
+                {Array.from({ length: COUNT }, (_, i) => (
+                  <span
+                    key={i}
+                    className={cn(
+                      "h-1 rounded-full bg-white/30 transition-[width,background-color] duration-300",
+                      i === activeScreen && "w-3.5 bg-[#E9F078]",
+                      i !== activeScreen && "w-1",
+                    )}
+                  />
+                ))}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </div>
     </div>
@@ -226,30 +268,27 @@ export function HeroPhone({
 function Screen({ children }: { children: ReactNode }) {
   return (
     <div
-      className="relative flex  blur-[5px] h-full flex-col overflow-hidden px-4 pt-8 pb-9 text-paper"
-      style={{ backgroundColor: "var(--phone-screen-bg, #101710)" }}
+      className="relative flex h-full flex-col overflow-hidden px-3.5 pt-8 pb-8 text-paper"
+      style={{ backgroundColor: "var(--phone-screen-bg, #0a0a0a)" }}
     >
-      <div className="relative flex min-h-0 flex-1 flex-col">
-        {children}
-      </div>
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(255,255,255,0.06),transparent_55%)]" />
+      <div className="relative flex min-h-0 flex-1 flex-col blur-[4px]">{children}</div>
     </div>
   );
 }
 
-function Bar({
-  time,
-  timeClass,
+function StatusRow({
+  right,
+  rightClass,
 }: {
-  time: string;
-  timeClass: string;
+  right: string;
+  rightClass: string;
 }) {
   return (
     <div className="flex items-center justify-between">
-      <span className="font-display text-2xl leading-none tracking-[0.06em]">
-        TWO5
-      </span>
-      <span className={cn("font-mono text-sm tracking-[0.08em]", timeClass)}>
-        {time}
+      <span className="font-display text-lg leading-none tracking-[0.08em]">TWO5</span>
+      <span className={cn("rounded-full px-2 py-0.5 font-mono text-[9px] tracking-[0.12em] uppercase", rightClass)}>
+        {right}
       </span>
     </div>
   );
@@ -258,55 +297,52 @@ function Bar({
 function NumbersScreen() {
   return (
     <Screen>
-      <Bar time="0:42" timeClass="text-signal" />
+      <StatusRow right="0:42" rightClass="bg-signal/15 text-signal" />
 
-      <div className="mt-6 flex items-start justify-between gap-3">
-        <div>
-          <p className="font-mono text-[10px] tracking-[0.18em] text-paper/45 uppercase">
-            Numbers · Round 04
-          </p>
-          <p className="mt-2 text-sm font-medium text-paper/70">
-            What comes next
-          </p>
-        </div>
-
-        <div className="relative size-12 shrink-0 overflow-hidden rounded-xl bg-black">
-          <Image
-            src="/art/numbers-25-green.jpg"
-            alt=""
-            fill
-            sizes="48px"
-            className="object-cover"
-          />
-        </div>
+      <div className="mt-5">
+        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/40 uppercase">
+          Numbers · Round 04
+        </p>
+        <p className="mt-1.5 text-[13px] font-medium text-paper/80">What comes next?</p>
       </div>
 
-      <p className="mt-5 flex items-end gap-3 font-display text-[2.75rem] leading-none tracking-[0.04em] whitespace-nowrap sm:text-6xl">
+      <div className="mt-5 flex items-end justify-between gap-1.5 font-display text-[2.1rem] leading-none tracking-[0.04em]">
         {SEQUENCE.map((term) => (
-          <span key={term}>{term}</span>
+          <span key={term} className="min-w-[1.6rem] text-center text-paper/90">
+            {term}
+          </span>
         ))}
-        <span className="text-signal">?</span>
-      </p>
+        <span className="flex min-w-[1.6rem] items-center justify-center rounded-md bg-signal/15 text-signal">
+          ?
+        </span>
+      </div>
 
-      <div className="mt-6 h-1 overflow-hidden rounded-full bg-white/10">
+      <div className="mt-4 h-0.5 overflow-hidden rounded-full bg-white/8">
         <div className="h-full w-2/3 rounded-full bg-signal" />
       </div>
 
-      <div className="mt-auto flex items-end justify-between">
-        <div>
-          <p className="font-mono text-[10px] tracking-[0.16em] text-paper/40 uppercase">
-            Score
-          </p>
-          <p className="mt-1 font-display text-4xl leading-none text-ember">
-            +3
-          </p>
-        </div>
+      <div className="mt-4 grid grid-cols-2 gap-1.5">
+        {["28", "30", "32", "42"].map((n, i) => (
+          <span
+            key={n}
+            className={cn(
+              "flex h-9 items-center justify-center rounded-lg text-sm font-semibold",
+              i === 1 ? "bg-signal text-ink" : "bg-white/[0.06] text-paper/80",
+            )}
+          >
+            {n}
+          </span>
+        ))}
+      </div>
 
+      <div className="mt-auto flex items-end justify-between border-t border-white/8 pt-3">
+        <div>
+          <p className="font-mono text-[8px] tracking-[0.14em] text-paper/35 uppercase">Score</p>
+          <p className="mt-0.5 font-display text-2xl leading-none text-ember">+3</p>
+        </div>
         <div className="text-right">
-          <p className="font-mono text-[10px] tracking-[0.16em] text-paper/40 uppercase">
-            Streak
-          </p>
-          <p className="mt-1 text-lg leading-none font-bold">4</p>
+          <p className="font-mono text-[8px] tracking-[0.14em] text-paper/35 uppercase">Streak</p>
+          <p className="mt-0.5 text-sm font-semibold">4</p>
         </div>
       </div>
     </Screen>
@@ -316,71 +352,43 @@ function NumbersScreen() {
 function BoardScreen() {
   return (
     <Screen>
-      <Bar time="Week" timeClass="text-signal" />
+      <StatusRow right="Live" rightClass="bg-green-500/15 text-green-400" />
 
-      <p className="mt-6 font-mono text-[10px] tracking-[0.18em] text-paper/45 uppercase">
-        Leaderboard
-      </p>
-      <p className="mt-2 text-sm font-medium text-paper/70">This week</p>
-
-      <div className="relative mt-3 h-14 overflow-hidden rounded-xl bg-[#efece4]">
-        <Image
-          src="/art/versus-challenge.png"
-          alt=""
-          fill
-          sizes="240px"
-          className="object-contain p-1.5"
-        />
+      <div className="mt-5">
+        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/40 uppercase">Leaderboard</p>
+        <p className="mt-1.5 text-[13px] font-medium text-paper/80">This week · Numbers</p>
       </div>
 
-      <ol className="mt-2.5 flex flex-col gap-1">
+      <ol className="mt-4 flex flex-1 flex-col gap-1">
         {BOARD.map((row) => (
           <li
             key={row.place}
             className={cn(
-              "flex items-center gap-2.5 rounded-lg px-2.5 py-1",
-              row.you ? "bg-signal text-ink" : "bg-white/5 text-paper",
+              "flex items-center gap-2 rounded-xl px-2.5 py-2",
+              row.you ? "bg-signal text-ink" : "bg-white/[0.04]",
             )}
           >
             <span
               className={cn(
-                "w-5 font-mono text-[10px] tracking-[0.08em]",
-                row.you ? "text-ink/60" : "text-paper/40",
+                "w-5 font-mono text-[10px] tabular-nums",
+                row.you ? "text-ink/55" : "text-paper/35",
               )}
             >
               {row.place}
             </span>
-
-            <span className="min-w-0 flex-1 truncate text-sm font-semibold">
-              {row.name}
+            <span
+              className={cn(
+                "flex size-6 items-center justify-center rounded-full text-[9px] font-bold",
+                row.you ? "bg-ink/15 text-ink" : "bg-white/10 text-paper/70",
+              )}
+            >
+              {row.name.charAt(0)}
             </span>
-
-            <span className="font-display text-2xl leading-none tracking-[0.04em]">
-              {row.score}
-            </span>
+            <span className="min-w-0 flex-1 truncate text-[12px] font-semibold">{row.name}</span>
+            <span className="font-display text-xl leading-none tracking-[0.02em]">{row.score}</span>
           </li>
         ))}
       </ol>
-
-      <div className="mt-auto flex items-end justify-between">
-        <div>
-          <p className="font-mono text-[10px] tracking-[0.16em] text-paper/40 uppercase">
-            Place
-          </p>
-          <p className="mt-1 font-display text-4xl leading-none text-signal">
-            01
-          </p>
-        </div>
-
-        <div className="text-right">
-          <p className="font-mono text-[10px] tracking-[0.16em] text-paper/40 uppercase">
-            Gain
-          </p>
-          <p className="mt-1 text-lg leading-none font-bold text-ember">
-            +7
-          </p>
-        </div>
-      </div>
     </Screen>
   );
 }
@@ -388,22 +396,22 @@ function BoardScreen() {
 function DsaScreen() {
   return (
     <Screen>
-      <Bar time="1:05" timeClass="text-volt" />
+      <StatusRow right="1:05" rightClass="bg-volt/15 text-volt" />
 
-      <p className="mt-5 font-mono text-[10px] tracking-[0.18em] text-paper/45 uppercase">
-        DSA · Round 02
-      </p>
-      <p className="mt-2 text-sm font-medium text-paper/70">
-        Left, node, right
-      </p>
+      <div className="mt-5">
+        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/40 uppercase">
+          Computer Science · Round 02
+        </p>
+        <p className="mt-1.5 text-[13px] font-medium text-paper/80">Left, node, right</p>
+      </div>
 
-      <div className="relative mt-3 h-28 overflow-hidden rounded-xl bg-black">
+      <div className="relative mt-4 h-20 overflow-hidden rounded-xl border border-white/8 bg-black/40">
         <Image
           src="/art/offer-cs.jpg"
           alt=""
           fill
           sizes="240px"
-          className="object-contain"
+          className="object-contain p-2 opacity-90"
         />
       </div>
 
@@ -412,30 +420,24 @@ function DsaScreen() {
           <div
             key={order.label}
             className={cn(
-              "flex h-8 items-center rounded-lg px-3 text-sm font-semibold",
-              order.on ? "bg-volt text-paper" : "bg-white/5 text-paper/75",
+              "flex h-8 items-center justify-between rounded-lg px-3 text-[12px] font-semibold",
+              order.on ? "bg-volt text-paper" : "bg-white/[0.05] text-paper/60",
             )}
           >
-            {order.label}
+            <span>{order.label}</span>
+            {order.on ? <span className="text-[9px] opacity-80">Selected</span> : null}
           </div>
         ))}
       </div>
 
-      <div className="mt-auto flex items-end justify-between">
+      <div className="mt-auto flex items-end justify-between border-t border-white/8 pt-3">
         <div>
-          <p className="font-mono text-[10px] tracking-[0.16em] text-paper/40 uppercase">
-            Score
-          </p>
-          <p className="mt-1 font-display text-4xl leading-none text-volt">
-            +5
-          </p>
+          <p className="font-mono text-[8px] tracking-[0.14em] text-paper/35 uppercase">Score</p>
+          <p className="mt-0.5 font-display text-2xl leading-none text-volt">+5</p>
         </div>
-
         <div className="text-right">
-          <p className="font-mono text-[10px] tracking-[0.16em] text-paper/40 uppercase">
-            Streak
-          </p>
-          <p className="mt-1 text-lg leading-none font-bold">2</p>
+          <p className="font-mono text-[8px] tracking-[0.14em] text-paper/35 uppercase">Streak</p>
+          <p className="mt-0.5 text-sm font-semibold">2</p>
         </div>
       </div>
     </Screen>
@@ -445,48 +447,170 @@ function DsaScreen() {
 function PaperScreen() {
   return (
     <Screen>
-      <Bar time="Learn" timeClass="text-volt" />
+      <StatusRow right="Arenas" rightClass="bg-white/8 text-paper/55" />
 
-      <p className="mt-5 font-mono text-[10px] tracking-[0.18em] text-paper/45 uppercase">
-        Research
-      </p>
-      <p className="mt-1 font-display text-3xl leading-none tracking-[0.04em]">
-        Commons
-      </p>
+      <div className="mt-5">
+        <p className="font-mono text-[9px] tracking-[0.16em] text-paper/40 uppercase">Explore</p>
+        <p className="mt-1 font-display text-2xl leading-none tracking-[0.03em]">Four ways to play</p>
+      </div>
 
-      <div className="mt-3 h-px w-10 bg-volt" />
-
-      <ul className="mt-3 flex min-h-0 flex-col border-t border-white/10">
+      <ul className="mt-4 flex min-h-0 flex-1 flex-col gap-1.5">
         {COMMONS.map((row) => (
           <li
             key={row.index}
-            className="flex items-center gap-3 border-b border-white/10 py-2"
+            className="flex items-center gap-2.5 rounded-xl bg-white/[0.04] px-2 py-2"
           >
-            <div className="relative size-10 shrink-0 overflow-hidden rounded-full bg-black">
-              <Image
-                src={row.src}
-                alt=""
-                fill
-                sizes="40px"
-                className="object-cover"
-              />
+            <div className="relative size-9 shrink-0 overflow-hidden rounded-lg bg-black">
+              <Image src={row.src} alt="" fill sizes="36px" className="object-cover" />
             </div>
-
             <div className="min-w-0 flex-1">
-              <p className="font-mono text-[10px] tracking-[0.14em] text-paper/40 uppercase">
+              <p className="truncate text-[12px] font-semibold leading-tight">{row.play}</p>
+              <p className="mt-0.5 font-mono text-[8px] tracking-[0.12em] text-paper/35 uppercase">
                 Arena {row.index}
               </p>
-              <p className="truncate font-display text-lg leading-none tracking-[0.02em]">
-                {row.play}
-              </p>
             </div>
-
-            <p className="font-mono text-[10px] tracking-[0.14em] text-volt uppercase">
+            <span
+              className={cn(
+                "rounded-full px-2 py-0.5 font-mono text-[8px] tracking-[0.1em] uppercase",
+                row.markTone === "live"
+                  ? "bg-green-500/15 text-green-400"
+                  : "bg-white/8 text-paper/40",
+              )}
+            >
               {row.mark}
-            </p>
+            </span>
           </li>
         ))}
       </ul>
     </Screen>
+  );
+}
+
+function LineupScreen({
+  items,
+  active,
+  onPick,
+}: {
+  items: PhoneLineupItem[];
+  active: number;
+  onPick?: (index: number) => void;
+}) {
+  const interactive = onPick != null;
+  const current = items[active] ?? items[0];
+
+  return (
+    <div
+      className="relative flex h-full flex-col overflow-hidden px-3 pt-8 pb-3.5 text-paper"
+      style={{ backgroundColor: "var(--phone-screen-bg, #0a0a0a)" }}
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 h-40 opacity-40 transition-[background] duration-500"
+        style={{
+          background: `radial-gradient(ellipse 90% 80% at 50% 0%, ${current?.accent ?? "#22c55e"}55, transparent 70%)`,
+        }}
+      />
+
+      <div className="relative flex items-center justify-between">
+        <span className="font-display text-lg leading-none tracking-[0.08em]">TWO5</span>
+        <span className="rounded-md bg-white/[0.05] px-2 py-0.5 font-mono text-[8px] tracking-[0.14em] text-paper/45 uppercase">
+          Lineup
+        </span>
+      </div>
+
+      <p className="relative mt-2.5 font-mono text-[8px] tracking-[0.16em] text-paper/35 uppercase">
+        Choose your arena
+      </p>
+
+      <ul className="relative mt-2 flex min-h-0 flex-1 flex-col gap-1 overflow-y-auto [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {items.map((item, index) => {
+          const on = index === active;
+          const Row = interactive ? "button" : "li";
+          return (
+            <Row
+              key={`${item.title}-${index}`}
+              type={interactive ? "button" : undefined}
+              onClick={interactive ? () => onPick(index) : undefined}
+              className={cn(
+                "relative flex w-full items-center gap-2 overflow-hidden rounded-md px-1.5 py-1.5 text-left transition-[background-color,opacity] duration-300 ease-out",
+                on ? "bg-white/[0.08] opacity-100" : "bg-transparent opacity-50",
+                interactive && !on && "hover:bg-white/[0.04] hover:opacity-80",
+              )}
+            >
+              {on ? (
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-y-1 left-0 w-[2px] rounded-full"
+                  style={{ backgroundColor: item.accent }}
+                />
+              ) : null}
+
+              <span
+                className={cn(
+                  "w-5 shrink-0 pl-1 font-mono text-[10px] tabular-nums tracking-[0.04em]",
+                  on ? "text-paper/90" : "text-paper/30",
+                )}
+                style={on ? { color: item.accent } : undefined}
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+
+              <span className="relative size-9 shrink-0 overflow-hidden rounded-md bg-black/60">
+                <Image src={item.thumb} alt="" fill sizes="36px" className="object-cover" />
+                {on ? (
+                  <span
+                    className="absolute inset-0 opacity-30 mix-blend-screen"
+                    style={{ backgroundColor: item.accent }}
+                  />
+                ) : null}
+              </span>
+
+              <span className="min-w-0 flex-1">
+                <span className="flex items-center gap-1.5">
+                  <span
+                    className={cn(
+                      "truncate text-[13px] font-semibold leading-tight",
+                      on ? "text-paper" : "text-paper/55",
+                    )}
+                  >
+                    {item.title}
+                  </span>
+                </span>
+                <span
+                  className={cn(
+                    "mt-0.5 block text-[9px] tracking-[0.08em] uppercase",
+                    on ? "text-paper/45" : "text-paper/25",
+                  )}
+                >
+                  {item.tag}
+                </span>
+              </span>
+
+              <span
+                className={cn(
+                  "shrink-0 rounded-full px-1.5 py-0.5 font-mono text-[8px] tracking-[0.1em] uppercase",
+                  item.live
+                    ? on
+                      ? "bg-green-500/20 text-green-400"
+                      : "bg-white/5 text-paper/35"
+                    : "bg-white/5 text-paper/30",
+                )}
+              >
+                {item.live ? "Live" : "Soon"}
+              </span>
+            </Row>
+          );
+        })}
+      </ul>
+
+      <div className="relative mt-2 flex items-center justify-between border-t border-white/8 pt-2.5">
+        <span className="font-mono text-[8px] tracking-[0.12em] text-paper/30 uppercase">
+          {String(active + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+        </span>
+        <span className="font-mono text-[8px] tracking-[0.12em] uppercase" style={{ color: current?.accent }}>
+          {current?.title}
+        </span>
+      </div>
+    </div>
   );
 }

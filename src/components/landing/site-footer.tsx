@@ -1,16 +1,18 @@
 import Link from "next/link";
 
 const links = [
-  { label: "Play", href: "/play" },
-  { label: "How it works", href: "/#how-it-works" },
+  { label: "Play", href: "/#how" },
+  { label: "Arenas", href: "/#challenges" },
+  { label: "How it works", href: "/#how" },
   { label: "FAQs", href: "/#faq" },
-  { label: "About", href: "/#about" },
-  { label: "Contact", href: "mailto:hello@two5.com" },
+  { label: "Research", href: "/research" },
+  { label: "Contact", href: "mailto:hello@two5.in" },
 ];
 
 const legalLinks = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
+  { label: "Cookies", href: "/cookies" },
 ];
 
 export default function SiteFooter() {

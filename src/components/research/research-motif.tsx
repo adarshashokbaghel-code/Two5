@@ -23,19 +23,12 @@ const figures = {
     index: "03",
     mark: "Steps",
   },
-  daily: {
+  memory: {
     image: "/art/offer-daily-line.jpg",
-    alt: "A yellow line and a black line, the Daily arena",
-    play: "Daily",
+    alt: "Memory and visual recall, the Memory and Visual arena",
+    play: "Recall",
     index: "04",
-    mark: "Return",
-  },
-  versus: {
-    image: "/art/versus-challenge.png",
-    alt: "Yellow and red marks facing off, the Versus arena",
-    play: "Versus",
-    index: "05",
-    mark: "Rematch",
+    mark: "Visual",
   },
 } as const;
 
@@ -48,8 +41,9 @@ const slugToFigure: Record<string, FigureId> = {
   logic: "logic",
   cs: "cs",
   "computer-science": "cs",
-  daily: "daily",
-  versus: "versus",
+  "memory-visual": "memory",
+  daily: "memory",
+  versus: "memory",
 };
 
 export function ResearchFigure({

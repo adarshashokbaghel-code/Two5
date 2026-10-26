@@ -66,12 +66,12 @@ export const researchPosts: ResearchPost[] = [
     image: "/art/numbers-25-green.jpg",
     imageAlt: "A green geometric 25, the Numbers arena mark",
     headline:
-      "Pattern recognition across sequences, mental calculation, and numerical reasoning.",
-    lede: "Numbers is the first Two5 arena: short problems that ask you to see a sequence, hold a magnitude, and answer before the pattern slips. The research case for that loop is specific. It trains numerical fluency, not a general faster brain.",
+      "Calculation, number sense, and numerical patterns — scored in short rounds.",
+    lede: "Numbers is Two5’s first MVP category: Number Sprint, Sequence Hunt, and Target Number ask you to calculate quickly, spot what comes next, and hit a target with the operations you’re given. The research case is numerical fluency, not a general faster brain.",
     specs: [
       {
         term: "Practice",
-        value: "Sequences, patterns, mental maths, numerical reasoning",
+        value: "Number Sprint, Sequence Hunt, Target Number",
       },
       {
         term: "Mechanism",
@@ -200,11 +200,11 @@ export const researchPosts: ResearchPost[] = [
     image: "/art/offer-logic.jpg",
     imageAlt: "A connected node, the Logic arena mark",
     headline: "Deduction across clues, missing pieces, and rules that change shape.",
-    lede: "Logic on Two5 is a short puzzle with a definite answer: spot the clue, make the connection, and check the step you want to skip. The useful research claim is about reasoning procedures, not a faster mind in the abstract.",
+    lede: "Logic is Two5’s second MVP category: Pattern Breaker, Hidden Rule, and Logic Grid are compact deduction puzzles with a definite answer. The useful research claim is about reasoning procedures, not a faster mind in the abstract.",
     specs: [
       {
         term: "Practice",
-        value: "Deduce, connect, reason, adapt",
+        value: "Pattern Breaker, Hidden Rule, Logic Grid",
       },
       {
         term: "Mechanism",
@@ -322,11 +322,11 @@ export const researchPosts: ResearchPost[] = [
     imageAlt: "A blue glass tree of nodes, the Computer Science arena",
     headline:
       "Algorithmic thinking across data structures, constraints, and the step you would otherwise skip.",
-    lede: "Computer Science is planned on Two5 as practice in the thinking behind the code: choose a structure, compare an approach, and see why one solution is cheaper. The research footing is computational thinking and deliberate problem practice, not a promise that puzzles raise general intelligence.",
+    lede: "Computer Science is a planned next expansion on Two5: Binary Blitz, Code Trace, and Bug Hunt train computational thinking and code logic without a full IDE. The research footing is deliberate problem practice, not a promise that puzzles raise general intelligence.",
     specs: [
       {
         term: "Practice",
-        value: "DSA, algorithms, data structures, CS fundamentals",
+        value: "Binary Blitz, Code Trace, Bug Hunt",
       },
       {
         term: "Mechanism",
@@ -431,91 +431,78 @@ export const researchPosts: ResearchPost[] = [
     },
   },
   {
-    slug: "daily",
+    slug: "memory-visual",
     index: "04",
-    arena: "Daily",
-    seoTitle: "Daily challenges, spaced practice, and why you come back",
+    arena: "Memory & Visual",
+    seoTitle: "Memory, visual recognition, and spatial recall practice",
     description:
-      "Why one challenge a day can beat a long cram session. A research note on spacing, retrieval practice, and habit, written for Two5’s planned daily arena.",
+      "How flash recall, grid memory, and visual sequence problems train working memory and spatial reasoning. A research note on Two5’s planned Memory & Visual category.",
     keywords: [
-      "daily challenge",
-      "spaced practice",
-      "retrieval practice",
-      "learning habits",
-      "Two5 daily",
+      "visual memory",
+      "spatial reasoning",
+      "working memory practice",
+      "pattern recall",
+      "Two5 Memory Visual",
     ],
     image: "/art/offer-daily-line.jpg",
-    imageAlt: "A yellow line and a black line, the Daily arena",
-    headline: "One problem a day, spaced on purpose, scored so you can see the return.",
-    lede: "The daily arena is planned as a reason to come back: one fresh problem, one score, the same idea as Two5 grows. Spacing and retrieval are the research reasons a single daily rep can outperform a binge.",
+    imageAlt: "A yellow line and a black line, the Memory and Visual arena mark",
+    headline: "Recall, recognition, and spatial patterns — scored in short visual rounds.",
+    lede: "Memory & Visual is a planned next expansion on Two5: Flash Recall, Grid Memory, and Visual Sequence broaden play beyond maths and code. The research case is about working memory and near transfer on similar tasks, not a general brain upgrade.",
     specs: [
       {
         term: "Practice",
-        value: "Daily challenges, personal scores, new problems",
+        value: "Flash Recall, Grid Memory, Visual Sequence",
       },
       {
         term: "Mechanism",
-        value: "Spacing, retrieval, a cue that brings you back",
+        value: "Working memory, spatial coding, visual pattern completion",
       },
       {
         term: "Evidence",
-        value: "Cepeda and colleagues; Roediger and Karpicke; Dunlosky and colleagues",
+        value: "Baddeley; Simons and colleagues on limits of far transfer",
       },
     ],
     motif: {
-      method: "RETURN",
+      method: "RECALL",
       worker: "ARENA",
-      plane: "CUE",
-      stack: "SPACE / RECALL",
-      metric: "RETURN",
+      plane: "GRID",
+      stack: "FLASH / POSITION",
+      metric: "HOLD",
       score: "SCORE",
       bars,
     },
     pillars: [
       {
         title: "Speed",
-        body: "Retrieval gets faster when you have to produce the answer again after a gap, not when you reread it.",
+        body: "A sequence you have held before is faster to reproduce than one you are still encoding.",
       },
       {
         title: "Control",
-        body: "A daily limit keeps the session inside the problem instead of inside a streak of fatigue.",
+        body: "Grid and flash tasks force you to update what you remember when the pattern shifts.",
       },
       {
         title: "Continuity",
-        body: "The point of one challenge is the next one. Spacing only works if you actually return.",
+        body: "Visual memory fades without reps. Short rounds make another attempt easy to take.",
       },
     ],
     sections: [
       {
-        heading: "Spacing beats cramming for later recall",
+        heading: "Working memory is the bottleneck",
         paragraphs: [
           {
-            text: "A quantitative review of distributed practice found that spreading study across time improves later recall relative to massing the same work, across a wide range of verbal tasks. The best gap depends on how long you need to remember, but the direction of the effect is consistent: a little forgetting between reps helps the next rep stick.",
-            cites: ["cepeda2006"],
+            text: "Baddeley’s working-memory model treats temporary storage and control as limited resources. Flash and grid tasks load those resources on purpose: you must encode, maintain, and reproduce under time pressure.",
+            cites: ["baddeley2000"],
           },
           {
-            text: "A daily challenge is a crude, practical version of that schedule. It refuses the five-hour session you will not repeat. One problem is small enough to finish and far enough from yesterday’s that you have to retrieve, not recognise.",
+            text: "Two5’s Memory & Visual modes are designed as that load in game form. They are not shipped yet; “next expansion” means the category is on the roadmap with a clear training target.",
           },
         ],
       },
       {
-        heading: "Testing is practice, not just a score",
+        heading: "Visual and spatial reps stay close to the task",
         paragraphs: [
           {
-            text: "Roediger and Karpicke showed that taking a test improves long-term retention more than an extra study pass, even when the test feels harder in the moment. Dunlosky and colleagues later ranked practice testing and distributed practice among the most effective techniques in a review of study methods used by students.",
-            cites: ["roediger2006", "dunlosky2013"],
-          },
-          {
-            text: "A scored daily problem is a test in that sense. The score is feedback. The attempt is the mechanism. Two5 has not shipped the daily arena yet; “planned for launch” means the schedule is part of the product intent, not a completed trial.",
-          },
-        ],
-      },
-      {
-        heading: "Coming back is the hard part",
-        paragraphs: [
-          {
-            text: "Habit research suggests a repeated behaviour in a stable context becomes more automatic, and that the time this takes varies widely across people. A daily slot is an attempt to build that context. It is not a promise that a streak forms in 21 days, a number the evidence does not support.",
-            cites: ["lally2010"],
+            text: "Getting better at one grid layout can make the next grid layout easier when the rules overlap. That is near transfer. It is the honest claim for visual sequence and position recall.",
           },
           {
             text: sharedLimit,
@@ -526,36 +513,12 @@ export const researchPosts: ResearchPost[] = [
     ],
     references: [
       {
-        id: "cepeda2006",
-        authors: "Cepeda, N. J., Pashler, H., Vul, E., Wixted, J. T., & Rohrer, D.",
-        year: 2006,
-        title: "Distributed practice in verbal recall tasks: A review and quantitative synthesis",
-        source: "Psychological Bulletin, 132(3), 354–380",
-        href: "https://doi.org/10.1037/0033-2909.132.3.354",
-      },
-      {
-        id: "roediger2006",
-        authors: "Roediger, H. L., & Karpicke, J. D.",
-        year: 2006,
-        title: "Test-enhanced learning: Taking memory tests improves long-term retention",
-        source: "Psychological Science, 17(3), 249–255",
-        href: "https://doi.org/10.1111/j.1467-9280.2006.01693.x",
-      },
-      {
-        id: "dunlosky2013",
-        authors: "Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., & Willingham, D. T.",
-        year: 2013,
-        title: "Improving students’ learning with effective learning techniques",
-        source: "Psychological Science in the Public Interest, 14(1), 4–58",
-        href: "https://doi.org/10.1177/1529100612453266",
-      },
-      {
-        id: "lally2010",
-        authors: "Lally, P., van Jaarsveld, C. H. M., Potts, H. W. W., & Wardle, J.",
-        year: 2010,
-        title: "How are habits formed: Modelling habit formation in the real world",
-        source: "European Journal of Social Psychology, 40(6), 998–1009",
-        href: "https://doi.org/10.1002/ejsp.674",
+        id: "baddeley2000",
+        authors: "Baddeley, A.",
+        year: 2000,
+        title: "The episodic buffer: A new component of working memory?",
+        source: "Trends in Cognitive Sciences, 4(11), 417–423",
+        href: "https://doi.org/10.1016/S1364-6613(00)01538-2",
       },
       {
         id: "simons2016",
@@ -569,132 +532,7 @@ export const researchPosts: ResearchPost[] = [
     cta: {
       href: "/#waitlist",
       label: "Get early access",
-      source: "research-daily",
-    },
-  },
-  {
-    slug: "versus",
-    index: "05",
-    arena: "Versus",
-    seoTitle: "Friendly competition, challenge a friend, and performance",
-    description:
-      "What research says about rivalry, social facilitation, and sending a friend the same problem. A note on Two5 Versus: why a rematch can sharpen a rep, and where competition backfires.",
-    keywords: [
-      "challenge a friend",
-      "friendly competition",
-      "social facilitation",
-      "score comparison",
-      "Two5 Versus",
-    ],
-    image: "/art/versus-challenge.png",
-    imageAlt: "Yellow and red marks facing off, the Versus arena",
-    headline: "You solved it. Sending the same problem is a different kind of rep.",
-    lede: "Versus is on the Two5 roadmap: solve a problem, send it, compare the result. Competition research is old, and it is mixed. A rival can speed a well-learned response. The same pressure can hurt when the task is new or the stake feels like a judgment of you.",
-    specs: [
-      {
-        term: "Practice",
-        value: "Solve, share, compare, rematch",
-      },
-      {
-        term: "Mechanism",
-        value: "Social facilitation, approach motivation, a shared problem",
-      },
-      {
-        term: "Evidence",
-        value: "Zajonc; Murayama and Elliot; a clear limit when the task is unfamiliar",
-      },
-    ],
-    motif: {
-      method: "SEND",
-      worker: "ARENA",
-      plane: "RIVAL",
-      stack: "SOLVE / COMPARE",
-      metric: "REMATCH",
-      score: "SCORE",
-      bars,
-    },
-    pillars: [
-      {
-        title: "Speed",
-        body: "On a problem you already know how to start, another person’s attempt is a reason to answer cleanly and soon.",
-      },
-      {
-        title: "Control",
-        body: "The comparison is the same problem, not a vague ranking. You can see the step, not only the winner.",
-      },
-      {
-        title: "Continuity",
-        body: "A rematch is another rep. Rivalry that ends the session is just noise.",
-      },
-    ],
-    sections: [
-      {
-        heading: "An audience changes the response you already have",
-        paragraphs: [
-          {
-            text: "Zajonc’s social-facilitation account argued that the presence of others increases drive, which helps the dominant response. If the dominant response is the correct one, people get faster and more accurate. If the task is unlearned, the dominant response is often the wrong one, and the same presence makes performance worse.",
-            cites: ["zajonc1965"],
-          },
-          {
-            text: "That is the design constraint for a friendly challenge. Versus should send a problem you have already solved, or one close to it, so the dominant response is the skill rather than the panic. Two5 does not offer live multiplayer today. Social challenges are part of the vision.",
-          },
-        ],
-      },
-      {
-        heading: "Competition helps some motives and harms others",
-        paragraphs: [
-          {
-            text: "A meta-analysis of the competition–performance relationship found that the effect is not uniformly positive. Performance-approach goals, wanting to do well relative to others, often line up with better performance. Performance-avoidance, wanting not to look bad, does not. Trait competitiveness and the way a contest is framed both matter.",
-            cites: ["murayama2012"],
-          },
-          {
-            text: "A rematch against a friend on a shared puzzle is closer to an approach frame when the tone stays on the problem. It slips into avoidance when the score is treated as a verdict. The product intent is the first of those: solve, share, compare, rematch.",
-          },
-        ],
-      },
-      {
-        heading: "Still not a faster brain in general",
-        paragraphs: [
-          {
-            text: sharedLimit,
-            cites: ["simons2016"],
-          },
-          {
-            text: "Beating a friend’s score is evidence about that problem. It is a good reason to take another rep. It is not a physiological claim about processing speed, and it is not a live feature yet.",
-          },
-        ],
-      },
-    ],
-    references: [
-      {
-        id: "zajonc1965",
-        authors: "Zajonc, R. B.",
-        year: 1965,
-        title: "Social facilitation",
-        source: "Science, 149(3681), 269–274",
-        href: "https://doi.org/10.1126/science.149.3681.269",
-      },
-      {
-        id: "murayama2012",
-        authors: "Murayama, K., & Elliot, A. J.",
-        year: 2012,
-        title: "The competition–performance relation: A meta-analytic review and test of the opposing processes model of competition and performance",
-        source: "Psychological Bulletin, 138(6), 1035–1070",
-        href: "https://doi.org/10.1037/a0028324",
-      },
-      {
-        id: "simons2016",
-        authors: "Simons, D. J., Boot, W. R., Charness, N., Gathercole, S. E., Chabris, C. F., Hambrick, D. Z., & Stine-Morrow, E. A. L.",
-        year: 2016,
-        title: "Do “brain-training” programs work?",
-        source: "Psychological Science in the Public Interest, 17(3), 103–186",
-        href: "https://doi.org/10.1177/1529100616661983",
-      },
-    ],
-    cta: {
-      href: "/#waitlist",
-      label: "Want in on the first rounds?",
-      source: "research-versus",
+      source: "research-memory-visual",
     },
   },
 ];

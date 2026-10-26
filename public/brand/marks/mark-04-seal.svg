@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Two5 seal mark">
+  <rect width="512" height="512" fill="#000000"/>
+  <!-- four flat arcs -->
+  <path fill="#22C55E" d="M256 56 A200 200 0 0 1 456 256 L400 256 A144 144 0 0 0 256 112 Z"/>
+  <path fill="#f0c020" d="M456 256 A200 200 0 0 1 256 456 L256 400 A144 144 0 0 0 400 256 Z"/>
+  <path fill="#d82010" d="M256 456 A200 200 0 0 1 56 256 L112 256 A144 144 0 0 0 256 400 Z"/>
+  <path fill="#1060f8" d="M56 256 A200 200 0 0 1 256 56 L256 112 A144 144 0 0 0 112 256 Z"/>
+  <!-- 25 -->
+  <path fill="#f5f2ea" d="M168 188 H248 V220 H208 L248 268 V300 H168 V268 H216 L168 220 Z"/>
+  <path fill="#f5f2ea" d="M272 188 H352 V220 H312 V240 H352 V300 H272 V268 H320 V240 H272 Z"/>
+</svg>

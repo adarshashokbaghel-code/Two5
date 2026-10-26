@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Two5 ratio mark">
+  <rect width="512" height="512" fill="#000000"/>
+  <!-- 2 -->
+  <path fill="#f0c020" d="M156 56 H340 V112 H236 L340 220 V268 H156 V212 H268 L156 112 Z"/>
+  <!-- bar: green + blue -->
+  <rect x="156" y="300" width="160" height="28" fill="#22C55E"/>
+  <rect x="316" y="300" width="40" height="28" fill="#1060f8"/>
+  <!-- 5 -->
+  <path fill="#d82010" d="M156 356 H340 V408 H236 V432 H340 V484 H156 V432 H268 V408 H156 Z"/>
+</svg>

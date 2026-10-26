@@ -41,23 +41,49 @@ export function WaitlistModal() {
     "send" | "verify" | "resend" | null
   >(null);
 
-  // Open from any #waitlist link or marked CTA button.
+  // Open from any waitlist link or marked CTA button.
   useEffect(() => {
     const handleClick = (event: MouseEvent) => {
       const target = event.target;
       if (!(target instanceof Element)) return;
 
-      const trigger = target.closest(
-        'a[href="#waitlist"], button[data-waitlist-trigger]',
-      );
+      const button = target.closest("button[data-waitlist-trigger]");
+      if (button) {
+        event.preventDefault();
+        setMessage("");
+        setNotice("");
+        setOpen(true);
+        return;
+      }
 
-      if (!trigger) return;
+      const anchor = target.closest("a[href]");
+      if (!(anchor instanceof HTMLAnchorElement)) return;
+
+      const href = anchor.getAttribute("href") ?? "";
+      const isWaitlist =
+        href === "#waitlist" ||
+        href === "/#waitlist" ||
+        href.endsWith("/#waitlist") ||
+        (() => {
+          try {
+            return new URL(href, window.location.href).hash === "#waitlist";
+          } catch {
+            return false;
+          }
+        })();
+
+      if (!isWaitlist) return;
 
       event.preventDefault();
       setMessage("");
       setNotice("");
       setOpen(true);
     };
+
+    // Open if the page loaded with #waitlist in the URL.
+    if (window.location.hash === "#waitlist") {
+      setOpen(true);
+    }
 
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
@@ -428,6 +454,17 @@ export function WaitlistModal() {
                 {busy === "send" ? "Sending code..." : "Join the waitlist"}
                 {busy !== "send" && <ArrowRight size={16} />}
               </button>
+              <p className="mt-3 text-center text-[11px] leading-5 text-white/40">
+                By joining you agree to our{" "}
+                <a href="/terms" className="text-white/70 underline-offset-2 hover:text-white hover:underline">
+                  Terms
+                </a>{" "}
+                and{" "}
+                <a href="/privacy" className="text-white/70 underline-offset-2 hover:text-white hover:underline">
+                  Privacy Policy
+                </a>
+                .
+              </p>
             </form>
           )}
 
