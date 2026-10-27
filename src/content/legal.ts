@@ -69,7 +69,7 @@ export const legalDocs: LegalDoc[] = [
           "Send waitlist, launch, and early-access updates you asked for.",
           "Run challenges, save scores, and show progress as those features ship.",
           "Prevent abuse (rate limits, failed-code locks, fraud and spam checks).",
-          "Understand product performance with first-party analytics events (for example page views and waitlist funnel steps).",
+          "Understand product performance with first-party events and Google Analytics (for example page views and waitlist funnel steps).",
           "Comply with law and enforce our Terms.",
         ],
       },
@@ -88,7 +88,7 @@ export const legalDocs: LegalDoc[] = [
         ],
         bullets: [
           "Infrastructure providers that host our database, email delivery, and website (acting on our instructions).",
-          "Analytics or error tools we enable later, only as needed to operate Two5.",
+          "Google Analytics, to measure page views and on-site actions. Google receives usage data such as pages visited and a client identifier.",
           "Authorities when required by law, or to protect players, Two5, or others from harm or abuse.",
           "A successor entity if Two5 is involved in a merger, acquisition, or asset transfer, with notice where required.",
         ],
@@ -331,7 +331,7 @@ export const legalDocs: LegalDoc[] = [
         bullets: [
           "Essential: required for login, security, and core navigation. The Service may not work correctly without them.",
           "Functional: remember simple choices that improve the experience.",
-          "Analytics: help us understand how people move through the waitlist and site. We aim to keep this first-party and minimal.",
+          "Analytics: Google Analytics measures how people move through the site and waitlist. It may set cookies such as _ga.",
           "Marketing: not used by default on the current waitlist site. If we add them later, we will update this page and ask for consent where required.",
         ],
       },

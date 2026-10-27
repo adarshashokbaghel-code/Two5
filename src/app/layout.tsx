@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
+import Script from "next/script";
 
+import { GoogleAnalyticsRoute } from "@/components/analytics/google-analytics";
 import { WaitlistModal } from "@/components/landing/waitlist-modal";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -75,10 +77,25 @@ export const metadata: Metadata = {
   },
 };
 
+const GA_MEASUREMENT_ID = "G-XD4SPJJ1ZE";
+
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${outfit.variable} ${outfit.className} h-full`}>
       <body className="min-h-full bg-paper font-sans text-ink antialiased">
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+          strategy="beforeInteractive"
+        />
+        <Script id="google-tag" strategy="beforeInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${GA_MEASUREMENT_ID}');
+          `}
+        </Script>
+        <GoogleAnalyticsRoute />
         <JsonLd data={jsonLdGraph([organizationJsonLd(), websiteJsonLd()])} />
         <SmoothScroll>{children}</SmoothScroll>
         <WaitlistModal />
