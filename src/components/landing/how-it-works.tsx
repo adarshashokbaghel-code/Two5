@@ -365,7 +365,7 @@ export function HowItWorks() {
       <div className="mx-auto w-full max-w-[1500px] px-4 py-12 pb-24 sm:px-8 lg:px-14 lg:py-28 lg:pb-40">
         <header className="mx-auto max-w-4xl text-center">
           <p className="mb-4 font-mono text-xs tracking-[0.2em] text-blue-500 uppercase">How Two5 works</p>
-          <h2 id="how-title" className="font-display text-[clamp(2.4rem,10vw,5.5rem)] leading-[0.92] font-normal tracking-[0.03em]">
+          <h2 id="how-title" className="section-heading">
             Pick a <span className="text-green-500">game.</span> Play{" "}
             <span className="text-red-500">smarter.</span>
           </h2>

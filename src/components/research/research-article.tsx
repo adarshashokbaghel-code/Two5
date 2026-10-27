@@ -37,7 +37,7 @@ export function ResearchArticle({ post }: { post: ResearchPost }) {
       <div className="mt-8 px-5 lg:mt-10 lg:px-8 xl:px-16">
         <div className="grid items-start gap-8 lg:grid-cols-[minmax(0,1.15fr)_22rem] lg:gap-12">
           <div>
-            <h1 className="font-display text-[clamp(2.25rem,3.6vw,3rem)] leading-none font-normal tracking-[0.02em]">
+            <h1 className="section-heading">
               <span className="mr-2 font-mono text-[0.7em] text-mist">[{post.index}]</span>
               {post.headline}
             </h1>

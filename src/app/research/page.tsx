@@ -55,7 +55,7 @@ export default function ResearchIndexPage() {
               <span className="px-2">/</span>
               Learn
             </p>
-            <h1 className="mt-6 max-w-3xl font-display text-[clamp(2.5rem,4.6vw,4rem)] leading-none font-normal tracking-[0.02em]">
+            <h1 className="section-heading mt-6 max-w-3xl">
               How each game works.
             </h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-ink/70">

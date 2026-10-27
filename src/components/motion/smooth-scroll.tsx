@@ -27,7 +27,6 @@ function useHashNavigation(lenis: ReturnType<typeof useLenis> | null) {
 
     const onHash = () => go();
     const onClick = (event: MouseEvent) => {
-      if (event.defaultPrevented) return;
       if (event.button !== 0) return;
       if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
@@ -65,11 +64,11 @@ function useHashNavigation(lenis: ReturnType<typeof useLenis> | null) {
     };
 
     window.addEventListener("hashchange", onHash);
-    document.addEventListener("click", onClick);
+    document.addEventListener("click", onClick, true);
     return () => {
       window.clearTimeout(timer);
       window.removeEventListener("hashchange", onHash);
-      document.removeEventListener("click", onClick);
+      document.removeEventListener("click", onClick, true);
     };
   }, [lenis, pathname]);
 }

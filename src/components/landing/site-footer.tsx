@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 const links = [
@@ -25,9 +26,18 @@ export default function SiteFooter() {
             <Link
               href="/"
               aria-label="TWO5 home"
-              className="inline-flex items-baseline text-5xl font-black leading-none tracking-[0.09em] sm:text-7xl"
+              className="inline-flex items-center gap-3 sm:gap-4"
             >
-              TWO5<span className=" rounded-full text-green-500">.</span>
+              <Image
+                src="/brand/logo-mark.png"
+                alt=""
+                width={72}
+                height={72}
+                className="size-12 rounded-2xl object-cover sm:size-[4.5rem]"
+              />
+              <span className="inline-flex items-baseline text-5xl font-black leading-none tracking-[0.09em] sm:text-7xl">
+                TWO5<span className="text-green-500">.</span>
+              </span>
             </Link>
 
             <p className="mt-4 text-sm tracking-[-0.02em] text-white/45 sm:text-base">

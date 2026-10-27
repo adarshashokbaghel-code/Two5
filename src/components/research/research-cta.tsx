@@ -17,7 +17,7 @@ export function ResearchCta({
     <Link
       href={href}
       onClick={() => track("waitlist_cta_click", { source })}
-      className="inline-flex h-12 items-center bg-ink px-5 text-base font-medium text-paper"
+      className="inline-flex h-12 items-center rounded-[4px] bg-ink px-5 text-base font-medium text-paper"
     >
       {label}
     </Link>

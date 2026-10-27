@@ -340,7 +340,7 @@ export function HeroWaitlist({
             onClick={() => track("waitlist_cta_click", { source: "hero-form" })}
             disabled={busy === "send"}
             className={cn(
-              "flex h-11 w-full items-center justify-center rounded-md bg-signal text-sm font-semibold text-ink transition-transform active:translate-y-px disabled:opacity-60",
+              "flex h-11 w-full items-center justify-center rounded-[4px] bg-signal text-sm font-semibold text-ink transition-transform active:translate-y-px disabled:opacity-60",
               compact ? "mt-4" : "mt-5 shadow-[0_4px_0_#c9a018] disabled:shadow-none",
             )}
           >
@@ -403,7 +403,7 @@ export function HeroWaitlist({
           <button
             type="submit"
             disabled={busy !== null}
-            className="mt-5 flex h-12 w-full items-center justify-center rounded-md bg-signal text-[15px] font-semibold text-ink shadow-[0_4px_0_#c9a018] disabled:opacity-60 disabled:shadow-none"
+            className="mt-5 flex h-12 w-full items-center justify-center rounded-[4px] bg-signal text-[15px] font-semibold text-ink shadow-[0_4px_0_#c9a018] disabled:opacity-60 disabled:shadow-none"
           >
             {busy === "verify" ? "Verifying…" : "Verify"}
           </button>

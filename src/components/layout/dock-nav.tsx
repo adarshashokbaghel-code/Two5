@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useState } from "react";
@@ -127,10 +128,15 @@ export function DockNav() {
                 open ? "opacity-100 delay-75" : "opacity-0",
               )}
             >
-              <div className="mb-1.5 flex items-center justify-between px-1">
-                <p className="font-display text-lg leading-none tracking-[0.06em] text-paper">
-                  TWO5
-                </p>
+              <div className="mb-2 flex items-center justify-between gap-3 px-1">
+                <Image
+                  src="/brand/logo-mark.png"
+                  alt="Two5"
+                  width={44}
+                  height={44}
+                  className="size-11 shrink-0 rounded-[0.8rem] object-cover ring-1 ring-white/10"
+                  priority
+                />
                 <p className="font-sans text-[10px] tracking-[0.08em] text-paper/45 uppercase">
                   Menu
                 </p>
@@ -214,9 +220,13 @@ export function DockNav() {
               track("waitlist_cta_click", { source: "dock" });
             }}
             className={cn(
-              "group inline-flex h-10 items-center justify-center gap-1.5 rounded-full bg-green-500 px-4 font-display text-[1.05rem] leading-none tracking-[0.04em] text-black transition-[transform,background-color] hover:bg-green-400 active:translate-y-px sm:h-11 sm:px-5 sm:text-[1.15rem]",
+              "group inline-flex h-10 items-center justify-center gap-1.5 rounded-[4px] px-4 font-display text-[1.05rem] leading-none tracking-[0.04em] transition-[transform,background-color,color] duration-700 hover:brightness-110 active:translate-y-px sm:h-11 sm:px-5 sm:text-[1.15rem]",
               open && "flex-1",
             )}
+            style={{
+              backgroundColor: "var(--two5-wash, #f0c020)",
+              color: "var(--two5-wash-ink, #050505)",
+            }}
           >
             Join the waitlist
             <ArrowRight

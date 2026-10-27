@@ -70,7 +70,7 @@ export function Faq() {
         <p className="font-mono text-[11px] tracking-[0.22em] text-white/40 uppercase">
           Before you play
         </p>
-        <h2 className="mt-4 max-w-xl font-display text-5xl leading-none font-normal tracking-[0.02em] sm:text-7xl">
+        <h2 className="section-heading mt-4 max-w-xl">
           Good questions.
         </h2>
       </div>
@@ -129,7 +129,7 @@ export function Faq() {
             <Link
               href="#waitlist"
               onClick={() => track("waitlist_cta_click", { source: "faq" })}
-              className="mt-10 inline-flex h-12 items-center rounded-full bg-red-600 px-5 text-white font-medium text-ink"
+              className="mt-10 inline-flex h-12 items-center rounded-[4px] bg-red-600 px-5 text-white font-medium text-ink"
             >
               Join the waitlist
             </Link>
@@ -141,7 +141,7 @@ export function Faq() {
         <Link
           href="#waitlist"
           onClick={() => track("waitlist_cta_click", { source: "faq" })}
-          className="inline-flex h-12 items-center rounded-full bg-signal px-5 text-base font-medium text-ink"
+          className="inline-flex h-12 items-center rounded-[4px] bg-signal px-5 text-base font-medium text-ink"
         >
           Join the waitlist
         </Link>
