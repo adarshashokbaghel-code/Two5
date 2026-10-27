@@ -24,7 +24,7 @@ export function LegalDocument({ doc }: { doc: LegalDoc }) {
               <span className="px-2">/</span>
               {doc.navLabel}
             </p>
-            <h1 className="mt-6 max-w-3xl font-display text-[clamp(2.75rem,5vw,4.25rem)] leading-none font-normal tracking-[0.02em]">
+            <h1 className="section-heading mt-6 max-w-3xl">
               {doc.title}
             </h1>
             <p className="mt-4 max-w-2xl text-base leading-7 text-ink/70">{doc.summary}</p>

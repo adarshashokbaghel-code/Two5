@@ -12,7 +12,8 @@ import {
 
 import { cn } from "@/lib/utils";
 
-const COUNT = 4;
+export const SCREEN_WASH = ["#f0c020", "#22C55E", "#1060f8", "#d82010"] as const;
+const COUNT = SCREEN_WASH.length;
 const SLIDE_MS = 700;
 const DEFAULT_HOLD_MS = 2600;
 
@@ -83,6 +84,7 @@ type HeroPhoneProps = {
   lineup?: PhoneLineupItem[];
   lineupActive?: number;
   onLineupPick?: (index: number) => void;
+  onScreenChange?: (screen: number) => void;
 };
 
 export function HeroPhone({
@@ -94,6 +96,7 @@ export function HeroPhone({
   lineup,
   lineupActive = 0,
   onLineupPick,
+  onScreenChange,
 }: HeroPhoneProps) {
   const showLineup = lineup != null && lineup.length > 0;
   const [index, setIndex] = useState(0);
@@ -101,6 +104,12 @@ export function HeroPhone({
   const indexRef = useRef(0);
 
   const activeScreen = (index + initialScreen) % COUNT;
+  const onScreenChangeRef = useRef(onScreenChange);
+  onScreenChangeRef.current = onScreenChange;
+
+  useEffect(() => {
+    onScreenChangeRef.current?.(activeScreen);
+  }, [activeScreen]);
 
   const panels = [
     ...Array.from({ length: COUNT }, (_, offset) => {
@@ -185,67 +194,106 @@ export function HeroPhone({
   };
 
   return (
-    <div
-      className={cn(
-        "w-full rounded-[2.5rem] bg-gradient-to-br from-[#3a3936] via-[#161513] to-[#050505] p-[3px] shadow-[16px_28px_40px_rgba(0,0,0,0.28)]",
-        className,
-      )}
-    >
-      <div className="w-full rounded-[2.05rem] bg-[#060606] p-2">
+    <div className={cn("relative w-full", className)}>
+      <span className="absolute top-[18%] -left-[3px] z-10 h-7 w-[3px] rounded-l-md bg-[#2c2c2e]" aria-hidden="true" />
+      <span className="absolute top-[28%] -left-[3px] z-10 h-12 w-[3px] rounded-l-md bg-[#2c2c2e]" aria-hidden="true" />
+      <span className="absolute top-[22%] -right-[3px] z-10 h-16 w-[3px] rounded-r-md bg-[#3a3a3c]" aria-hidden="true" />
+
+      <div className="w-full rounded-[3.15rem] bg-gradient-to-b from-[#2a2a2c] via-[#161618] to-[#0c0c0e] p-px">
+        <div className="rounded-[3.05rem] bg-[#0a0a0a] p-[0.42rem]">
         <div
           data-phone-slide={activeScreen}
           data-phone-shell
           className={cn(
-            "relative flex w-full flex-col overflow-hidden rounded-[1.9rem]",
+            "relative flex w-full flex-col overflow-hidden rounded-[2.5rem] bg-black",
             size === "stage"
               ? "h-[23rem] sm:h-[25rem] lg:h-[26rem]"
               : size === "arena"
                 ? "h-[23rem] sm:h-[27rem] lg:h-[31rem]"
                 : size === "hero"
-                ? "h-[21.5rem] sm:h-[25rem] lg:h-[29.5rem]"
+                ? "h-[32rem] sm:h-[30rem] lg:h-[34rem]"
                 : "h-[29rem] sm:h-[33rem] lg:h-[34rem]",
           )}
           style={phoneStyle}
           aria-hidden="true"
         >
-          <span className="absolute top-2.5 left-1/2 z-20 h-1.5 w-16 -translate-x-1/2 rounded-full bg-black/80" />
+          <div className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-center justify-between px-5 pt-3 text-white">
+            <span className="w-10 text-[11px] font-semibold tracking-tight">9:41</span>
+            <span className="flex items-center gap-1">
+              <SignalBars />
+              <WifiMark />
+              <BatteryMark />
+            </span>
+          </div>
+          <span className="pointer-events-none absolute top-[0.55rem] left-1/2 z-30 h-[1.7rem] w-[32%] -translate-x-1/2 rounded-full bg-black shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]">
+            <span className="absolute top-1/2 right-[0.45rem] size-[0.45rem] -translate-y-1/2 rounded-full bg-[#16181c] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18)]" />
+          </span>
 
           <div className="relative min-h-0 flex-1 overflow-hidden bg-[var(--phone-screen-bg,#0a0a0a)]">
-            {showLineup ? (
-              <LineupScreen
-                items={lineup}
-                active={lineupActive}
-                onPick={onLineupPick}
-              />
-            ) : (
-              <div
-                className="absolute inset-0 will-change-transform"
-                style={{
-                  transform: `translate3d(0, -${index * 100}%, 0)`,
-                  transition: motion
-                    ? `transform ${SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
-                    : "none",
-                }}
-                onTransitionEnd={onEnd}
-              >
-                {panels.map((Panel, panelIndex) => (
+            <div className={cn("absolute inset-0", size === "hero" && "scale-[1.02] blur-[4px]")}>
+              {showLineup ? (
+                <LineupScreen
+                  items={lineup}
+                  active={lineupActive}
+                  onPick={onLineupPick}
+                />
+              ) : (
+                <div
+                  className="absolute inset-0 will-change-transform"
+                  style={{
+                    transform: `translate3d(0, -${index * 100}%, 0)`,
+                    transition: motion
+                      ? `transform ${SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
+                      : "none",
+                  }}
+                  onTransitionEnd={onEnd}
+                >
+                  {panels.map((Panel, panelIndex) => (
+                    <div
+                      key={panelIndex}
+                      className="absolute inset-x-0 top-0 h-full"
+                      style={{
+                        transform: `translate3d(0, ${panelIndex * 100}%, 0)`,
+                      }}
+                    >
+                      <Panel />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+            {size === "hero"
+              ? SCREEN_WASH.map((color, washIndex) => (
                   <div
-                    key={panelIndex}
-                    className="absolute inset-x-0 top-0 h-full"
+                    key={color}
+                    aria-hidden="true"
+                    className="pointer-events-none absolute inset-0 transition-opacity duration-700 ease-out"
                     style={{
-                      transform: `translate3d(0, ${panelIndex * 100}%, 0)`,
+                      opacity: washIndex === activeScreen ? 1 : 0,
+                      background: `radial-gradient(ellipse 62% 46% at 50% 32%, ${color}8c, transparent 72%)`,
+                      maskImage:
+                        "radial-gradient(ellipse 78% 72% at 50% 40%, black 30%, transparent 74%)",
+                      WebkitMaskImage:
+                        "radial-gradient(ellipse 78% 72% at 50% 40%, black 30%, transparent 74%)",
                     }}
-                  >
-                    <Panel />
-                  </div>
-                ))}
-              </div>
-            )}
+                  />
+                ))
+              : null}
+            {size === "hero" ? (
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background:
+                    "radial-gradient(ellipse 100% 96% at 50% 46%, transparent 52%, rgba(0,0,0,0.72) 100%)",
+                }}
+              />
+            ) : null}
           </div>
 
-          {!showLineup ? (
-            <div className="pointer-events-none absolute inset-x-0 bottom-2.5 z-20 flex justify-center">
-              <div className="flex items-center gap-1 rounded-full bg-black/70 px-2 py-1.5 backdrop-blur-sm">
+          {!showLineup && size !== "hero" ? (
+            <div className="pointer-events-none absolute inset-x-0 bottom-6 z-20 flex justify-center">
+              <div className="flex items-center gap-1 rounded-full bg-black/55 px-2 py-1.5 backdrop-blur-sm">
                 {Array.from({ length: COUNT }, (_, i) => (
                   <span
                     key={i}
@@ -259,20 +307,53 @@ export function HeroPhone({
               </div>
             </div>
           ) : null}
+          <span className="pointer-events-none absolute bottom-2 left-1/2 z-30 h-[5px] w-[34%] -translate-x-1/2 rounded-full bg-white/90" />
+        </div>
         </div>
       </div>
     </div>
   );
 }
 
+function SignalBars() {
+  return (
+    <svg width="15" height="11" viewBox="0 0 15 11" fill="currentColor" aria-hidden="true">
+      <rect x="0" y="7" width="2.2" height="4" rx="0.4" />
+      <rect x="3.6" y="5" width="2.2" height="6" rx="0.4" />
+      <rect x="7.2" y="2.6" width="2.2" height="8.4" rx="0.4" />
+      <rect x="10.8" y="0" width="2.2" height="11" rx="0.4" />
+    </svg>
+  );
+}
+
+function WifiMark() {
+  return (
+    <svg width="14" height="11" viewBox="0 0 14 11" fill="currentColor" aria-hidden="true">
+      <path d="M7 9.2a1.15 1.15 0 1 0 0 2.3 1.15 1.15 0 0 0 0-2.3Z" />
+      <path d="M3.2 7.4a5.2 5.2 0 0 1 7.6 0l-1.15 1.2a3.5 3.5 0 0 0-5.3 0L3.2 7.4Z" />
+      <path d="M1 5a8.3 8.3 0 0 1 12 0L11.8 6.2a6.6 6.6 0 0 0-9.6 0L1 5Z" />
+    </svg>
+  );
+}
+
+function BatteryMark() {
+  return (
+    <svg width="22" height="11" viewBox="0 0 22 11" fill="none" aria-hidden="true">
+      <rect x="0.6" y="0.6" width="18" height="9.8" rx="2.2" stroke="currentColor" strokeWidth="1.2" />
+      <rect x="2" y="2" width="13.4" height="7" rx="1.2" fill="currentColor" />
+      <path d="M20 3.6v3.8c.8-.3 1.3-1 1.3-1.9S20.8 3.9 20 3.6Z" fill="currentColor" />
+    </svg>
+  );
+}
+
 function Screen({ children }: { children: ReactNode }) {
   return (
     <div
-      className="relative flex h-full flex-col overflow-hidden px-3.5 pt-8 pb-8 text-paper"
+      className="relative flex h-full flex-col overflow-hidden px-3.5 pt-12 pb-8 text-paper"
       style={{ backgroundColor: "var(--phone-screen-bg, #0a0a0a)" }}
     >
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(255,255,255,0.06),transparent_55%)]" />
-      <div className="relative flex min-h-0 flex-1 flex-col blur-[4px]">{children}</div>
+      <div className="relative flex min-h-0 flex-1 flex-col">{children}</div>
     </div>
   );
 }
@@ -500,7 +581,7 @@ function LineupScreen({
 
   return (
     <div
-      className="relative flex h-full flex-col overflow-hidden px-3 pt-8 pb-3.5 text-paper"
+      className="relative flex h-full flex-col overflow-hidden px-3 pt-12 pb-3.5 text-paper"
       style={{ backgroundColor: "var(--phone-screen-bg, #0a0a0a)" }}
     >
       <div

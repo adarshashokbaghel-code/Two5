@@ -9,6 +9,7 @@ import {
   type FormEvent,
   type KeyboardEvent,
 } from "react";
+import Image from "next/image";
 import { X, ArrowRight, Check } from "lucide-react";
 
 import { validateWaitlist } from "@/lib/waitlist";
@@ -310,14 +311,14 @@ export function WaitlistModal() {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/[0.09] px-5 py-4">
           <div className="flex items-center gap-2.5">
-           
-
-            <div>
-              <p className="text-sm font-display  tracking-[0.12em]">
-                TWO5
-              </p>
-              
-            </div>
+            <Image
+              src="/brand/logo-mark.png"
+              alt=""
+              width={28}
+              height={28}
+              className="size-7 rounded-lg object-cover"
+            />
+            <p className="font-display text-sm tracking-[0.12em]">TWO5</p>
           </div>
 
           <button
@@ -449,7 +450,7 @@ export function WaitlistModal() {
                     source: "waitlist-modal",
                   })
                 }
-                className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-lg bg-green-500 text-sm font-semibold text-black transition hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
+                className="mt-5 flex h-11 w-full items-center justify-center gap-2 rounded-[4px] bg-green-500 text-sm font-semibold text-black transition hover:bg-green-500 disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {busy === "send" ? "Sending code..." : "Join the waitlist"}
                 {busy !== "send" && <ArrowRight size={16} />}
@@ -501,7 +502,7 @@ export function WaitlistModal() {
               <button
                 type="submit"
                 disabled={busy !== null}
-                className="mt-5 flex h-11 w-full items-center justify-center rounded-lg bg-[#E9F078] text-sm font-semibold text-black transition hover:bg-[#F0F69B] disabled:opacity-50"
+                className="mt-5 flex h-11 w-full items-center justify-center rounded-[4px] bg-[#E9F078] text-sm font-semibold text-black transition hover:bg-[#F0F69B] disabled:opacity-50"
               >
                 {busy === "verify" ? "Verifying..." : "Verify email"}
               </button>
@@ -556,7 +557,7 @@ export function WaitlistModal() {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="mt-5 h-11 w-full rounded-lg border border-white/10 text-sm transition hover:bg-white/[0.05]"
+                className="mt-5 h-11 w-full rounded-[4px] border border-white/10 text-sm transition hover:bg-white/[0.05]"
               >
                 Done
               </button>

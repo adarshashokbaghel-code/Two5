@@ -1,6 +1,7 @@
 "use client";
 
 type LenisLike = {
+  scroll: number;
   scrollTo: (
     target: string | number | HTMLElement,
     options?: { offset?: number; duration?: number; lock?: boolean },
@@ -15,15 +16,15 @@ export function scrollToHash(hash: string, lenis?: LenisLike | null) {
   if (!target) return false;
 
   const offset = -24;
+  const current = lenis?.scroll ?? window.scrollY;
+  const top = Math.max(0, target.getBoundingClientRect().top + current + offset);
 
   if (lenis) {
-    lenis.scrollTo(target, {
-      offset,
+    lenis.scrollTo(top, {
       duration: 1.05,
       lock: true,
     });
   } else {
-    const top = target.getBoundingClientRect().top + window.scrollY + offset;
     window.scrollTo({ top, behavior: "smooth" });
   }
 

@@ -18,19 +18,7 @@ const phoneLineup: PhoneLineupItem[] = two5Categories.map((item) => ({
   thumb: item.thumb,
 }));
 
-function categoryCta(category: Two5Category) {
-  const href = `/research/${category.slug}`;
-  const label = category.live ? `Play ${category.title}` : "Preview";
-  return {
-    href,
-    label,
-    onClick: () => track("category_selected", { category: category.id, source: "challenges" }),
-  };
-}
-
 function CategoryCopy({ category }: { category: Two5Category }) {
-  const cta = categoryCta(category);
-
   return (
     <div className="relative flex flex-col justify-center text-left">
       <div
@@ -61,21 +49,14 @@ function CategoryCopy({ category }: { category: Two5Category }) {
         <p className="mt-4 max-w-md text-lg leading-snug text-white/65">{category.summary}</p>
         <p className="mt-4 max-w-md text-sm leading-relaxed text-white/40">{category.why}</p>
 
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <Link
-            href={cta.href}
-            onClick={cta.onClick}
-            className="inline-flex h-11 items-center justify-center rounded-full px-6 text-sm font-semibold"
-            style={{ backgroundColor: category.accent, color: category.ink }}
-          >
-            {cta.label}
-          </Link>
+        <div className="mt-8">
           <Link
             href="#waitlist"
             onClick={() => track("waitlist_cta_click", { source: "challenges" })}
-            className="inline-flex h-11 items-center justify-center rounded-full border border-white/15 px-5 text-sm text-white/70"
+            className="inline-flex h-11 items-center justify-center rounded-[4px] px-6 text-sm font-semibold"
+            style={{ backgroundColor: category.accent, color: category.ink }}
           >
-            Waitlist
+            Join the waitlist
           </Link>
         </div>
       </div>
@@ -176,9 +157,7 @@ function MobileModeCarousel() {
     <div className="mt-8 lg:hidden">
       <p className="mb-3 font-display text-sm tracking-[0.12em] text-white/40 uppercase">Swipe categories →</p>
       <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {two5Categories.map((item, index) => {
-          const cta = categoryCta(item);
-          return (
+        {two5Categories.map((item, index) => (
             <article
               key={item.id}
               className="relative flex w-[min(92vw,22rem)] shrink-0 snap-center flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]"
@@ -228,27 +207,19 @@ function MobileModeCarousel() {
                 <p className="mt-3 text-base leading-relaxed text-white/55">{item.summary}</p>
                 <p className="mt-3 text-sm leading-relaxed text-white/35">{item.why}</p>
 
-                <div className="mt-5 grid grid-cols-2 gap-2">
-                  <Link
-                    href={cta.href}
-                    onClick={cta.onClick}
-                    className="inline-flex h-10 items-center justify-center rounded-full text-sm font-semibold"
-                    style={{ backgroundColor: item.accent, color: item.ink }}
-                  >
-                    {cta.label}
-                  </Link>
+                <div className="mt-5">
                   <Link
                     href="#waitlist"
                     onClick={() => track("waitlist_cta_click", { source: "challenges-mobile" })}
-                    className="inline-flex h-10 items-center justify-center rounded-full border border-white/15 text-sm text-white/70"
+                    className="inline-flex h-10 w-full items-center justify-center rounded-[4px] text-sm font-semibold"
+                    style={{ backgroundColor: item.accent, color: item.ink }}
                   >
-                    Waitlist
+                    Join the waitlist
                   </Link>
                 </div>
               </div>
             </article>
-          );
-        })}
+        ))}
       </div>
     </div>
   );
@@ -350,7 +321,7 @@ export function Challenges() {
     <section id="challenges" className="border-t border-white/10 bg-black text-[#F4F1E8]">
       <div className="mx-auto max-w-6xl px-5 pt-16 text-center sm:px-8 lg:pt-24">
         <p className="font-display text-sm tracking-[0.22em] text-white/40 uppercase">02 · Categories</p>
-        <h2 className="mt-4 font-display text-5xl leading-none sm:text-7xl">
+        <h2 className="section-heading mt-4">
           The first <span className="text-green-500">four</span>
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-white/50">
