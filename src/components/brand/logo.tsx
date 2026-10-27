@@ -16,10 +16,10 @@ export function BrandLogo({ className, priority, variant = "mark" }: BrandLogoPr
         <Image
           src="/brand/logo-mark.png"
           alt=""
-          width={40}
-          height={40}
+          width={1600}
+          height={867}
           priority={priority}
-          className="size-8 rounded-lg object-cover"
+          className="h-8 w-auto"
         />
         <span className="font-display text-2xl leading-none tracking-[0.06em]">TWO5</span>
       </span>
@@ -30,10 +30,10 @@ export function BrandLogo({ className, priority, variant = "mark" }: BrandLogoPr
     <Image
       src="/brand/logo-mark.png"
       alt="Two5"
-      width={512}
-      height={512}
+      width={1600}
+      height={867}
       priority={priority}
-      className={cn("size-8 rounded-lg object-cover", className)}
+      className={cn("h-8 w-auto", className)}
     />
   );
 }

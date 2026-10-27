@@ -132,9 +132,9 @@ export function DockNav() {
                 <Image
                   src="/brand/logo-mark.png"
                   alt="Two5"
-                  width={44}
-                  height={44}
-                  className="size-11 shrink-0 rounded-[0.8rem] object-cover ring-1 ring-white/10"
+                  width={1600}
+                  height={867}
+                  className="h-8 w-auto shrink-0"
                   priority
                 />
                 <p className="font-sans text-[10px] tracking-[0.08em] text-paper/45 uppercase">

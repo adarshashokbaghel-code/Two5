@@ -16,11 +16,8 @@ const outfit = Outfit({
 });
 
 export const viewport: Viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-    { media: "(prefers-color-scheme: light)", color: siteConfig.themeColor },
-  ],
-  colorScheme: "dark",
+  themeColor: "#ffffff",
+  colorScheme: "light",
 };
 
 export const metadata: Metadata = {
@@ -68,6 +65,14 @@ export const metadata: Metadata = {
   },
   manifest: "/site.webmanifest",
   category: "games",
+  appleWebApp: {
+    capable: true,
+    title: siteConfig.name,
+    statusBarStyle: "default",
+  },
+  other: {
+    "msapplication-TileColor": "#ffffff",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

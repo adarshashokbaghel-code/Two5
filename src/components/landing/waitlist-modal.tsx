@@ -314,9 +314,9 @@ export function WaitlistModal() {
             <Image
               src="/brand/logo-mark.png"
               alt=""
-              width={28}
-              height={28}
-              className="size-7 rounded-lg object-cover"
+              width={1600}
+              height={867}
+              className="h-6 w-auto"
             />
             <p className="font-display text-sm tracking-[0.12em]">TWO5</p>
           </div>
