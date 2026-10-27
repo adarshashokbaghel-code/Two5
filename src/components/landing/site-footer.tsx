@@ -43,14 +43,14 @@ export default function SiteFooter() {
             </Link>
 
             <p className="mt-4 text-sm tracking-[-0.02em] text-white/45 sm:text-base">
-              Think sharp. Play smart.
+              Think sharp. Train smart.
             </p>
           </div>
 
           <div className="flex items-center gap-2 self-start rounded-full border border-white/10 px-3 py-2 sm:self-auto">
             <span className="h-1.5 w-1.5 rounded-full bg-green-500" />
             <span className="text-[10px] font-medium uppercase tracking-[0.16em] text-white/60">
-              Made to challenge your mind
+              Made to train your mind
             </span>
           </div>
         </div>
@@ -95,7 +95,7 @@ export default function SiteFooter() {
           </p>
 
           <p className="text-[10px] uppercase tracking-[0.18em] text-white/25">
-            Play with purpose<span className="text-[#E9F078]">.</span>
+            Train. Track. Outplay<span className="text-[#E9F078]">.</span>
           </p>
         </div>
       </div>

@@ -85,11 +85,11 @@ export function Hero() {
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col items-center px-5 pt-14 sm:px-8 sm:pt-28">
         <div className="w-full min-w-0 shrink-0 text-center">
           <p className="mb-2 font-display text-[0.72rem] leading-none tracking-[0.18em] text-white/55 sm:mb-5 sm:text-[clamp(1.05rem,2vw,0.85rem)] sm:tracking-[0.14em] sm:text-white/70">
-            Think fast. Play smart.
+            Train. Track. Outplay.
           </p>
 
           <h1 className="section-heading relative mx-auto max-w-[19rem] sm:max-w-none sm:whitespace-nowrap">
-            TWO5 Give your brain{" "}
+            TWO5 — Give your brain{" "}
             <span className="sr-only">{active.text}</span>
             <span className="pointer-events-none absolute h-0 overflow-hidden whitespace-nowrap" aria-hidden="true">
               {HERO_LINES.map((item, itemIndex) => (
@@ -136,15 +136,15 @@ export function Hero() {
           </h1>
 
           <p className="mx-auto mt-3 max-w-[19rem] text-balance text-[0.8rem] leading-snug text-white/45 sm:mt-4 sm:max-w-none sm:text-[clamp(0.95rem,2.05vw,1.125rem)] sm:leading-relaxed sm:text-white/50">
-            Short brain games and logic challenges that put your problem-solving skills to the test.
-            Solve a round, build your score, and come back for more.
+            Short mental games across numbers, logic, memory and visual reasoning. Build your score, track your
+            personal bests, and challenge yourself to go further.
           </p>
 
           <div className="mx-auto mt-4 flex flex-col items-center gap-2 sm:mt-6 sm:flex-row sm:justify-center sm:gap-3">
             <button
               type="button"
               data-waitlist-trigger
-              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[4px] px-3.5 text-[12px] font-semibold tracking-[-0.01em] transition-[background-color,color] duration-700 hover:brightness-110 sm:h-11 sm:gap-2 sm:px-5 sm:text-[13px]"
+              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-full px-4 text-[12px] font-semibold tracking-[-0.01em] transition-[background-color,color] duration-700 hover:brightness-110 sm:h-11 sm:gap-2 sm:px-5 sm:text-[13px]"
               style={{
                 backgroundColor: active.color,
                 color: active.ink,
@@ -156,16 +156,16 @@ export function Hero() {
 
             <Link
               href="#how"
-              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[4px] border border-white/15 px-3.5 text-[12px] font-medium tracking-[-0.01em] text-white/75 transition-colors hover:border-white/30 hover:text-white sm:h-11 sm:gap-2 sm:px-5 sm:text-[13px]"
+              className="inline-flex h-9 items-center justify-center gap-1.5 rounded-full border border-white/15 px-4 text-[12px] font-medium tracking-[-0.01em] text-white/75 transition-colors hover:border-white/30 hover:text-white sm:h-11 sm:gap-2 sm:px-5 sm:text-[13px]"
             >
-              How it works
+              See how it works
               <ArrowDownRight size={13} />
             </Link>
           </div>
 
         </div>
 
-        <div className="relative mt-4 w-full flex-1 overflow-hidden sm:mt-10">
+        <div className="relative mt-4 w-full flex-1 sm:mt-10">
           <div className="pointer-events-none absolute top-6 left-1/2 h-56 w-72 -translate-x-1/2">
             <div
               aria-hidden="true"
@@ -177,15 +177,15 @@ export function Hero() {
           <div className="absolute top-0 left-1/2 w-[min(19.5rem,86vw)] -translate-x-1/2 sm:w-[20.5rem]">
             <HeroPhone
               size="hero"
-              className="w-full shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
+              className="w-full"
               screenIndex={phoneIndex}
               accent={active.color}
               animate={slide}
             />
 
-            <div className="absolute top-[14%] left-1 z-20 flex items-center gap-2.5 rounded-[4px] border border-white/10 bg-[#161616] px-3 py-2 shadow-[0_16px_40px_rgba(0,0,0,0.45)] sm:top-[16%] sm:-left-10">
+            <div className="absolute top-[14%] left-1 z-20 flex items-center gap-2.5 rounded-full border border-white/10 bg-[#161616] py-1.5 pr-3.5 pl-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.45)] sm:top-[16%] sm:-left-10">
               <span
-                className="grid size-8 place-items-center rounded-[4px] transition-colors duration-700"
+                className="grid size-8 place-items-center rounded-full transition-colors duration-700"
                 style={{
                   backgroundColor: active.color,
                   color: active.ink,
@@ -199,9 +199,9 @@ export function Hero() {
               </span>
             </div>
 
-            <div className="absolute top-[32%] right-1 z-20 flex items-center gap-2 rounded-[4px] border border-white/10 bg-[#161616] py-1.5 pr-3 pl-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.45)] sm:top-[34%] sm:-right-8">
+            <div className="absolute top-[32%] right-1 z-20 flex items-center gap-2 rounded-full border border-white/10 bg-[#161616] py-1.5 pr-3.5 pl-1.5 shadow-[0_16px_40px_rgba(0,0,0,0.45)] sm:top-[34%] sm:-right-8">
               <span
-                className="grid size-8 place-items-center rounded-[4px] transition-colors duration-700"
+                className="grid size-8 place-items-center rounded-full transition-colors duration-700"
                 style={{
                   backgroundColor: active.color,
                   color: active.ink,

@@ -5,7 +5,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { useLenis } from "lenis/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-import { mvpCategoryCount, two5Categories, type Two5Category } from "@/content/categories";
+import { two5Categories, type Two5Category } from "@/content/categories";
 import { HeroPhone, type PhoneLineupItem } from "@/components/landing/hero-phone";
 import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
@@ -320,13 +320,13 @@ export function Challenges() {
   return (
     <section id="challenges" className="border-t border-white/10 bg-black text-[#F4F1E8]">
       <div className="mx-auto max-w-6xl px-5 pt-16 text-center sm:px-8 lg:pt-24">
-        <p className="font-display text-sm tracking-[0.22em] text-white/40 uppercase">02 · Categories</p>
+        <p className="font-display text-sm tracking-[0.22em] text-white/40 uppercase">02 · Arenas</p>
         <h2 className="section-heading mt-4">
-          The first <span className="text-green-500">four</span>
+          Different games. <span className="text-green-500">Different ways to think.</span>
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-white/50">
-          Two5 — Numbers and Logic ship first ({mvpCategoryCount} MVP). Computer Science and Memory & Visual follow as
-          the next expansion. Scroll to browse.
+          Numbers and Logic are the launch arenas. Computer Science and Memory & Visual are coming soon, so they are
+          not playable yet. Scroll to browse.
         </p>
         <MobileModeCarousel />
       </div>

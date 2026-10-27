@@ -220,7 +220,7 @@ export function DockNav() {
               track("waitlist_cta_click", { source: "dock" });
             }}
             className={cn(
-              "group inline-flex h-10 items-center justify-center gap-1.5 rounded-[4px] px-4 font-display text-[1.05rem] leading-none tracking-[0.04em] transition-[transform,background-color,color] duration-700 hover:brightness-110 active:translate-y-px sm:h-11 sm:px-5 sm:text-[1.15rem]",
+              "group inline-flex h-10 items-center justify-center gap-1.5 rounded-full px-4 font-display text-[1.05rem] leading-none tracking-[0.04em] transition-[transform,background-color,color] duration-700 hover:brightness-110 active:translate-y-px sm:h-11 sm:px-5 sm:text-[1.15rem]",
               open && "flex-1",
             )}
             style={{

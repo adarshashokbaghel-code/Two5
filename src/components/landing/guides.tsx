@@ -9,11 +9,11 @@ export function Guides() {
         <p className="font-display text-sm tracking-[0.22em] text-white/40 uppercase">Guides</p>
         <h2 className="section-heading mt-4 max-w-3xl">Practice the problems Two5 is built around.</h2>
         <p className="mt-4 max-w-2xl text-base leading-7 text-white/55">
-          Two5 is a competitive brain-challenge game in development for people who like puzzles, numbers, and
-          reasoning — including college students and working professionals. Numbers and Logic are the first
-          categories. Computer Science and Memory & Visual come next. You cannot play a round on this site yet.
-          These guides are practice, with answers. The waitlist is how you hear when early access opens.
-          The longer direction, and the health claims we will not make, are on the{" "}
+          Two5 is a training-first mental game in development for college students and young professionals.
+          Numbers and Logic are the launch categories. Computer Science and Memory & Visual come later.
+          You cannot play a round on this site yet. These guides are practice, with answers. The waitlist is
+          how you hear when early access opens. Two5 does not claim to raise IQ. The longer note on what we
+          will not claim is on the{" "}
           <Link href="/about" className="text-white/80 underline decoration-white/30 underline-offset-[3px]">
             About page
           </Link>
