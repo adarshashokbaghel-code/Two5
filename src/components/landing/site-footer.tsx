@@ -6,8 +6,10 @@ const links = [
   { label: "Arenas", href: "/#challenges" },
   { label: "How it works", href: "/#how" },
   { label: "FAQs", href: "/#faq" },
+  { label: "Guides", href: "/blog" },
   { label: "Research", href: "/research" },
-  { label: "Contact", href: "mailto:hello@two5.in" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const legalLinks = [
@@ -31,9 +33,9 @@ export default function SiteFooter() {
               <Image
                 src="/brand/logo-mark.png"
                 alt=""
-                width={72}
-                height={72}
-                className="size-12 rounded-2xl object-cover sm:size-[4.5rem]"
+                width={1600}
+                height={867}
+                className="h-12 w-auto sm:h-[4.5rem]"
               />
               <span className="inline-flex items-baseline text-5xl font-black leading-none tracking-[0.09em] sm:text-7xl">
                 TWO5<span className="text-green-500">.</span>

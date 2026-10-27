@@ -85,6 +85,10 @@ type HeroPhoneProps = {
   lineupActive?: number;
   onLineupPick?: (index: number) => void;
   onScreenChange?: (screen: number) => void;
+  /** When set, the hero owns the slide so the text, wash, and phone move together. */
+  screenIndex?: number;
+  accent?: string;
+  animate?: boolean;
 };
 
 export function HeroPhone({
@@ -97,13 +101,19 @@ export function HeroPhone({
   lineupActive = 0,
   onLineupPick,
   onScreenChange,
+  screenIndex,
+  accent,
+  animate = true,
 }: HeroPhoneProps) {
   const showLineup = lineup != null && lineup.length > 0;
+  const controlled = screenIndex !== undefined;
   const [index, setIndex] = useState(0);
   const [motion, setMotion] = useState(true);
   const indexRef = useRef(0);
+  const shownIndex = controlled ? screenIndex : index;
+  const shownMotion = controlled ? animate : motion;
 
-  const activeScreen = (index + initialScreen) % COUNT;
+  const activeScreen = (shownIndex + initialScreen) % COUNT;
   const onScreenChangeRef = useRef(onScreenChange);
   onScreenChangeRef.current = onScreenChange;
 
@@ -131,7 +141,7 @@ export function HeroPhone({
   } as CSSProperties;
 
   useEffect(() => {
-    if (showLineup) {
+    if (controlled || showLineup) {
       setMotion(false);
       return;
     }
@@ -169,10 +179,10 @@ export function HeroPhone({
       window.cancelAnimationFrame(first);
       window.cancelAnimationFrame(second);
     };
-  }, [intervalMs, showLineup]);
+  }, [controlled, intervalMs, showLineup]);
 
   useEffect(() => {
-    if (index < COUNT) return;
+    if (controlled || index < COUNT) return;
 
     const timeout = window.setTimeout(() => {
       setMotion(false);
@@ -241,8 +251,8 @@ export function HeroPhone({
                 <div
                   className="absolute inset-0 will-change-transform"
                   style={{
-                    transform: `translate3d(0, -${index * 100}%, 0)`,
-                    transition: motion
+                    transform: `translate3d(0, -${shownIndex * 100}%, 0)`,
+                    transition: shownMotion
                       ? `transform ${SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`
                       : "none",
                   }}
@@ -262,23 +272,19 @@ export function HeroPhone({
                 </div>
               )}
             </div>
-            {size === "hero"
-              ? SCREEN_WASH.map((color, washIndex) => (
-                  <div
-                    key={color}
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 transition-opacity duration-700 ease-out"
-                    style={{
-                      opacity: washIndex === activeScreen ? 1 : 0,
-                      background: `radial-gradient(ellipse 62% 46% at 50% 32%, ${color}8c, transparent 72%)`,
-                      maskImage:
-                        "radial-gradient(ellipse 78% 72% at 50% 40%, black 30%, transparent 74%)",
-                      WebkitMaskImage:
-                        "radial-gradient(ellipse 78% 72% at 50% 40%, black 30%, transparent 74%)",
-                    }}
-                  />
-                ))
-              : null}
+            {size === "hero" ? (
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0"
+                style={{
+                  background: `radial-gradient(ellipse 62% 46% at 50% 32%, ${accent ?? SCREEN_WASH[activeScreen]}8c, transparent 72%)`,
+                  maskImage:
+                    "radial-gradient(ellipse 78% 72% at 50% 40%, black 30%, transparent 74%)",
+                  WebkitMaskImage:
+                    "radial-gradient(ellipse 78% 72% at 50% 40%, black 30%, transparent 74%)",
+                }}
+              />
+            ) : null}
             {size === "hero" ? (
               <div
                 aria-hidden="true"

@@ -4,8 +4,10 @@ import { notFound } from "next/navigation";
 
 import { ResearchArticle } from "@/components/research/research-article";
 import { DockNav } from "@/components/layout/dock-nav";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getResearchPost, researchPosts } from "@/content/research";
 import { siteConfig } from "@/config/site";
+import { articleJsonLd, breadcrumbJsonLd, jsonLdGraph, webPageJsonLd } from "@/lib/json-ld";
 
 export function generateStaticParams() {
   return researchPosts.map((post) => ({ slug: post.slug }));
@@ -52,28 +54,33 @@ async function ResearchPost({ params }: { params: Promise<{ slug: string }> }) {
   const post = getResearchPost(slug);
   if (!post) notFound();
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.seoTitle,
-    description: post.description,
-    image: `${siteConfig.url}${post.image}`,
-    mainEntityOfPage: `${siteConfig.url}/research/${post.slug}`,
-    author: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
-    publisher: { "@type": "Organization", name: siteConfig.name, url: siteConfig.url },
-    datePublished: "2026-10-24",
-    dateModified: "2026-10-24",
-    keywords: post.keywords.join(", "),
-    citation: post.references.map((cite) => cite.href),
-  };
+  const path = `/research/${post.slug}`;
 
   return (
     <>
       <DockNav />
       <main>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        <JsonLd
+          data={jsonLdGraph([
+            webPageJsonLd({ path, name: post.headline, description: post.description }),
+            breadcrumbJsonLd([
+              { name: "Two5", path: "/" },
+              { name: "Research", path: "/research" },
+              { name: post.arena, path },
+            ]),
+            {
+              ...articleJsonLd({
+                path,
+                headline: post.headline,
+                description: post.description,
+                datePublished: "2026-10-24",
+                dateModified: "2026-10-27",
+                image: post.image,
+                keywords: post.keywords,
+              }),
+              citation: post.references.map((cite) => cite.href),
+            },
+          ])}
         />
         <ResearchArticle post={post} />
       </main>

@@ -7,7 +7,7 @@ const VIEW = { w: 480, h: 270 } as const;
 const PIECES = [
   {
     id: "gray",
-    fill: "#171b1f",
+    fill: "#3a3f46",
     transform: "translate(61.52 28.50) scale(0.4099 0.4081)",
     from: 0.04,
     to: 0.5,
@@ -18,7 +18,7 @@ const PIECES = [
   },
   {
     id: "yellow",
-    fill: "#f3be26",
+    fill: "#f6c024",
     from: 0,
     to: 0.42,
     x: -18,
@@ -28,7 +28,7 @@ const PIECES = [
   },
   {
     id: "red",
-    fill: "#d82013",
+    fill: "#d92114",
     from: 0.1,
     to: 0.58,
     x: 54,
@@ -38,7 +38,7 @@ const PIECES = [
   },
   {
     id: "blue",
-    fill: "#1561fa",
+    fill: "#1561fe",
     from: 0.36,
     to: 0.8,
     x: 24,

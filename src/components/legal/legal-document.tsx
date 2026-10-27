@@ -2,13 +2,25 @@ import Link from "next/link";
 
 import SiteFooter from "@/components/landing/site-footer";
 import { DockNav } from "@/components/layout/dock-nav";
+import { JsonLd } from "@/components/seo/json-ld";
 import { legalDocs, type LegalDoc } from "@/content/legal";
+import { breadcrumbJsonLd, jsonLdGraph, webPageJsonLd } from "@/lib/json-ld";
 import { cn } from "@/lib/utils";
 
 export function LegalDocument({ doc }: { doc: LegalDoc }) {
+  const path = `/${doc.slug}`;
   return (
     <>
       <DockNav />
+      <JsonLd
+        data={jsonLdGraph([
+          webPageJsonLd({ path, name: doc.title, description: doc.summary }),
+          breadcrumbJsonLd([
+            { name: "Two5", path: "/" },
+            { name: doc.navLabel, path },
+          ]),
+        ])}
+      />
       <main className="bg-paper pb-28 text-ink">
         <header className="flex flex-col gap-10">
           <div className="arena-band">

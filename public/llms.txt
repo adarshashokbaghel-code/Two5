@@ -1,0 +1,54 @@
+# Two5
+
+> Two5 is a competitive brain-challenge game in development. The public website explains the product and collects waitlist signups. Rounds are not playable on the site yet.
+
+Canonical site: https://www.two5.in
+Contact: hello@mentr.in
+
+## What Two5 is
+
+Two5 is for people who enjoy problem-solving, including college students and working professionals. It is meant to feel like a scored challenge, not a lesson or a conventional course.
+
+Numbers and Logic are the first categories being built. Computer Science and Memory & Visual are the next expansion. Friend challenges and leaderboards have been described as later ideas. They are not available.
+
+Joining the waitlist registers interest and asks for launch updates. It does not start a game, enroll a study, or offer medical advice.
+
+The long-term direction includes accessible play and careful questions about cognitive engagement in later life. That direction is not a claim that Two5 prevents dementia or treats disease. Two5 has not run a clinical trial.
+
+## Public pages
+
+- https://www.two5.in/ — homepage, how it works, categories, FAQ, waitlist
+- https://www.two5.in/about — product, direction, and claims Two5 will not make
+- https://www.two5.in/contact — hello@mentr.in
+- https://www.two5.in/blog — puzzle guides and evidence guides
+- https://www.two5.in/blog/number-sequence-puzzles
+- https://www.two5.in/blog/logic-puzzles-with-answers
+- https://www.two5.in/blog/math-puzzles-for-adults
+- https://www.two5.in/blog/algorithm-puzzles
+- https://www.two5.in/blog/competitive-brain-games
+- https://www.two5.in/blog/what-research-says-about-brain-games
+- https://www.two5.in/blog/can-brain-games-prevent-dementia
+- https://www.two5.in/research — category notes, not a clinic
+- https://www.two5.in/research/methodology
+- https://www.two5.in/research/collaborate — email only, no open trial
+- https://www.two5.in/research/numbers
+- https://www.two5.in/research/logic
+- https://www.two5.in/research/computer-science
+- https://www.two5.in/research/memory-visual
+- https://www.two5.in/privacy
+- https://www.two5.in/terms
+- https://www.two5.in/cookies
+
+## Do not treat as available
+
+- Playable rounds
+- Friend challenges
+- Public leaderboards
+- A launch date
+- Cognitive or medical benefits
+
+## Crawling
+
+https://www.two5.in/robots.txt allows public pages and blocks /api/.
+https://www.two5.in/sitemap.xml lists indexable URLs.
+llms.txt is a summary for automated readers. It is not a ranking signal and not a substitute for the pages above.
