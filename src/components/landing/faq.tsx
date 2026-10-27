@@ -11,52 +11,42 @@ const questions = [
   {
     index: "01",
     q: "What is Two5?",
-    a: "Two5 is a game of short challenges across four categories. Numbers and Logic are MVP — play them first, get a score, and try to beat it. Computer Science and Memory & Visual are planned as the next expansion.",
+    a: "Two5 is a competitive mental game for short rounds. You train on a challenge, see a score, and try to beat your personal best. Competition sits around that, not instead of it. The product is still in development.",
   },
   {
     index: "02",
-    q: "What can I do on Two5?",
-    a: "Pick a challenge, solve it, see your score, then try again. Sending one to a friend is part of what we're building next.",
+    q: "Is Two5 a brain-training app or a game?",
+    a: "It is a game you can train with. Rounds are short. There are no courses and no claim that Two5 raises IQ or guarantees a cognitive improvement.",
   },
   {
     index: "03",
-    q: "What kinds of challenges will be available?",
-    a: "Numbers (Number Sprint, Sequence Hunt, Target Number) and Logic (Pattern Breaker, Hidden Rule, Logic Grid) ship first. Computer Science (Binary Blitz, Code Trace, Bug Hunt) and Memory & Visual (Flash Recall, Grid Memory, Visual Sequence) are the next expansion.",
+    q: "What is Daily 5?",
+    a: "Daily 5 is a planned short mix of challenges for a quick daily workout. It is not available yet. Focus Session and Quick Play are the other planned ways to play: one to chase a personal score, one to jump straight into a game.",
   },
   {
     index: "04",
-    q: "Is Two5 only for programmers or maths enthusiasts?",
-    a: "Not at all. Two5 is intended for anyone who enjoys solving a good problem, spotting patterns or testing their thinking. You don't need to be a programmer or a maths expert to get started.",
+    q: "Which categories are available at launch?",
+    a: "Numbers and Logic are the launch categories. Computer Science and Memory & Visual are coming later and are not playable yet.",
   },
   {
     index: "05",
     q: "Can I challenge my friends?",
-    a: "That's the idea. You'll be able to send a problem and see who gets the better score. Friend challenges aren't open yet.",
+    a: "Friend challenges are part of the plan. You will be able to compare a result on the same game. That mode is not open yet.",
   },
   {
     index: "06",
-    q: "Will Two5 have daily challenges and leaderboards?",
-    a: "Leaderboards and more social play are on the list. The first four categories — two live in MVP — are the focus right now.",
+    q: "Is Two5 free?",
+    a: "Pricing is not set. Nothing is for sale on this site. Join the waitlist and we will say what is free, and what is not, before launch.",
   },
   {
     index: "07",
-    q: "Is Two5 available yet?",
-    a: "Two5 is currently building toward its initial launch. Join the waitlist to register your interest and receive updates about launch and early access as they become available.",
+    q: "When will Two5 launch?",
+    a: "There is no public launch date. Join the waitlist to hear when early access opens. You cannot play a round on this website yet.",
   },
   {
     index: "08",
-    q: "Is Two5 free to use?",
-    a: "The initial focus is on building a useful, enjoyable challenge experience. Final pricing and any premium features have not been confirmed yet. Join the waitlist for updates as launch plans take shape.",
-  },
-  {
-    index: "09",
-    q: "How do I join the Two5 waitlist?",
-    a: "Enter your email address in the waitlist form on this page and submit it. If your signup is successful, you'll see a confirmation. We'll share relevant launch and early-access updates as they become available.",
-  },
-  {
-    index: "10",
-    q: "How can I help shape Two5 before launch?",
-    a: "Join the waitlist and share Two5 with people who enjoy puzzles, maths, coding or friendly competition. Your interest helps us understand which challenge categories and experiences people want most as we decide what to build next.",
+    q: "How do I join the waitlist?",
+    a: "Use Join the waitlist on this page, enter your email, and submit. A confirmation means the signup went through. We will write when there is something to say about early access.",
   },
 ] as const;
 
@@ -68,7 +58,7 @@ export function Faq() {
     <section id="faq" className="border-t border-white/10 bg-black text-white">
       <div className="mx-auto max-w-6xl px-5 pt-20 pb-6 lg:px-8 lg:pt-28">
         <p className="font-mono text-[11px] tracking-[0.22em] text-white/40 uppercase">
-          Before you play
+          Before you train
         </p>
         <h2 className="section-heading mt-4 max-w-xl">
           Good questions.

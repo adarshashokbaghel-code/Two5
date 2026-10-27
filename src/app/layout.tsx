@@ -23,7 +23,7 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
   title: {
-    default: "Two5 — Play a sharper game",
+    default: "Two5 — Give your brain a run",
     template: `%s · ${siteConfig.name}`,
   },
   description: siteConfig.description,
@@ -32,7 +32,7 @@ export const metadata: Metadata = {
   creator: siteConfig.name,
   publisher: siteConfig.name,
   openGraph: {
-    title: "Two5 — Play a sharper game",
+    title: "Two5 — Give your brain a run",
     description: siteConfig.description,
     url: siteConfig.url,
     siteName: siteConfig.name,
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Two5 — Play a sharper game",
+    title: "Two5 — Give your brain a run",
     description: siteConfig.description,
     images: [siteConfig.ogImage],
   },

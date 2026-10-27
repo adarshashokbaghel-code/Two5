@@ -205,17 +205,15 @@ export function HeroPhone({
 
   return (
     <div className={cn("relative w-full", className)}>
-      <span className="absolute top-[18%] -left-[3px] z-10 h-7 w-[3px] rounded-l-md bg-[#2c2c2e]" aria-hidden="true" />
-      <span className="absolute top-[28%] -left-[3px] z-10 h-12 w-[3px] rounded-l-md bg-[#2c2c2e]" aria-hidden="true" />
-      <span className="absolute top-[22%] -right-[3px] z-10 h-16 w-[3px] rounded-r-md bg-[#3a3a3c]" aria-hidden="true" />
-
-      <div className="w-full rounded-[3.15rem] bg-gradient-to-b from-[#2a2a2c] via-[#161618] to-[#0c0c0e] p-px">
-        <div className="rounded-[3.05rem] bg-[#0a0a0a] p-[0.42rem]">
+      <div
+        className="bg-[#1c1c1e] shadow-[0_28px_60px_rgba(0,0,0,0.45)] ring-1 ring-inset ring-white/10"
+        style={{ borderRadius: "3.25rem", padding: "0.45rem" }}
+      >
         <div
           data-phone-slide={activeScreen}
           data-phone-shell
           className={cn(
-            "relative flex w-full flex-col overflow-hidden rounded-[2.5rem] bg-black",
+            "relative isolate flex w-full flex-col overflow-hidden bg-black",
             size === "stage"
               ? "h-[23rem] sm:h-[25rem] lg:h-[26rem]"
               : size === "arena"
@@ -224,7 +222,7 @@ export function HeroPhone({
                 ? "h-[32rem] sm:h-[30rem] lg:h-[34rem]"
                 : "h-[29rem] sm:h-[33rem] lg:h-[34rem]",
           )}
-          style={phoneStyle}
+          style={{ ...phoneStyle, borderRadius: "2.8rem" }}
           aria-hidden="true"
         >
           <div className="pointer-events-none absolute inset-x-0 top-0 z-30 flex items-center justify-between px-5 pt-3 text-white">
@@ -239,7 +237,10 @@ export function HeroPhone({
             <span className="absolute top-1/2 right-[0.45rem] size-[0.45rem] -translate-y-1/2 rounded-full bg-[#16181c] shadow-[inset_0_0_0_1px_rgba(255,255,255,0.18)]" />
           </span>
 
-          <div className="relative min-h-0 flex-1 overflow-hidden bg-[var(--phone-screen-bg,#0a0a0a)]">
+          <div
+            className="relative min-h-0 flex-1 overflow-hidden bg-[var(--phone-screen-bg,#0a0a0a)]"
+            style={{ borderRadius: "inherit" }}
+          >
             <div className={cn("absolute inset-0", size === "hero" && "scale-[1.02] blur-[4px]")}>
               {showLineup ? (
                 <LineupScreen
@@ -314,7 +315,6 @@ export function HeroPhone({
             </div>
           ) : null}
           <span className="pointer-events-none absolute bottom-2 left-1/2 z-30 h-[5px] w-[34%] -translate-x-1/2 rounded-full bg-white/90" />
-        </div>
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@ export type Two5Category = {
   modes: [string, string, string];
   why: string;
   status: CategoryStatus;
-  statusLabel: "MVP" | "Next expansion";
+  statusLabel: "Launch" | "Coming soon";
   live: boolean;
   accent: string;
   ink: string;
@@ -28,11 +28,11 @@ export const two5Categories: Two5Category[] = [
     index: "01",
     title: "Numbers",
     lineupTag: "Number sense",
-    summary: "Calculation, number sense and numerical patterns.",
+    summary: "Calculation, numerical fluency and number patterns.",
     modes: ["Number Sprint", "Sequence Hunt", "Target Number"],
-    why: "The easiest category to understand, score and compete in. It provides a strong foundation for Risk & Reward and Lock In.",
+    why: "A launch category. Short rounds you can score, then try to beat your own best.",
     status: "mvp",
-    statusLabel: "MVP",
+    statusLabel: "Launch",
     live: true,
     accent: "#3dce55",
     ink: "#000000",
@@ -48,11 +48,11 @@ export const two5Categories: Two5Category[] = [
     index: "02",
     title: "Logic",
     lineupTag: "Deduce",
-    summary: "Deduction, patterns and problem-solving.",
+    summary: "Deduction, hidden rules and problem-solving.",
     modes: ["Pattern Breaker", "Hidden Rule", "Logic Grid"],
-    why: "Adds a different kind of challenge for people who prefer reasoning over fast arithmetic.",
+    why: "A launch category for people who prefer reasoning over fast arithmetic.",
     status: "mvp",
-    statusLabel: "MVP",
+    statusLabel: "Launch",
     live: true,
     accent: "#1060f8",
     ink: "#f5f2ea",
@@ -68,11 +68,11 @@ export const two5Categories: Two5Category[] = [
     index: "03",
     title: "Computer Science",
     lineupTag: "Algorithms",
-    summary: "Computational thinking and code logic.",
+    summary: "Code tracing, algorithms and computational thinking.",
     modes: ["Binary Blitz", "Code Trace", "Bug Hunt"],
-    why: "Differentiates Two5 for technical students and professionals without requiring a full programming environment.",
+    why: "Planned for later. Not playable at launch, and it will not require a full coding environment.",
     status: "expansion",
-    statusLabel: "Next expansion",
+    statusLabel: "Coming soon",
     live: false,
     accent: "#5ec8ff",
     ink: "#000000",
@@ -90,9 +90,9 @@ export const two5Categories: Two5Category[] = [
     lineupTag: "Recall",
     summary: "Recall, visual recognition and spatial reasoning.",
     modes: ["Flash Recall", "Grid Memory", "Visual Sequence"],
-    why: "Broadens the audience beyond maths and coding, and introduces a more visual style of play.",
+    why: "Planned for later. A more visual way to play, not available in the first release.",
     status: "expansion",
-    statusLabel: "Next expansion",
+    statusLabel: "Coming soon",
     live: false,
     accent: "#f0c020",
     ink: "#000000",

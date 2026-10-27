@@ -31,35 +31,35 @@ const STOPS: Stop[] = [
     game: "Choose your arena",
     status: "Find your game",
     tone: "green",
-    title: "Pick a brain game arena.",
-    body: "Explore four arenas: Numbers, Logic, Computer Science, and Memory & Visual. Each contains its own games, from fast calculations and number patterns to logic puzzles, code challenges, and memory tests. Pick what interests you and jump straight in.",
+    title: "Start with a launch arena.",
+    body: "Start with Numbers or Logic. Computer Science and Memory & Visual are planned next. Each arena holds short games, from calculation and number patterns to deduction puzzles.",
     screen: "arena",
   },
   {
     index: "02",
-    game: "Choose your mode",
-    status: "Take the challenge",
+    game: "Choose your game",
+    status: "Then how to play",
     tone: "volt",
-    title: "Solo, bot, or a friend.",
-    body: "Every game starts with a clear goal and simple rules. Play on your own, sharpen your skills against a bot, or send a challenge to a friend. Whether you're solving a sequence or tracing a piece of code, the aim is simple: figure it out and get the best score you can.",
+    title: "Pick a game, then a mode.",
+    body: "Explore sequences, deduction puzzles and other short challenges. Practise solo, take on a bot, or challenge a friend when that mode is supported. Friend challenges are not open yet.",
     screen: "play",
   },
   {
     index: "03",
     game: "Make your move",
-    status: "Choose your strategy",
+    status: "Play the round",
     tone: "ember",
-    title: "Win with strategy.",
-    body: "Build a streak with Build or Break. Commit to your confidence with Lock In. In Risk & Reward, decide whether to bank your points or risk them for more. Some games bring special twists or comeback opportunities, giving you new ways to approach the same kind of challenge.",
+    title: "Play. Score. Improve.",
+    body: "See your result and try to beat your personal best. Risk & Reward, when a game offers it, is a planned way to play it safe or go for a bigger score. The points are shown before you commit. It is not a bet.",
     screen: "result",
   },
   {
     index: "04",
     game: "Track your progress",
-    status: "Challenge again",
+    status: "Come back",
     tone: "green",
-    title: "Beat your best. Share it.",
-    body: "Review your answers, understand your score, and track your personal bests across games. Take on daily challenges, share a Same Battle so someone else can play under the same conditions, and compare results. As Two5 grows, ratings, leaderboards, live duels, and more competitive formats will give you even more ways to play.",
+    title: "A new benchmark every round.",
+    body: "Track your best scores, review the round, and return to the challenges you want to master. A shared challenge is part of what comes after launch, not something you can send today.",
     screen: "rank",
   },
 ];
@@ -124,7 +124,7 @@ function PhoneScreen({ screen }: { screen: Screen }) {
         <div className="mt-4 space-y-2">
           <div className="rounded-lg border border-volt/50 bg-volt/10 px-3 py-2.5">
             <p className="text-xs font-semibold">Solo</p>
-            <p className="mt-0.5 text-[9px] text-paper/50">Play on your own</p>
+            <p className="mt-0.5 text-[9px] text-paper/50">Practise a round</p>
           </div>
           <div className="rounded-lg bg-white/5 px-3 py-2.5">
             <p className="text-xs font-semibold">Vs Bot</p>
@@ -132,7 +132,7 @@ function PhoneScreen({ screen }: { screen: Screen }) {
           </div>
           <div className="rounded-lg bg-white/5 px-3 py-2.5">
             <p className="text-xs font-semibold">Challenge a friend</p>
-            <p className="mt-0.5 text-[9px] text-paper/50">Send a Same Battle</p>
+            <p className="mt-0.5 text-[9px] text-paper/50">Planned, not open yet</p>
           </div>
         </div>
       </>
@@ -147,7 +147,7 @@ function PhoneScreen({ screen }: { screen: Screen }) {
         <div className="mt-4 space-y-2">
           <div className="rounded-lg border border-ember/40 bg-ember/10 px-3 py-2">
             <p className="text-xs font-semibold text-ember">Risk & Reward</p>
-            <p className="mt-0.5 text-[9px] text-paper/55">Bank points — or risk them</p>
+            <p className="mt-0.5 text-[9px] text-paper/55">Planned · points shown first</p>
           </div>
           <div className="rounded-lg bg-white/5 px-3 py-2">
             <p className="text-xs font-semibold">Lock In</p>
@@ -171,16 +171,16 @@ function PhoneScreen({ screen }: { screen: Screen }) {
           <p className="font-mono text-[9px] tracking-[0.14em] text-paper/40 uppercase">Best score</p>
           <p className="mt-1 font-display text-4xl leading-none text-signal">840</p>
         </div>
-        <span className="rounded-full bg-green-500/15 px-2 py-1 text-[9px] font-semibold text-green-400">+8%</span>
+        <span className="rounded-full bg-green-500/15 px-2 py-1 text-[9px] font-semibold text-green-400">Sample</span>
       </div>
       <div className="mt-4 space-y-2">
         <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
-          <span className="text-[10px]">Daily challenge</span>
-          <span className="text-[9px] text-paper/40">Today</span>
+          <span className="text-[10px]">Daily 5</span>
+          <span className="text-[9px] text-paper/40">Planned</span>
         </div>
         <div className="flex items-center justify-between rounded-lg bg-white/5 px-3 py-2">
-          <span className="text-[10px]">Same Battle</span>
-          <span className="text-[9px] text-signal">Share</span>
+          <span className="text-[10px]">Personal best</span>
+          <span className="text-[9px] text-signal">Sample</span>
         </div>
       </div>
       <p className="mt-auto pt-3 font-mono text-[9px] tracking-[0.1em] text-paper/40 uppercase">Challenge again</p>
@@ -366,8 +366,8 @@ export function HowItWorks() {
         <header className="mx-auto max-w-4xl text-center">
           <p className="mb-4 font-mono text-xs tracking-[0.2em] text-blue-500 uppercase">How Two5 works</p>
           <h2 id="how-title" className="section-heading">
-            Pick a <span className="text-green-500">game.</span> Play{" "}
-            <span className="text-red-500">smarter.</span>
+            Pick a <span className="text-green-500">challenge.</span> Make your{" "}
+            <span className="text-red-500">move.</span>
           </h2>
         </header>
 
