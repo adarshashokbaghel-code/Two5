@@ -7,15 +7,17 @@ import { researchPosts } from "@/content/research";
 import { siteConfig } from "@/config/site";
 import SiteFooter from "@/components/landing/site-footer";
 
+const researchTitle = "How the Two5 categories are meant to work";
+const researchDescription =
+  "Notes on Two5’s four categories — Numbers, Logic, Computer Science, and Memory & Visual. What a short round is for, and what a score does not prove. Rounds are not playable here yet.";
+
 export const metadata: Metadata = {
-  title: "How the games work",
-  description:
-    "Short notes on Two5’s four categories — Numbers, Logic, Computer Science, and Memory & Visual. What each round trains, and what a score does not prove.",
+  title: researchTitle,
+  description: researchDescription,
   alternates: { canonical: "/research" },
   openGraph: {
-    title: "How the games work",
-    description:
-      "Short notes on the Two5 games: numbers, logic, computer science, a daily problem, and a challenge you can send.",
+    title: researchTitle,
+    description: researchDescription,
     url: "/research",
     siteName: siteConfig.name,
     type: "website",
@@ -59,9 +61,20 @@ export default function ResearchIndexPage() {
               How each game works.
             </h1>
             <p className="mt-4 max-w-xl text-base leading-7 text-ink/70">
-              Two5&apos;s first four categories — Numbers and Logic (MVP),
-              Computer Science and Memory & Visual (next expansion). A short note
-              on the skill behind each one, and what a score can and cannot say.
+              Two5&apos;s first four categories — Numbers and Logic first, Computer Science and Memory & Visual
+              next. A short note on the skill behind each one, and what a score can and cannot say. For worked
+              puzzles, use the <Link href="/blog" className="text-volt underline decoration-volt/30 underline-offset-[3px]">guides</Link>.
+            </p>
+            <p className="mt-4 max-w-xl text-base leading-7 text-ink/70">
+              These notes are not a clinical programme. Health claims are held to a separate standard on{" "}
+              <Link href="/research/methodology" className="text-volt underline decoration-volt/30 underline-offset-[3px]">
+                how we read evidence
+              </Link>
+              . There is no open study.{" "}
+              <Link href="/research/collaborate" className="text-volt underline decoration-volt/30 underline-offset-[3px]">
+                Collaboration
+              </Link>{" "}
+              is a conversation, not enrollment.
             </p>
           </div>
         </header>

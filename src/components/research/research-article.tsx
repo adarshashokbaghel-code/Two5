@@ -2,10 +2,12 @@ import Link from "next/link";
 
 import { ResearchCta } from "@/components/research/research-cta";
 import { ResearchFigure } from "@/components/research/research-motif";
+import { guidesForResearch } from "@/content/blog";
 import { researchPosts, type ResearchPost } from "@/content/research";
 
 export function ResearchArticle({ post }: { post: ResearchPost }) {
   const others = researchPosts.filter((item) => item.slug !== post.slug);
+  const guides = guidesForResearch(post.slug);
 
   return (
     <article className="bg-paper pb-28 text-ink">
@@ -128,6 +130,21 @@ export function ResearchArticle({ post }: { post: ResearchPost }) {
           <ResearchCta href={post.cta.href} label={post.cta.label} source={post.cta.source} />
         </div>
       </section>
+
+      {guides.length > 0 ? (
+        <section className="mt-16 border-t border-ink/10 px-5 pt-10 lg:px-8 xl:px-16">
+          <h2 className="font-mono text-[11px] tracking-[0.16em] text-mist uppercase">Practice guides</h2>
+          <ul className="mt-6 flex flex-col gap-3">
+            {guides.map((guide) => (
+              <li key={guide.slug}>
+                <Link href={`/blog/${guide.slug}`} className="text-base text-ink hover:text-volt">
+                  {guide.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section className="mt-16 border-t border-ink/10 px-5 pt-10 lg:px-8 xl:px-16">
         <h2 className="font-mono text-[11px] tracking-[0.16em] text-mist uppercase">

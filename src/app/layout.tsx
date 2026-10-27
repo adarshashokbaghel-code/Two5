@@ -3,7 +3,9 @@ import { Outfit } from "next/font/google";
 
 import { WaitlistModal } from "@/components/landing/waitlist-modal";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
+import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
+import { jsonLdGraph, organizationJsonLd, websiteJsonLd } from "@/lib/json-ld";
 
 import "./globals.css";
 
@@ -32,9 +34,6 @@ export const metadata: Metadata = {
   authors: [{ name: siteConfig.name, url: siteConfig.url }],
   creator: siteConfig.name,
   publisher: siteConfig.name,
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     title: "Two5 — Play a sharper game",
     description: siteConfig.description,
@@ -57,17 +56,6 @@ export const metadata: Metadata = {
     description: siteConfig.description,
     images: [siteConfig.ogImage],
   },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png", sizes: "32x32" },
@@ -82,50 +70,11 @@ export const metadata: Metadata = {
   category: "games",
 };
 
-const organizationJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  name: siteConfig.name,
-  url: siteConfig.url,
-  logo: `${siteConfig.url}${siteConfig.logo}`,
-  image: `${siteConfig.url}${siteConfig.ogImage}`,
-  description: siteConfig.description,
-  sameAs: [] as string[],
-  contactPoint: {
-    "@type": "ContactPoint",
-    email: "hello@two5.in",
-    contactType: "customer support",
-  },
-};
-
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: siteConfig.name,
-  url: siteConfig.url,
-  description: siteConfig.description,
-  publisher: {
-    "@type": "Organization",
-    name: siteConfig.name,
-    logo: {
-      "@type": "ImageObject",
-      url: `${siteConfig.url}${siteConfig.logo}`,
-    },
-  },
-};
-
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className={`${outfit.variable} ${outfit.className} h-full`}>
       <body className="min-h-full bg-paper font-sans text-ink antialiased">
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        />
+        <JsonLd data={jsonLdGraph([organizationJsonLd(), websiteJsonLd()])} />
         <SmoothScroll>{children}</SmoothScroll>
         <WaitlistModal />
       </body>

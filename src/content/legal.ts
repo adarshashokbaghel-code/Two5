@@ -16,7 +16,7 @@ export type LegalDoc = {
   sections: LegalSection[];
 };
 
-export const LEGAL_CONTACT = "hello@two5.in";
+export const LEGAL_CONTACT = "hello@mentr.in";
 export const LEGAL_UPDATED = "27 October 2026";
 
 export const legalDocs: LegalDoc[] = [
@@ -147,7 +147,7 @@ export const legalDocs: LegalDoc[] = [
         index: "14",
         heading: "Contact",
         paragraphs: [
-          `Privacy requests: ${LEGAL_CONTACT}. Website: https://two5.in.`,
+          `Privacy requests: ${LEGAL_CONTACT}. Website: https://www.two5.in.`,
         ],
       },
     ],

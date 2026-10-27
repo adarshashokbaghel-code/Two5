@@ -2,19 +2,69 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowDownRight, ArrowRight, Timer, Trophy } from "lucide-react";
 import { HeroFloaters } from "@/components/landing/hero-floaters";
-import { HeroPhone, SCREEN_WASH } from "@/components/landing/hero-phone";
+import { HeroPhone } from "@/components/landing/hero-phone";
+
+const HERO_LINES = [
+  { text: "a run.", color: "#f0c020", ink: "#050505" },
+  { text: "a challenge.", color: "#22C55E", ink: "#050505" },
+  { text: "a match.", color: "#1060f8", ink: "#F4F1E8" },
+  { text: "a battlefield.", color: "#d82010", ink: "#F4F1E8" },
+  { text: "a sprint.", color: "#5ec8ff", ink: "#050505" },
+] as const;
+
+const HERO_LINE_MS = 2800;
+const HERO_LINE_SLIDE_MS = 700;
 
 export function Hero() {
-  const [wash, setWash] = useState(0);
+  const [line, setLine] = useState(0);
+  const [slide, setSlide] = useState(true);
+  const [widths, setWidths] = useState<number[]>([]);
+  const measureRefs = useRef<Array<HTMLSpanElement | null>>([]);
+  const active = HERO_LINES[line % HERO_LINES.length];
+  const track = [...HERO_LINES, HERO_LINES[0]];
+  const phoneIndex = line >= HERO_LINES.length - 1 ? HERO_LINES.length - 1 : line;
+
+  useEffect(() => {
+    const measure = () => {
+      setWidths(measureRefs.current.map((node) => node?.getBoundingClientRect().width ?? 0));
+    };
+    measure();
+    document.fonts?.ready.then(measure);
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, []);
 
   useEffect(() => {
     const root = document.documentElement;
-    root.style.setProperty("--two5-wash", SCREEN_WASH[wash]);
-    root.style.setProperty("--two5-wash-ink", wash >= 2 ? "#F4F1E8" : "#050505");
-  }, [wash]);
+    root.style.setProperty("--two5-wash", active.color);
+    root.style.setProperty("--two5-wash-ink", active.ink);
+  }, [active]);
+
+  useEffect(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const id = window.setInterval(() => {
+      setLine((current) => (reduced ? (current + 1) % HERO_LINES.length : current + 1));
+    }, HERO_LINE_MS);
+    return () => window.clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    if (line !== HERO_LINES.length) return;
+    const timeout = window.setTimeout(() => {
+      setSlide(false);
+      setLine(0);
+    }, HERO_LINE_SLIDE_MS);
+    return () => window.clearTimeout(timeout);
+  }, [line]);
+
+  useEffect(() => {
+    if (slide) return;
+    const frame = window.requestAnimationFrame(() => setSlide(true));
+    return () => window.cancelAnimationFrame(frame);
+  }, [slide]);
 
   return (
     <section className="relative bg-black lg:h-[190vh] motion-reduce:lg:h-auto">
@@ -22,16 +72,10 @@ export function Hero() {
       {/* Background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="absolute inset-0 bg-[#050505]" />
-        {SCREEN_WASH.map((color, washIndex) => (
-          <div
-            key={color}
-            className="absolute left-1/2 top-[-18%] h-[46rem] w-[min(72rem,140vw)] -translate-x-1/2 rounded-full blur-[150px] transition-opacity duration-700 ease-out"
-            style={{
-              backgroundColor: color,
-              opacity: washIndex === wash ? 0.28 : 0,
-            }}
-          />
-        ))}
+        <div
+          className="absolute left-1/2 top-[-18%] h-[46rem] w-[min(72rem,140vw)] -translate-x-1/2 rounded-full blur-[150px] opacity-[0.28] transition-colors duration-700 ease-out"
+          style={{ backgroundColor: active.color }}
+        />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(0,0,0,0.4)_58%,#000_84%)]" />
         <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-b from-transparent to-black" />
       </div>
@@ -44,10 +88,50 @@ export function Hero() {
             Think fast. Play smart.
           </p>
 
-          <h1 className="section-heading mx-auto max-w-[16.5rem] sm:max-w-none sm:whitespace-nowrap">
+          <h1 className="section-heading relative mx-auto max-w-[19rem] sm:max-w-none sm:whitespace-nowrap">
             TWO5 Give your brain{" "}
-            <span className="transition-colors duration-700" style={{ color: SCREEN_WASH[wash] }}>
-              a run.
+            <span className="sr-only">{active.text}</span>
+            <span className="pointer-events-none absolute h-0 overflow-hidden whitespace-nowrap" aria-hidden="true">
+              {HERO_LINES.map((item, itemIndex) => (
+                <span
+                  key={item.text}
+                  ref={(node) => {
+                    measureRefs.current[itemIndex] = node;
+                  }}
+                  className="inline-block"
+                >
+                  {item.text}
+                </span>
+              ))}
+            </span>
+            <span
+              aria-hidden="true"
+              className="relative inline-block h-[1.05em] overflow-hidden align-bottom text-left whitespace-nowrap"
+              style={{
+                width: widths[line % HERO_LINES.length] || undefined,
+                transition: slide ? `width ${HERO_LINE_SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)` : "none",
+              }}
+            >
+              {widths[line % HERO_LINES.length] ? null : (
+                <span className="invisible block">{active.text}</span>
+              )}
+              <span
+                className="absolute top-0 left-0 flex flex-col"
+                style={{
+                  transform: `translateY(calc(${line} * -1.05em))`,
+                  transition: slide ? `transform ${HERO_LINE_SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)` : "none",
+                }}
+              >
+                {track.map((item, itemIndex) => (
+                  <span
+                    key={`${item.text}-${itemIndex}`}
+                    className="block h-[1.05em] text-left leading-none whitespace-nowrap"
+                    style={{ color: item.color }}
+                  >
+                    {item.text}
+                  </span>
+                ))}
+              </span>
             </span>
           </h1>
 
@@ -62,8 +146,8 @@ export function Hero() {
               data-waitlist-trigger
               className="inline-flex h-9 items-center justify-center gap-1.5 rounded-[4px] px-3.5 text-[12px] font-semibold tracking-[-0.01em] transition-[background-color,color] duration-700 hover:brightness-110 sm:h-11 sm:gap-2 sm:px-5 sm:text-[13px]"
               style={{
-                backgroundColor: SCREEN_WASH[wash],
-                color: wash >= 2 ? "#F4F1E8" : "#050505",
+                backgroundColor: active.color,
+                color: active.ink,
               }}
             >
               Join the waitlist
@@ -83,32 +167,28 @@ export function Hero() {
 
         <div className="relative mt-4 w-full flex-1 overflow-hidden sm:mt-10">
           <div className="pointer-events-none absolute top-6 left-1/2 h-56 w-72 -translate-x-1/2">
-            {SCREEN_WASH.map((color, washIndex) => (
-              <div
-                key={color}
-                aria-hidden="true"
-                className="absolute inset-0 rounded-full blur-[90px] transition-opacity duration-700 ease-out"
-                style={{
-                  backgroundColor: color,
-                  opacity: washIndex === wash ? 0.34 : 0,
-                }}
-              />
-            ))}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 rounded-full opacity-[0.34] blur-[90px] transition-colors duration-700 ease-out"
+              style={{ backgroundColor: active.color }}
+            />
           </div>
 
           <div className="absolute top-0 left-1/2 w-[min(19.5rem,86vw)] -translate-x-1/2 sm:w-[20.5rem]">
             <HeroPhone
               size="hero"
               className="w-full shadow-[0_40px_80px_rgba(0,0,0,0.45)]"
-              onScreenChange={setWash}
+              screenIndex={phoneIndex}
+              accent={active.color}
+              animate={slide}
             />
 
             <div className="absolute top-[14%] left-1 z-20 flex items-center gap-2.5 rounded-[4px] border border-white/10 bg-[#161616] px-3 py-2 shadow-[0_16px_40px_rgba(0,0,0,0.45)] sm:top-[16%] sm:-left-10">
               <span
                 className="grid size-8 place-items-center rounded-[4px] transition-colors duration-700"
                 style={{
-                  backgroundColor: SCREEN_WASH[wash],
-                  color: wash >= 2 ? "#F4F1E8" : "#050505",
+                  backgroundColor: active.color,
+                  color: active.ink,
                 }}
               >
                 <Timer size={14} />
@@ -123,8 +203,8 @@ export function Hero() {
               <span
                 className="grid size-8 place-items-center rounded-[4px] transition-colors duration-700"
                 style={{
-                  backgroundColor: SCREEN_WASH[wash],
-                  color: wash >= 2 ? "#F4F1E8" : "#050505",
+                  backgroundColor: active.color,
+                  color: active.ink,
                 }}
               >
                 <Trophy size={14} />

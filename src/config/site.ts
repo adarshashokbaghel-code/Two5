@@ -5,8 +5,8 @@ export const siteConfig = {
   tagline: "Play a sharper game.",
   headline: "Think fast. Know more. Compete.",
   description:
-    "Two5 — the first four categories: Numbers and Logic (MVP), plus Computer Science and Memory & Visual next. Short scored rounds you can play and improve.",
-  url: "https://two5.in",
+    "Two5 is a competitive brain-challenge game in development. Numbers and Logic come first; Computer Science and Memory & Visual follow. Join the waitlist.",
+  url: "https://www.two5.in",
   /** Canonical brand mark (logo 04 — slash glyph, green→yellow→blue→red) */
   logo: "/brand/logo-mark.png",
   logoIcon192: "/brand/icon-192.png",

@@ -6,8 +6,10 @@ const links = [
   { label: "Arenas", href: "/#challenges" },
   { label: "How it works", href: "/#how" },
   { label: "FAQs", href: "/#faq" },
+  { label: "Guides", href: "/blog" },
   { label: "Research", href: "/research" },
-  { label: "Contact", href: "mailto:hello@two5.in" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const legalLinks = [

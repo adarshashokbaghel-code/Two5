@@ -2,12 +2,12 @@ import { useEffect, useRef } from "react";
 import { useLenis } from "lenis/react";
 
 const PIECES = [
-  { id: "undo", src: "/hero/sticker-undo.png", top: "6%", left: "7%", width: 108, height: 70, rotate: -12, drift: "15s", delay: "0s" },
-  { id: "memory", src: "/hero/sticker-memory.png", top: "34%", left: "1.5%", width: 84, height: 72, rotate: 8, drift: "13s", delay: "-1.6s" },
-  { id: "maths", src: "/hero/sticker-maths.png", top: "68%", left: "11%", width: 78, height: 77, rotate: -16, drift: "17s", delay: "-3.4s" },
-  { id: "coding", src: "/hero/sticker-coding.png", top: "16%", right: "2%", width: 104, height: 73, rotate: 11, drift: "16s", delay: "-2.4s" },
-  { id: "die", src: "/hero/sticker-die.png", top: "40%", right: "13%", width: 82, height: 72, rotate: -9, drift: "18s", delay: "-0.6s" },
-  { id: "logic", src: "/hero/sticker-logic.png", top: "71%", right: "4%", width: 74, height: 80, rotate: 15, drift: "14s", delay: "-4.5s" },
+  { id: "undo", src: "/hero/sticker-undo.png", top: "6%", left: "7%", width: 108, height: 70, rotate: -12, hop: "12px", drift: "3.6s", delay: "0s" },
+  { id: "memory", src: "/hero/sticker-memory.png", top: "34%", left: "1.5%", width: 84, height: 72, rotate: 8, hop: "-10px", drift: "4.2s", delay: "-1.1s" },
+  { id: "maths", src: "/hero/sticker-maths.png", top: "68%", left: "11%", width: 78, height: 77, rotate: -16, hop: "8px", drift: "3.9s", delay: "-2.4s" },
+  { id: "coding", src: "/hero/sticker-coding.png", top: "16%", right: "2%", width: 104, height: 73, rotate: 11, hop: "-14px", drift: "4.5s", delay: "-0.6s" },
+  { id: "die", src: "/hero/sticker-die.png", top: "40%", right: "13%", width: 82, height: 72, rotate: -9, hop: "11px", drift: "3.4s", delay: "-1.8s" },
+  { id: "logic", src: "/hero/sticker-logic.png", top: "71%", right: "4%", width: 74, height: 80, rotate: 15, hop: "-9px", drift: "4.8s", delay: "-3.2s" },
 ];
 
 function clamp(value: number, min: number, max: number) {
@@ -87,8 +87,10 @@ export function HeroFloaters() {
     <div ref={layerRef} className="pointer-events-none absolute inset-0 z-20 hidden overflow-hidden lg:block" aria-hidden="true">
       <style>{`
         @keyframes hero-bob {
-          0%, 100% { transform: translate3d(0, 0, 0); }
-          50% { transform: translate3d(0, -10px, 0); }
+          0%, 100% { transform: translate3d(0, 0, 0) rotate(0deg); }
+          42% { transform: translate3d(var(--hop-x), -18px, 0) rotate(2.4deg); }
+          58% { transform: translate3d(calc(var(--hop-x) * 1.15), -20px, 0) rotate(2.8deg); }
+          78% { transform: translate3d(calc(var(--hop-x) * 0.4), -3px, 0) rotate(0.6deg); }
         }
         @media (prefers-reduced-motion: reduce) {
           .hero-bob { animation: none !important; }
@@ -108,7 +110,8 @@ export function HeroFloaters() {
               right: "right" in piece ? piece.right : undefined,
               width: piece.width,
               height: piece.height,
-              animation: `hero-bob ${piece.drift} ease-in-out ${piece.delay} infinite`,
+              ["--hop-x" as string]: piece.hop,
+              animation: `hero-bob ${piece.drift} cubic-bezier(0.45, 0.05, 0.55, 0.95) ${piece.delay} infinite`,
             }}
           >
             <div className="h-full w-full will-change-transform">
