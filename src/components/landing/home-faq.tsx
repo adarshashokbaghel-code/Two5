@@ -76,7 +76,11 @@ export function HomeFaq() {
               type="button"
               data-waitlist-trigger
               data-waitlist-source="faq"
-              className="mt-10 inline-flex h-12 items-center rounded-full bg-[#22C55E] px-5 text-sm font-semibold text-black"
+              className="mt-10 inline-flex h-12 items-center rounded-full px-5 text-sm font-semibold transition-[background-color,color] duration-700"
+              style={{
+                backgroundColor: "var(--two5-wash, #22C55E)",
+                color: "var(--two5-wash-ink, #050505)",
+              }}
             >
               Join the waitlist
             </button>
@@ -89,7 +93,11 @@ export function HomeFaq() {
           type="button"
           data-waitlist-trigger
           data-waitlist-source="faq"
-          className="inline-flex h-12 w-fit items-center rounded-full bg-[#22C55E] px-5 text-sm font-semibold text-black lg:hidden"
+          className="inline-flex h-12 w-fit items-center rounded-full px-5 text-sm font-semibold transition-[background-color,color] duration-700 lg:hidden"
+          style={{
+            backgroundColor: "var(--two5-wash, #22C55E)",
+            color: "var(--two5-wash-ink, #050505)",
+          }}
         >
           Join the waitlist
         </button>

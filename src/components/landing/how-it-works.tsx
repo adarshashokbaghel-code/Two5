@@ -442,7 +442,7 @@ export function HowItWorks() {
         </ol>
 
       </div>
-      <div className="bg-[#312e2b]">
+      <div className="bg-paper">
         <SlantLine />
       </div>
     </section>

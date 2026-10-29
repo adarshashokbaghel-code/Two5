@@ -74,7 +74,6 @@ function statusBetween(
 export function launchSnapshot(now = new Date()): LaunchSnapshot {
   const t = now.getTime();
   const dec1 = istMidnight(launchDates.selection);
-  const dec2 = istMidnight("2026-12-02");
   const dec12 = istMidnight(launchDates.productLive);
   const jan1 = istMidnight(launchDates.inviteUnlock);
 
@@ -85,12 +84,12 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
 
   const announcement =
     phase === "waitlist"
-      ? "First 200 players will be announced on Dec 1, 2026."
+      ? "Waitlist open through Nov 30. 200 selected on Dec 1."
       : phase === "selection"
-        ? "The first 200 are announced. The product goes live for them on December 12."
+        ? "The first 200 are selected. A WhatsApp invite is sent. The product launches for them on December 12."
         : phase === "founding"
-          ? "The product is live for the founding 200. Closed beta runs through January 1."
-          : "Three invitation codes are open for founding players.";
+          ? "The product is live for the 200. Each can invite 3 people from January 1."
+          : "Each of the 200 can invite 3 people to play.";
 
   const nextMilestone =
     t < dec1
@@ -114,17 +113,12 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
     },
     {
       id: "live",
-      title: "Product live",
+      title: "Product launch",
       status: t < dec12 ? "UPCOMING" : "ACTIVE",
     },
     {
-      id: "beta",
-      title: "Closed beta",
-      status: t < dec12 ? "UPCOMING" : t < jan1 ? "ACTIVE" : "COMPLETE",
-    },
-    {
       id: "invites",
-      title: "Invite unlock",
+      title: "Three invites each",
       status: t < jan1 ? "UPCOMING" : "ACTIVE",
     },
   ];
@@ -136,50 +130,40 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
       title: "Waitlist opens",
       status: t < dec1 ? "OPEN" : "COMPLETE",
       description:
-        "The waitlist is open to people interested in early access. Registering records your interest. It is not access to the game.",
+        "The waitlist stays open through November 30. Registering records your interest. It is not access to the game.",
       expect:
-        "You can register your interest, read how Two5 is being built, and follow launch announcements. Joining does not reserve a place.",
+        "You can register your interest, read how Two5 is being built, and follow launch announcements. Joining does not reserve a place. The list closes for this draw on November 30.",
       cta: { href: "/#waitlist", label: "Join the waitlist", source: "roadmap-milestone-waitlist" },
     },
     {
       id: "selection",
       date: "December 1, 2026",
-      title: "First 200 announced",
+      title: "200 selected",
       status: statusBetween(t, launchDates.selection, "2026-12-02"),
       description:
-        "The 200 players are announced and the founding cohort starts. The product is not live yet. Selection is a random draw, not a test of skill.",
+        "Two hundred people are selected from the waitlist, and a WhatsApp invite is sent to them. The product is not live yet. Selection is a random draw, not a test of skill.",
       expect:
-        "Selected people are told they are in. Everyone else stays on the waitlist. Being announced on December 1 does not open the product that day.",
+        "Selected people get the WhatsApp invite on December 1. Everyone else stays on the waitlist. Selection does not open the product that day.",
     },
     {
       id: "live",
       date: "December 12, 2026",
-      title: "Product goes live for the 200",
+      title: "Product launch for the 200",
       status: t < dec12 ? "UPCOMING" : "ACTIVE",
       description:
-        "The product opens only for the announced 200. Nobody else can play that day.",
+        "The product launches only for these 200. Nobody else can play that day.",
       expect:
-        "Founding players can use the live product. Other people stay on the waitlist until invitations open.",
-    },
-    {
-      id: "beta",
-      date: "December 12, 2026 – January 1, 2027",
-      title: "Closed beta",
-      status: t < dec12 ? "UPCOMING" : t < jan1 ? "ACTIVE" : "COMPLETE",
-      description:
-        "The founding 200 test the live product through January 1. The beta runs in a closed WhatsApp group.",
-      expect:
-        "Feedback, bugs, and usability notes stay inside that group. Phone numbers in the group can be visible to other members. The beta ends when invitations open.",
+        "The selected players can use the live product. Other people stay on the waitlist until January 1, when each of the 200 can invite 3 people.",
     },
     {
       id: "invites",
       date: "January 1, 2027",
-      title: "Three invitations unlock",
+      title: "Three invites each",
       status: t < jan1 ? "UPCOMING" : "ACTIVE",
       description:
-        "Each founding account can receive three invitation codes. Three is a maximum, not a quota. Founding players do not have to use them.",
+        "From January 1, each of the 200 can invite 3 people to play. Three is a maximum, not a quota.",
       expect:
-        "Each code is for one new account and can be redeemed once. A code can fail if it expires, is withdrawn, or breaks the published rules. This is the first time someone outside the 200 can be invited in.",
+        "Each invite is for one new player. This is the first time someone outside the 200 can be invited in. An invite can fail if it expires, is withdrawn, or breaks the published rules.",
     },
     {
       id: "waves",
@@ -212,21 +196,21 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
     },
     {
       index: "02",
-      title: "First 200 announced",
+      title: "200 selected",
       when: "December 1",
-      body: "Two hundred waitlisted applicants are announced. The product is not live yet. Everyone else stays on the waitlist.",
+      body: "Two hundred people are selected and sent a WhatsApp invite. The product is not live yet.",
     },
     {
       index: "03",
-      title: "Product live for the 200",
+      title: "Product launch",
       when: "December 12",
-      body: "The product opens only for those 200. Closed beta runs in a WhatsApp group through January 1.",
+      body: "The product launches only for these 200. Nobody else can play yet.",
     },
     {
       index: "04",
-      title: "Three invites open",
+      title: "Three invites each",
       when: "January 1",
-      body: "Each founding account can receive three invitation codes. That is the first time someone outside the 200 can be invited in.",
+      body: "Each of the 200 can invite 3 people to play. That is the first time someone outside the group can join.",
     },
   ];
 
@@ -288,12 +272,12 @@ export const faqs: FaqItem[] = [
   {
     id: "live",
     q: "Is Two5 live yet?",
-    a: "The website and waitlist are live. The first 200 are announced on December 1, 2026. The product goes live for those players on December 12, 2026. You cannot play a round on this website.",
+    a: "The website and waitlist are live. The waitlist stays open through November 30, 2026. On December 1, 200 people are selected and sent a WhatsApp invite. The product launches for them on December 12. You cannot play a round on this website.",
   },
   {
     id: "selection-date",
     q: "When will the first 200 players be selected?",
-    a: "December 1, 2026.",
+    a: "December 1, 2026. A WhatsApp invite is sent to the selected people that day. The product launches for them on December 12.",
   },
   {
     id: "selection-how",
@@ -303,7 +287,7 @@ export const faqs: FaqItem[] = [
   {
     id: "guarantee",
     q: "Does joining the waitlist guarantee access?",
-    a: "No. The waitlist is how you ask to be considered. Two hundred applicants are drawn on December 1. Everyone else can stay on the list for a later wave.",
+    a: "No. The waitlist is how you ask to be considered, and it stays open through November 30. Two hundred people are selected on December 1. Everyone else can stay on the list.",
   },
   {
     id: "not-selected",
@@ -313,17 +297,17 @@ export const faqs: FaqItem[] = [
   {
     id: "launch",
     q: "When does Two5 launch?",
-    a: "The product goes live on December 12, 2026, only for the first 200. Three invitation codes per founding account open on January 1, 2027.",
+    a: "The product launches on December 12, 2026, only for the 200 selected on December 1. From January 1, 2027, each of them can invite 3 people to play.",
   },
   {
     id: "invites",
     q: "How do invitations work?",
-    a: "Each founding account can receive three unique invitation codes on January 1, 2027, after the closed beta. Each code is for one new account. A code can fail if it expires, is withdrawn, or breaks the published rules.",
+    a: "From January 1, 2027, each of the 200 can invite 3 people to play. Each invite is for one new player. An invite can fail if it expires, is withdrawn, or breaks the published rules.",
   },
   {
     id: "whatsapp",
     q: "Do I need to join WhatsApp?",
-    a: "The closed beta, from December 12 through January 1, is run in a private WhatsApp group for the founding 200. Phone numbers in that group can be visible to other members. Feedback can also go to the contact address.",
+    a: "Selected players are sent a WhatsApp invite on December 1. Phone numbers in that group can be visible to other members. Feedback can also go to the contact address.",
     links: [{ href: "/contact", label: "Contact the team" }],
   },
   {
@@ -356,7 +340,7 @@ export const faqs: FaqItem[] = [
   {
     id: "friends",
     q: "Can I challenge my friends?",
-    a: "Friend challenges are part of the later plan, not part of the first playable release. The three invitations on January 1 are access codes, not an in-game challenge mode.",
+    a: "Friend challenges are part of the later plan, not part of the first playable release. From January 1, each of the 200 can invite 3 people to play. Those invites are access, not an in-game challenge mode.",
   },
 ];
 
@@ -413,19 +397,19 @@ export const afterJoin = [
   {
     index: "2",
     title: "Wait for selection",
-    body: "The first 200 applicants are selected on December 1. Watch your inbox. Most people on the list will not be selected that day.",
+    body: "The waitlist stays open through November 30. On December 1, 200 people are selected and sent a WhatsApp invite. Most people on the list will not be selected.",
   },
   {
     index: "3",
-    title: "Claim access",
-    body: "If you are announced on December 1, the product opens for you on December 12. Closed beta runs in a WhatsApp group through January 1.",
+    title: "Play, then invite",
+    body: "If you are selected, the product launches for you on December 12. From January 1, you can invite 3 people to play.",
   },
 ] as const;
 
 export const foundingBenefits = [
-  "First access to the live product.",
-  "A direct feedback channel during the founding-player period.",
-  "Three invitation codes per founding account from January 1.",
+  "Selected on December 1, with a WhatsApp invite sent that day.",
+  "Product launch on December 12, only for these 200.",
+  "From January 1, each of the 200 can invite 3 people to play.",
   "Early access to future features when they are offered.",
   "A chance to help improve the experience before more people get in.",
 ] as const;

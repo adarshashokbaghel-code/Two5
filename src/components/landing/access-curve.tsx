@@ -61,8 +61,8 @@ function LaunchHeader() {
         The first round starts with <span className="text-green-500">200.</span>
       </h2>
       <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-white/70 sm:mt-5 sm:text-base sm:leading-7">
-        Two5 is opening in stages. Join the waitlist, watch for selection results, and follow the journey from the
-        first founding players to the official launch.
+        The waitlist stays open through November 30. On December 1, 200 people are selected. The product launches for
+        them on December 12, and from January 1 each can invite 3 people to play.
       </p>
     </header>
   );
@@ -191,12 +191,10 @@ export function AccessCurve({ steps }: { steps: HomeAccessStep[] }) {
         }
 
         if (copy) {
-          const fade = dist >= 0.38 ? 0 : 1 - dist / 0.38;
-          const shift = mobile ? slot * 12 : slot * 18;
+          const fade = dist >= 0.5 ? 0 : dist <= 0.28 ? 1 : (0.5 - dist) / 0.22;
+          const shift = slot * 8;
           copy.style.opacity = String(fade);
-          copy.style.transform = mobile
-            ? `translate3d(0, ${shift}px, 0)`
-            : `translate3d(${shift}px, 0, 0)`;
+          copy.style.transform = `translate3d(${mobile ? 0 : shift}px, ${mobile ? shift : 0}px, 0)`;
           if (index === active) copy.parentElement?.setAttribute("aria-current", "step");
           else copy.parentElement?.removeAttribute("aria-current");
         }
@@ -244,8 +242,12 @@ export function AccessCurve({ steps }: { steps: HomeAccessStep[] }) {
   const hold = Math.max(0, steps.length - 1);
 
   return (
-    <div ref={trackRef} className="relative" style={{ height: `calc(100svh + ${hold * 72}vh)` }}>
-      <div className="sticky top-0 flex h-svh flex-col overflow-hidden bg-black px-0 pt-[4.75rem] pb-16 sm:pt-16 sm:pb-24">
+    <>
+    <div className="md:hidden">
+      <StaticSteps steps={steps} />
+    </div>
+    <div ref={trackRef} className="relative hidden md:block" style={{ height: `calc(100svh + ${hold * 72}vh)` }}>
+      <div className="sticky top-0 flex h-svh flex-col overflow-hidden bg-black px-0 pt-16 pb-24">
         <LaunchHeader />
 
         <div className="flex min-h-0 flex-1 flex-col justify-center">
@@ -356,5 +358,6 @@ export function AccessCurve({ steps }: { steps: HomeAccessStep[] }) {
         </div>
       </div>
     </div>
+    </>
   );
 }

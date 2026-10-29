@@ -13,7 +13,7 @@ import { breadcrumbJsonLd, jsonLdGraph, webPageJsonLd } from "@/lib/json-ld";
 
 const title = "Two5 Roadmap — Early Access & Launch Timeline";
 const description =
-  "See the Two5 launch roadmap: December 1 selection, December 12 live access for the first 200, closed beta through January 1, and three invitations.";
+  "See the Two5 launch roadmap: waitlist through November 30, 200 selected on December 1, product launch for them on December 12, and three invites each from January 1.";
 
 export const metadata: Metadata = {
   title: { absolute: title },

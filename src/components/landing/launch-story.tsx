@@ -31,36 +31,58 @@ export function AccessTimeline({
 }
 
 const loadout = [
-  { n: "01", title: "First access", line: "Live product", color: "#81b64c" },
-  { n: "02", title: "Direct feedback", line: "Founding period", color: "#7fa8d4" },
-  { n: "03", title: "3 invite codes", line: "Per account · Jan 1", color: "#e07060" },
-  { n: "04", title: "Early access", line: "Future features", color: "#f0c020" },
-  { n: "05", title: "Shape Two5", line: "Before the next wave", color: "#c4b8a8" },
+  { n: "01", title: "Train", line: "WhatsApp invite · December 1", color: "#d82010" },
+  { n: "02", title: "Compete", line: "Live for the 200 · December 12", color: "#15803d" },
+  { n: "03", title: "Grow", line: "3 invites each · January 1", color: "#9a7209" },
+  { n: "04", title: "Early access", line: "Future features", color: "#1060f8" },
+  { n: "05", title: "Shape Two5", line: "Before the next wave", color: "#6b6258" },
 ] as const;
+
+function LoadoutCard({
+  item,
+  hidden = false,
+}: {
+  item: (typeof loadout)[number];
+  hidden?: boolean;
+}) {
+  return (
+    <li
+      aria-hidden={hidden || undefined}
+      className={`w-[15.5rem] shrink-0 rounded-2xl border border-ink/10 bg-white px-4 py-4 text-ink sm:w-auto${hidden ? " motion-reduce:hidden" : ""}`}
+    >
+      <p className="font-display text-sm leading-none" style={{ color: item.color }}>
+        {item.n}
+      </p>
+      <h3 className="mt-2 font-display text-2xl leading-none tracking-[0.01em]">{item.title}</h3>
+      <p className="mt-1.5 text-sm leading-5 text-ink/55">{item.line}</p>
+    </li>
+  );
+}
 
 export function Founding() {
   return (
-    <section id="founding-players" aria-labelledby="founding-title" className="bg-[#312e2b] text-white">
+    <section id="founding-players" aria-labelledby="founding-title" className="bg-paper text-ink">
       <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-8 lg:py-24">
         <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,1fr)_17.5rem] lg:gap-16">
           <div>
-            <p className="font-display text-sm tracking-[0.14em] text-[#81b64c] uppercase">Founding players</p>
+            <p className="font-display text-sm tracking-[0.14em] text-[#15803d] uppercase">Founding players</p>
             <h2 id="founding-title" className="section-heading mt-3">
               Be first to test Two5.
             </h2>
-            <p className="mt-4 max-w-md text-base leading-7 text-white/70">
-              Join the waitlist. The first 200 play the live training.
+            <p className="mt-4 max-w-md text-base leading-7 text-ink/70">
+              The waitlist stays open through November 30. On December 1, 200 people are selected and sent a WhatsApp
+              invite. The product launches for them on December 12.
             </p>
             <div className="mt-6">
-              <WaitlistButton source="founding" className="bg-[#81b64c] text-[#17210d]">
+              <WaitlistButton source="founding" className="bg-[#22C55E] text-black">
                 Join the waitlist
               </WaitlistButton>
-              <p className="mt-3 text-sm leading-6 text-white/55">Not selected? Stay on the waitlist.</p>
+              <p className="mt-3 text-sm leading-6 text-ink/55">Not selected? Stay on the waitlist.</p>
             </div>
           </div>
 
-          <article className="mx-auto w-full max-w-[17.5rem] overflow-hidden rounded-[1.75rem] bg-[#3b3937] text-white">
-            <div className="relative grid h-44 place-items-center bg-[#262421]">
+          <article className="mx-auto w-full max-w-[17.5rem] overflow-hidden rounded-[1.75rem] border border-ink/10 bg-white text-ink">
+            <div className="relative grid h-44 place-items-center bg-paper">
               <Image
                 src="/hero/sticker-die.png"
                 alt=""
@@ -68,7 +90,7 @@ export function Founding() {
                 height={320}
                 className="size-28"
               />
-              <span className="absolute top-3 right-3 rounded-full bg-[#81b64c] px-2.5 py-1 font-display text-[11px] tracking-[0.08em] text-[#17210d] uppercase">
+              <span className="absolute top-3 right-3 rounded-full bg-[#22C55E] px-2.5 py-1 font-display text-[11px] tracking-[0.08em] text-black uppercase">
                 200
               </span>
             </div>
@@ -78,15 +100,22 @@ export function Founding() {
           </article>
         </div>
 
-        <ul className="-mx-4 mt-12 flex snap-x snap-mandatory gap-3 overflow-x-auto px-4 py-2 sm:mx-0 sm:grid sm:grid-cols-2 sm:overflow-visible sm:px-0 lg:grid-cols-5">
+        <div className="relative mt-12 overflow-hidden motion-reduce:overflow-x-auto md:hidden">
+          <ul
+            className="flex w-max gap-3 py-2 motion-safe:animate-[loadout-marquee_28s_linear_infinite]"
+            aria-label="What founding players get"
+          >
+            {loadout.map((item) => (
+              <LoadoutCard key={item.n} item={item} />
+            ))}
+            {loadout.map((item) => (
+              <LoadoutCard key={`${item.n}-loop`} item={item} hidden />
+            ))}
+          </ul>
+        </div>
+        <ul className="mt-12 hidden gap-3 md:grid md:grid-cols-2 lg:grid-cols-5">
           {loadout.map((item) => (
-            <li key={item.n} className="w-[68%] shrink-0 snap-center rounded-2xl bg-[#3b3937] px-4 py-4 sm:w-auto">
-              <p className="font-display text-sm leading-none" style={{ color: item.color }}>
-                {item.n}
-              </p>
-              <h3 className="mt-2 font-display text-2xl leading-none tracking-[0.01em]">{item.title}</h3>
-              <p className="mt-1.5 text-sm leading-5 text-white/55">{item.line}</p>
-            </li>
+            <LoadoutCard key={item.n} item={item} />
           ))}
         </ul>
       </div>
