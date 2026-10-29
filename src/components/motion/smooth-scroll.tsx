@@ -13,10 +13,8 @@ function useHashNavigation(lenis: ReturnType<typeof useLenis> | null) {
 
   useEffect(() => {
     const go = (hash?: string) => {
-      const next = hash ?? window.location.hash;
+      const next = hash ?? (pathname ? window.location.hash : "");
       if (!next || next === "#waitlist") return;
-      // Sections live on the home page.
-      if (pathname !== "/" && !hash) return;
       window.requestAnimationFrame(() => {
         scrollToHash(next, lenis);
       });

@@ -5,7 +5,7 @@ export const siteConfig = {
   tagline: "Train. Track. Outplay.",
   headline: "Give your brain a run.",
   description:
-    "Two5 is a training-first mental game in development. Short challenges in Numbers and Logic come first, with personal bests to chase. Computer Science and Memory & Visual follow. Join the waitlist.",
+    "Train your thinking with purposeful mental challenges. Track your progress and get ready to compete. Join the Two5 waitlist for a chance at early access.",
   url: "https://www.two5.in",
   /** Geometric 25 mark. Flat colours from the original maths logo, without the grain. */
   logo: "/brand/logo-mark.png",
@@ -16,7 +16,8 @@ export const siteConfig = {
   nav: [
     { label: "Play", href: "#how", index: "01" },
     { label: "Arenas", href: "#challenges", index: "02" },
-    { label: "Research", href: "/research", index: "03" },
-    { label: "FAQ", href: "#faq", index: "04" },
+    { label: "Roadmap", href: "/roadmap", index: "03" },
+    { label: "Research", href: "/research", index: "04" },
+    { label: "FAQ", href: "#faq", index: "05" },
   ] satisfies NavItem[],
 };

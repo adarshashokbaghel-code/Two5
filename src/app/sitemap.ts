@@ -6,14 +6,21 @@ import { siteConfig } from "@/config/site";
 
 const researchUpdated = new Date("2026-10-24");
 const siteUpdated = new Date("2026-10-27");
+const launchUpdated = new Date("2026-10-29");
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return [
     {
       url: siteConfig.url,
-      lastModified: siteUpdated,
+      lastModified: launchUpdated,
       changeFrequency: "weekly",
       priority: 1,
+    },
+    {
+      url: `${siteConfig.url}/roadmap`,
+      lastModified: launchUpdated,
+      changeFrequency: "weekly",
+      priority: 0.9,
     },
     {
       url: `${siteConfig.url}/about`,

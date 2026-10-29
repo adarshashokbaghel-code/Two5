@@ -1,32 +1,60 @@
 
 import type { Metadata } from "next";
+import { connection } from "next/server";
+import { Suspense } from "react";
 
 import { TrackOnce } from "@/components/analytics/track-once";
 import { Challenges } from "@/components/landing/challenges";
-import { Faq } from "@/components/landing/faq";
 import { Guides } from "@/components/landing/guides";
 import { Hero } from "@/components/landing/hero";
 import { HowItWorks } from "@/components/landing/how-it-works";
+import { HomeFaq } from "@/components/landing/home-faq";
+import {
+  AccessTimeline,
+  Evidence,
+  FinalCta,
+  Founding,
+} from "@/components/landing/launch-story";
+import { Positioning } from "@/components/landing/positioning";
 import SiteFooter from "@/components/landing/site-footer";
 import { DockNav } from "@/components/layout/dock-nav";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
+import { launchSnapshot, previewSnapshot } from "@/content/launch";
 import { jsonLdGraph, webPageJsonLd } from "@/lib/json-ld";
 
-const homeTitle = "Two5 — Give your brain a run";
+const homeTitle = "Two5 — Mental Training Games & Challenges";
+const homeDescription =
+  "Train your thinking with purposeful mental challenges. Track your progress and get ready to compete. Join the Two5 waitlist for a chance at early access.";
 
 export const metadata: Metadata = {
   title: { absolute: homeTitle },
-  description: siteConfig.description,
-  alternates: { canonical: "/" },
+  description: homeDescription,
+  alternates: { canonical: `${siteConfig.url}/` },
   openGraph: {
     title: homeTitle,
-    description: siteConfig.description,
+    description: homeDescription,
     url: "/",
     siteName: siteConfig.name,
     type: "website",
   },
+  twitter: {
+    card: "summary_large_image",
+    title: homeTitle,
+    description: homeDescription,
+    images: [siteConfig.ogImage],
+  },
 };
+
+async function CurrentHero() {
+  await connection();
+  return <Hero announcement={launchSnapshot().announcement} />;
+}
+
+async function CurrentAccess() {
+  await connection();
+  return <AccessTimeline snapshot={launchSnapshot()} trackView />;
+}
 
 export default function HomePage() {
   return (
@@ -45,16 +73,25 @@ export default function HomePage() {
           webPageJsonLd({
             path: "/",
             name: homeTitle,
-            description: siteConfig.description,
+            description: homeDescription,
           }),
         ])}
       />
 
       <main>
-        <Hero />
+        <Suspense fallback={<Hero announcement={previewSnapshot.announcement} />}>
+          <CurrentHero />
+        </Suspense>
+        <Positioning />
         <HowItWorks />
         <Challenges />
-        <Faq />
+        <Suspense fallback={<AccessTimeline snapshot={previewSnapshot} />}>
+          <CurrentAccess />
+        </Suspense>
+        <Founding />
+        <Evidence />
+        <FinalCta />
+        <HomeFaq />
         <Guides />
       </main>
 

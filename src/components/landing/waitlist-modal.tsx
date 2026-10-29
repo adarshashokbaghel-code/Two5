@@ -2,6 +2,7 @@
 "use client";
 
 import {
+  useCallback,
   useEffect,
   useId,
   useRef,
@@ -41,6 +42,33 @@ export function WaitlistModal() {
   const [busy, setBusy] = useState<
     "send" | "verify" | "resend" | null
   >(null);
+  const openRef = useRef(false);
+  const openWaitlistRef = useRef<(source: string) => void>(() => undefined);
+
+  const attribution = useCallback(() => {
+    const params = new URLSearchParams(window.location.search);
+    return {
+      source: params.get("utm_source") ?? "",
+      campaign: params.get("utm_campaign") ?? "",
+      page_path: window.location.pathname,
+    };
+  }, []);
+
+  const openWaitlist = useCallback((source: string) => {
+    if (!openRef.current) {
+      const { page_path } = attribution();
+      track("waitlist_cta_click", { source, page_path });
+      track("waitlist_form_started", { source, page_path });
+    }
+    setMessage("");
+    setNotice("");
+    setOpen(true);
+  }, [attribution]);
+
+  useEffect(() => {
+    openRef.current = open;
+    openWaitlistRef.current = openWaitlist;
+  }, [open, openWaitlist]);
 
   // Open from any waitlist link or marked CTA button.
   useEffect(() => {
@@ -51,9 +79,7 @@ export function WaitlistModal() {
       const button = target.closest("button[data-waitlist-trigger]");
       if (button) {
         event.preventDefault();
-        setMessage("");
-        setNotice("");
-        setOpen(true);
+        openWaitlistRef.current(button.getAttribute("data-waitlist-source") || "waitlist-trigger");
         return;
       }
 
@@ -76,14 +102,12 @@ export function WaitlistModal() {
       if (!isWaitlist) return;
 
       event.preventDefault();
-      setMessage("");
-      setNotice("");
-      setOpen(true);
+      openWaitlistRef.current(anchor.getAttribute("data-waitlist-source") || "waitlist-link");
     };
 
-    // Open if the page loaded with #waitlist in the URL.
+    // Hash is client-only, so open after paint instead of during render.
     if (window.location.hash === "#waitlist") {
-      setOpen(true);
+      window.setTimeout(() => openWaitlistRef.current("hash"), 0);
     }
 
     document.addEventListener("click", handleClick);
@@ -150,6 +174,7 @@ export function WaitlistModal() {
       accountId?: string;
       name?: string;
       email?: string;
+      created?: boolean;
     };
 
     if (!response.ok) {
@@ -166,7 +191,8 @@ export function WaitlistModal() {
 
     if (!parsed.ok) {
       setMessage(parsed.error);
-      track("waitlist_signup_error", { reason: "invalid" });
+      track("waitlist_signup_error", { reason: "invalid", page_path: window.location.pathname });
+      track("waitlist_form_error", { reason: "invalid", page_path: window.location.pathname });
       return;
     }
 
@@ -175,7 +201,8 @@ export function WaitlistModal() {
     setNotice("");
 
     try {
-      await postAuth("/api/auth/otp", parsed.data);
+      const { source, campaign } = attribution();
+      await postAuth("/api/auth/otp", { ...parsed.data, source, campaign });
 
       setName(parsed.data.name);
       setEmail(parsed.data.email);
@@ -187,9 +214,12 @@ export function WaitlistModal() {
       window.setTimeout(() => codeRefs.current[0]?.focus(), 0);
     } catch (error) {
       setMessage(
-        error instanceof Error ? error.message : "Could not send the code.",
+        error instanceof Error
+          ? error.message
+          : "We couldn't complete your registration. Please try again.",
       );
-      track("waitlist_signup_error", { reason: "server" });
+      track("waitlist_signup_error", { reason: "server", page_path: window.location.pathname });
+      track("waitlist_form_error", { reason: "server", page_path: window.location.pathname });
     } finally {
       setBusy(null);
     }
@@ -258,12 +288,28 @@ export function WaitlistModal() {
       if (payload.name) setName(payload.name);
 
       setStep("verified");
-      track("waitlist_signup_success");
+      const touch = attribution();
+      track("waitlist_signup_success", {
+        source: touch.source || "direct",
+        campaign: touch.campaign || "none",
+        page_path: touch.page_path,
+        new_account: payload.created === false ? "false" : "true",
+      });
+      if (payload.created !== false) {
+        track("waitlist_joined", {
+          source: touch.source || "direct",
+          campaign: touch.campaign || "none",
+          page_path: touch.page_path,
+        });
+      }
     } catch (error) {
       setMessage(
-        error instanceof Error ? error.message : "Could not verify the code.",
+        error instanceof Error
+          ? error.message
+          : "We couldn't complete your registration. Please try again.",
       );
-      track("waitlist_signup_error", { reason: "server" });
+      track("waitlist_signup_error", { reason: "verify", page_path: window.location.pathname });
+      track("waitlist_form_error", { reason: "verify", page_path: window.location.pathname });
     } finally {
       setBusy(null);
     }
@@ -456,7 +502,7 @@ export function WaitlistModal() {
                 {busy !== "send" && <ArrowRight size={16} />}
               </button>
               <p className="mt-3 text-center text-[11px] leading-5 text-white/40">
-                By joining you agree to our{" "}
+                Join for launch updates. Selection is not guaranteed. By joining you agree to our{" "}
                 <a href="/terms" className="text-white/70 underline-offset-2 hover:text-white hover:underline">
                   Terms
                 </a>{" "}
@@ -540,9 +586,9 @@ export function WaitlistModal() {
                 <Check size={22} strokeWidth={2.5} />
               </div>
 
-              <h3 className="mt-1 text-lg font-semibold">
-                You're in, {name || "player"}.
-              </h3>
+              <p className="mt-1 text-sm leading-6 text-white/70">
+                Two5&apos;s first 200 players will be selected on December 1. Watch your inbox for updates.
+              </p>
 
               </div>
 

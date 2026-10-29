@@ -4,6 +4,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { ArrowDownRight, ArrowRight, Timer, Trophy } from "lucide-react";
+
 import { HeroFloaters } from "@/components/landing/hero-floaters";
 import { HeroPhone } from "@/components/landing/hero-phone";
 
@@ -18,7 +19,7 @@ const HERO_LINES = [
 const HERO_LINE_MS = 2800;
 const HERO_LINE_SLIDE_MS = 700;
 
-export function Hero() {
+export function Hero({ announcement }: { announcement?: string }) {
   const [line, setLine] = useState(0);
   const [slide, setSlide] = useState(true);
   const [widths, setWidths] = useState<number[]>([]);
@@ -68,6 +69,27 @@ export function Hero() {
 
   return (
     <section className="relative bg-black lg:h-[190vh] motion-reduce:lg:h-auto">
+      {announcement ? (
+        <div
+          role="region"
+          aria-label="Launch announcement"
+          className="fixed inset-x-0 top-0 z-40 border-b border-white/25 bg-[#050505]/95 pt-[env(safe-area-inset-top,0px)] backdrop-blur-md"
+        >
+          <p className="px-3 py-2 text-center text-[clamp(10px,2.75vw,13px)] leading-snug whitespace-nowrap text-white/80 sm:px-5 sm:py-2.5">
+            {announcement}{" "}
+            <button
+              type="button"
+              data-waitlist-trigger
+              data-waitlist-source="announcement"
+              className="font-semibold underline decoration-current underline-offset-[3px] transition-colors duration-700"
+              style={{ color: "var(--two5-wash, #f0c020)" }}
+            >
+              Join waitlist
+            </button>
+          </p>
+        </div>
+      ) : null}
+
       <div className="sticky top-0 isolate flex h-[100svh] flex-col overflow-hidden bg-black text-[#F4F1E8]">
       {/* Background */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
@@ -82,7 +104,7 @@ export function Hero() {
 
       <HeroFloaters />
 
-      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col items-center px-5 pt-14 sm:px-8 sm:pt-28">
+      <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col items-center px-5 pt-[calc(4.25rem+env(safe-area-inset-top,0px))] sm:px-8 sm:pt-[calc(7.5rem+env(safe-area-inset-top,0px))]">
         <div className="w-full min-w-0 shrink-0 text-center">
           <p className="mb-2 font-display text-[0.72rem] leading-none tracking-[0.18em] text-white/55 sm:mb-5 sm:text-[clamp(1.05rem,2vw,0.85rem)] sm:tracking-[0.14em] sm:text-white/70">
             Train. Track. Outplay.

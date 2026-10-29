@@ -10,7 +10,7 @@ export type Two5Category = {
   modes: [string, string, string];
   why: string;
   status: CategoryStatus;
-  statusLabel: "Launch" | "Coming soon";
+  statusLabel: "Launch wave" | "Future waves";
   live: boolean;
   accent: string;
   ink: string;
@@ -32,7 +32,7 @@ export const two5Categories: Two5Category[] = [
     modes: ["Number Sprint", "Sequence Hunt", "Target Number"],
     why: "A launch category. Short rounds you can score, then try to beat your own best.",
     status: "mvp",
-    statusLabel: "Launch",
+    statusLabel: "Launch wave",
     live: true,
     accent: "#3dce55",
     ink: "#000000",
@@ -52,7 +52,7 @@ export const two5Categories: Two5Category[] = [
     modes: ["Pattern Breaker", "Hidden Rule", "Logic Grid"],
     why: "A launch category for people who prefer reasoning over fast arithmetic.",
     status: "mvp",
-    statusLabel: "Launch",
+    statusLabel: "Launch wave",
     live: true,
     accent: "#1060f8",
     ink: "#f5f2ea",
@@ -72,7 +72,7 @@ export const two5Categories: Two5Category[] = [
     modes: ["Binary Blitz", "Code Trace", "Bug Hunt"],
     why: "Planned for later. Not playable at launch, and it will not require a full coding environment.",
     status: "expansion",
-    statusLabel: "Coming soon",
+    statusLabel: "Future waves",
     live: false,
     accent: "#5ec8ff",
     ink: "#000000",
@@ -92,7 +92,7 @@ export const two5Categories: Two5Category[] = [
     modes: ["Flash Recall", "Grid Memory", "Visual Sequence"],
     why: "Planned for later. A more visual way to play, not available in the first release.",
     status: "expansion",
-    statusLabel: "Coming soon",
+    statusLabel: "Future waves",
     live: false,
     accent: "#f0c020",
     ink: "#000000",

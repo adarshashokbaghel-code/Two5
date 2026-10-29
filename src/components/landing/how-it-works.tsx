@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 
+import { SlantLine } from "@/components/landing/slant-line";
 import { cn } from "@/lib/utils";
 
 type Screen = "arena" | "play" | "result" | "rank";
@@ -362,7 +363,7 @@ export function HowItWorks() {
 
   return (
     <section id="how" aria-labelledby="how-title" className="relative overflow-hidden bg-black text-paper">
-      <div className="mx-auto w-full max-w-[1500px] px-4 py-12 pb-24 sm:px-8 lg:px-14 lg:py-28 lg:pb-40">
+      <div className="mx-auto w-full max-w-[1500px] px-4 py-12 pb-16 sm:px-8 lg:px-14 lg:py-28 lg:pb-24">
         <header className="mx-auto max-w-4xl text-center">
           <p className="mb-4 font-mono text-xs tracking-[0.2em] text-blue-500 uppercase">How Two5 works</p>
           <h2 id="how-title" className="section-heading">
@@ -440,9 +441,9 @@ export function HowItWorks() {
           })}
         </ol>
 
-        <p className="mx-auto mt-16 max-w-2xl text-center font-display text-2xl leading-snug tracking-[0.03em] text-paper/70 sm:mt-24 sm:text-4xl">
-          Your game. <span className="text-red-500"> Your strategy. </span> Your next challenge.
-        </p>
+      </div>
+      <div className="bg-[#312e2b]">
+        <SlantLine />
       </div>
     </section>
   );

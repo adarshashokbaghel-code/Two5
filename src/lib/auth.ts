@@ -26,6 +26,8 @@ export type Two5User = {
   lastOtpSentAt?: Date;
   otpWindowStart?: Date;
   otpSendCount?: number;
+  source?: string;
+  campaign?: string;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -54,6 +56,12 @@ function makeCode() {
   return randomInt(0, 1_000_000).toString().padStart(6, "0");
 }
 
+function cleanAttribution(value: unknown) {
+  if (typeof value !== "string") return undefined;
+  const clean = value.trim().slice(0, 64).replace(/[^a-zA-Z0-9._\- ]/g, "");
+  return clean || undefined;
+}
+
 function makeAccountId() {
   const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
   let body = "";
@@ -80,6 +88,8 @@ async function issueCode(user: {
   name: string;
   age: number;
   existing: Two5User | null;
+  source?: string;
+  campaign?: string;
 }): Promise<AuthResult> {
   const now = new Date();
   const existing = user.existing;
@@ -121,6 +131,8 @@ async function issueCode(user: {
       $setOnInsert: {
         verified: false,
         createdAt: now,
+        ...(user.source ? { source: user.source } : {}),
+        ...(user.campaign ? { campaign: user.campaign } : {}),
       },
     },
     { upsert: true },
@@ -139,7 +151,13 @@ async function issueCode(user: {
   return { ok: true, email: user.email };
 }
 
-export async function startOtp(input: { name: string; email: string; age: string }): Promise<AuthResult> {
+export async function startOtp(input: {
+  name: string;
+  email: string;
+  age: string;
+  source?: string;
+  campaign?: string;
+}): Promise<AuthResult> {
   const parsed = validateWaitlist(input);
   if (!parsed.ok) return { ok: false, status: 400, error: parsed.error };
 
@@ -151,6 +169,8 @@ export async function startOtp(input: { name: string; email: string; age: string
     name: parsed.data.name,
     age: parsed.data.age,
     existing,
+    source: cleanAttribution(input.source),
+    campaign: cleanAttribution(input.campaign),
   });
 }
 

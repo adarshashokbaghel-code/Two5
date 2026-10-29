@@ -36,6 +36,8 @@ const FIELD_ORDER = [
   "otpAttempts",
   "otpSendCount",
   "otpWindowStart",
+  "source",
+  "campaign",
 ];
 
 const LABELS: Record<string, string> = {
@@ -52,6 +54,8 @@ const LABELS: Record<string, string> = {
   otpAttempts: "Code attempts",
   otpSendCount: "Codes sent",
   otpWindowStart: "Code window started",
+  source: "Source",
+  campaign: "Campaign",
 };
 
 function labelFor(key: string) {

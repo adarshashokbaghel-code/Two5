@@ -7,14 +7,14 @@ import { useEffect, useId, useState } from "react";
 import { ArrowRight, X } from "lucide-react";
 
 import { siteConfig } from "@/config/site";
-import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const chapters = [
-  { ...siteConfig.nav[0], hint: "How it works", accent: "#22c55e" },
+  { ...siteConfig.nav[0], hint: "How a round works", accent: "#22c55e" },
   { ...siteConfig.nav[1], hint: "The first four", accent: "#f0c020" },
-  { ...siteConfig.nav[2], hint: "Research notes", accent: "#1060f8" },
-  { ...siteConfig.nav[3], hint: "Quick answers", accent: "#d82010" },
+  { ...siteConfig.nav[2], hint: "Access and launch", accent: "#e9f078" },
+  { ...siteConfig.nav[3], hint: "Research notes", accent: "#1060f8" },
+  { ...siteConfig.nav[4], hint: "Quick answers", accent: "#d82010" },
 ] as const;
 
 const sectionIds = chapters
@@ -28,21 +28,24 @@ function siteHref(href: string, pathname: string) {
   return pathname === "/" ? href : `/${href}`;
 }
 
-const bearings = [-36, 18, 128, 214];
+const bearings = [-36, 18, 90, 168, 230];
 
 export function DockNav() {
   const [open, setOpen] = useState(false);
   const [travel, setTravel] = useState(0);
   const pathname = usePathname();
   const menuId = useId();
-  const onResearch = pathname.startsWith("/research");
   const pageChapters = chapters
     .map((item, index) => ({ item, index }))
     .filter(({ item }) => item.href.startsWith("#"));
-  const currentIndex = onResearch
-    ? chapters.findIndex((item) => item.href === "/research")
-    : (pageChapters[Math.min(pageChapters.length - 1, Math.round(travel))]?.index ?? 0);
-  const heading = onResearch ? bearings[bearings.length - 1] : headingFromTravel(travel);
+  const routeIndex = chapters.findIndex(
+    (item) => !item.href.startsWith("#") && (pathname === item.href || pathname.startsWith(`${item.href}/`)),
+  );
+  const currentIndex =
+    routeIndex >= 0
+      ? routeIndex
+      : (pageChapters[Math.min(pageChapters.length - 1, Math.round(travel))]?.index ?? 0);
+  const heading = routeIndex >= 0 ? bearings[routeIndex] : headingFromTravel(travel);
 
   useEffect(() => {
     const nodes = sectionIds
@@ -215,10 +218,8 @@ export function DockNav() {
         >
           <Link
             href={siteHref("#waitlist", pathname)}
-            onClick={() => {
-              setOpen(false);
-              track("waitlist_cta_click", { source: "dock" });
-            }}
+            data-waitlist-source="dock"
+            onClick={() => setOpen(false)}
             className={cn(
               "group inline-flex h-10 items-center justify-center gap-1.5 rounded-full px-4 font-display text-[1.05rem] leading-none tracking-[0.04em] transition-[transform,background-color,color] duration-700 hover:brightness-110 active:translate-y-px sm:h-11 sm:px-5 sm:text-[1.15rem]",
               open && "flex-1",
