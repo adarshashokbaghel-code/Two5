@@ -59,7 +59,7 @@ export function EvidenceReveal() {
         }
         word.style.filter = `blur(${((1 - local) * 8).toFixed(2)}px)`;
         word.style.opacity = (0.2 + local * 0.8).toFixed(3);
-        word.style.color = "var(--two5-wash, #22C55E)";
+        word.style.color = "var(--two5-wash-paper, #22C55E)";
       });
 
       const beat = track.querySelector<HTMLElement>("[data-beat]");

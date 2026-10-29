@@ -46,7 +46,7 @@ export function RoadmapView({
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-white/60">
           The waitlist stays open through November 30. On December 1, 200 people are selected and sent a WhatsApp
-          invite. The product launches for them on December 12. From January 1, each can invite 3 people to play.
+          invite. The product launches for them on December 12. From January 1, one invite per person.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <WaitlistButton source="roadmap-hero">Join the waitlist</WaitlistButton>
@@ -105,8 +105,8 @@ export function RoadmapView({
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-7 text-white/60">
             The waitlist stays open through November 30. On December 1, 200 people are selected. The product launches
-            for them on December 12. Everyone else stays on the list until those players can invite 3 people each from
-            January 1.
+            for them on December 12. Everyone else stays on the list until January 1, when each person can send one
+            invite. One invite per person.
           </p>
           <ol className="mt-12 space-y-0">
             {snapshot.milestones.map((item) => (
