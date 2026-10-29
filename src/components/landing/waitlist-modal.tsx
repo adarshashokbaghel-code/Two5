@@ -587,7 +587,8 @@ export function WaitlistModal() {
               </div>
 
               <p className="mt-1 text-sm leading-6 text-white/70">
-                Two5&apos;s first 200 players will be selected on December 1. Watch your inbox for updates.
+                The waitlist stays open through November 30. On December 1, 200 people are selected and sent a WhatsApp
+                invite. The product launches for them on December 12.
               </p>
 
               </div>

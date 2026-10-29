@@ -81,6 +81,15 @@ body {
   clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 0 100%);
 }
 
+@keyframes loadout-marquee {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
 @keyframes rise-in {
   from {
     opacity: 0;
@@ -1120,6 +1129,43 @@ body {
   -webkit-mask-size: 200% 100%;
   mask-size: 200% 100%;
   animation: hero-march 3.6s linear infinite;
+}
+
+@keyframes two5-wash-ink {
+  0%,
+  16% {
+    color: #9a7209;
+  }
+  20%,
+  36% {
+    color: #15803d;
+  }
+  40%,
+  56% {
+    color: #1060f8;
+  }
+  60%,
+  76% {
+    color: #d82010;
+  }
+  80%,
+  96% {
+    color: #0284c7;
+  }
+  100% {
+    color: #9a7209;
+  }
+}
+
+.two5-wash-ink {
+  animation: two5-wash-ink 14s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .two5-wash-ink {
+    animation: none;
+    color: #1060f8;
+  }
 }
 
 @keyframes hero-blink {

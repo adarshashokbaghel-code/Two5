@@ -45,8 +45,8 @@ export function RoadmapView({
           From the first 200 to a new <span className="text-[#22C55E]">training ground.</span>
         </h1>
         <p className="mt-5 max-w-2xl text-base leading-7 text-white/60">
-          Two5 is a mental training and competition platform opening in stages: first a founding cohort, then an
-          invite-only launch, then further access as the product improves.
+          The waitlist stays open through November 30. On December 1, 200 people are selected and sent a WhatsApp
+          invite. The product launches for them on December 12. From January 1, each can invite 3 people to play.
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
           <WaitlistButton source="roadmap-hero">Join the waitlist</WaitlistButton>
@@ -71,7 +71,7 @@ export function RoadmapView({
             Statuses follow the published dates in India Standard Time. They describe the schedule. They are not a
             live count of invitations sent.
           </p>
-          <ol className="mt-10 grid lg:grid-cols-5">
+          <ol className="mt-10 grid lg:grid-cols-4">
             {snapshot.stages.map((stage, index) => (
               <li
                 key={stage.id}
@@ -83,7 +83,7 @@ export function RoadmapView({
               >
                 <p
                   className="font-display text-5xl leading-none"
-                  style={{ color: ["#22C55E", "#1060f8", "#d82010", "#f0c020", "#5ec8ff"][index] }}
+                  style={{ color: ["#22C55E", "#1060f8", "#d82010", "#f0c020"][index] }}
                 >
                   {String(index + 1).padStart(2, "0")}
                 </p>
@@ -104,8 +104,9 @@ export function RoadmapView({
             How access works
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-7 text-white/60">
-            Access is limited because the first cohort is a closed beta, not because a crowd has already filled the
-            product. Two hundred people are drawn from the waitlist. The rest stay on the list.
+            The waitlist stays open through November 30. On December 1, 200 people are selected. The product launches
+            for them on December 12. Everyone else stays on the list until those players can invite 3 people each from
+            January 1.
           </p>
           <ol className="mt-12 space-y-0">
             {snapshot.milestones.map((item) => (
@@ -198,9 +199,8 @@ export function RoadmapView({
           </ul>
           <div className="mt-8 max-w-2xl space-y-3 text-sm leading-6 text-white/55">
             <p>
-              Selected players who want to can join a private WhatsApp group. Membership is optional. Phone numbers
-              in that group can be visible to other members. Using Two5 does not depend on joining, and player results
-              are not posted there without consent.
+              On December 1, selected players are sent a WhatsApp invite. Phone numbers in that group can be visible to
+              other members. Player results are not posted there without consent.
             </p>
             <p>
               If you would rather not use WhatsApp, write through the{" "}

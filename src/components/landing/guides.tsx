@@ -11,7 +11,7 @@ export function Guides() {
         <p className="mt-4 max-w-2xl text-base leading-7 text-white/55">
           Two5 is a mental training ground in development. Numbers and Logic are the launch arenas. Computer
           Science and Memory & Visual come in later waves. You cannot play a round on this site yet. The first
-          200 players are selected on December 1, 2026, and the official launch is December 12. Read the{" "}
+          The waitlist stays open through November 30, 2026. On December 1, 200 people are selected and sent a WhatsApp invite. The product launches for them on December 12, and from January 1 each can invite 3 people to play. Read the{" "}
           <Link href="/roadmap" className="text-white/80 underline decoration-white/30 underline-offset-[3px]">
             roadmap
           </Link>{" "}
