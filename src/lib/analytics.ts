@@ -8,6 +8,12 @@ export type AnalyticsEvent =
   | "waitlist_signup_started"
   | "waitlist_signup_success"
   | "waitlist_signup_error"
+  | "waitlist_form_started"
+  | "waitlist_joined"
+  | "waitlist_form_error"
+  | "roadmap_view"
+  | "roadmap_cta_clicked"
+  | "launch_timeline_viewed"
   | "blog_index_view"
   | "blog_article_view"
   | "contact_click";

@@ -7,7 +7,6 @@ import { useCallback, useEffect, useRef, useState } from "react";
 
 import { two5Categories, type Two5Category } from "@/content/categories";
 import { HeroPhone, type PhoneLineupItem } from "@/components/landing/hero-phone";
-import { track } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
 const phoneLineup: PhoneLineupItem[] = two5Categories.map((item) => ({
@@ -52,7 +51,7 @@ function CategoryCopy({ category }: { category: Two5Category }) {
         <div className="mt-8">
           <Link
             href="#waitlist"
-            onClick={() => track("waitlist_cta_click", { source: "challenges" })}
+            data-waitlist-source="challenges"
             className="inline-flex h-11 items-center justify-center rounded-[4px] px-6 text-sm font-semibold"
             style={{ backgroundColor: category.accent, color: category.ink }}
           >
@@ -210,7 +209,7 @@ function MobileModeCarousel() {
                 <div className="mt-5">
                   <Link
                     href="#waitlist"
-                    onClick={() => track("waitlist_cta_click", { source: "challenges-mobile" })}
+                    data-waitlist-source="challenges-mobile"
                     className="inline-flex h-10 w-full items-center justify-center rounded-[4px] text-sm font-semibold"
                     style={{ backgroundColor: item.accent, color: item.ink }}
                   >
@@ -325,8 +324,8 @@ export function Challenges() {
           Different games. <span className="text-green-500">Different ways to think.</span>
         </h2>
         <p className="mx-auto mt-4 max-w-xl text-base text-white/50">
-          Numbers and Logic are the launch arenas. Computer Science and Memory & Visual are coming soon, so they are
-          not playable yet. Scroll to browse.
+          Numbers and Logic are the launch arenas. Computer Science and Memory & Visual are coming in future waves
+          and are not playable yet. The phone is an illustrative preview, not a live game.
         </p>
         <MobileModeCarousel />
       </div>

@@ -15,6 +15,8 @@ export async function POST(request: Request) {
     name: "name" in record ? String(record.name) : "",
     email: "email" in record ? String(record.email) : "",
     age: "age" in record ? String(record.age) : "",
+    source: "source" in record ? String(record.source) : "",
+    campaign: "campaign" in record ? String(record.campaign) : "",
   }).catch(() => ({ ok: false as const, status: 500, error: "Could not start verification." }));
 
   if (!result.ok) return NextResponse.json({ error: result.error }, { status: result.status });

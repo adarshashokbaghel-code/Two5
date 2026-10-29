@@ -16,7 +16,10 @@ export function ResearchCta({
   return (
     <Link
       href={href}
-      onClick={() => track("waitlist_cta_click", { source })}
+      data-waitlist-source={source}
+      onClick={() => {
+        if (!href.includes("#waitlist")) track("waitlist_cta_click", { source });
+      }}
       className="inline-flex h-12 items-center rounded-[4px] bg-ink px-5 text-base font-medium text-paper"
     >
       {label}
