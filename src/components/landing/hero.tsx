@@ -9,11 +9,11 @@ import { HeroFloaters } from "@/components/landing/hero-floaters";
 import { HeroPhone } from "@/components/landing/hero-phone";
 
 const HERO_LINES = [
-  { text: "a run.", color: "#f0c020", ink: "#050505" },
-  { text: "a challenge.", color: "#22C55E", ink: "#050505" },
-  { text: "a match.", color: "#1060f8", ink: "#F4F1E8" },
-  { text: "a battlefield.", color: "#d82010", ink: "#F4F1E8" },
-  { text: "a sprint.", color: "#5ec8ff", ink: "#050505" },
+  { text: "a run.", color: "#f0c020", ink: "#050505", paper: "#9a7209" },
+  { text: "a challenge.", color: "#22C55E", ink: "#050505", paper: "#22C55E" },
+  { text: "a match.", color: "#1060f8", ink: "#F4F1E8", paper: "#1060f8" },
+  { text: "a battlefield.", color: "#d82010", ink: "#F4F1E8", paper: "#d82010" },
+  { text: "a sprint.", color: "#5ec8ff", ink: "#050505", paper: "#1060f8" },
 ] as const;
 
 const HERO_LINE_MS = 2800;
@@ -42,6 +42,7 @@ export function Hero({ announcement }: { announcement?: string }) {
     const root = document.documentElement;
     root.style.setProperty("--two5-wash", active.color);
     root.style.setProperty("--two5-wash-ink", active.ink);
+    root.style.setProperty("--two5-wash-paper", active.paper);
   }, [active]);
 
   useEffect(() => {
@@ -105,12 +106,12 @@ export function Hero({ announcement }: { announcement?: string }) {
       <HeroFloaters />
 
       <div className="relative z-10 mx-auto flex w-full max-w-3xl flex-1 flex-col items-center px-5 pt-[calc(4.25rem+env(safe-area-inset-top,0px))] sm:px-8 sm:pt-[calc(7.5rem+env(safe-area-inset-top,0px))]">
-        <div className="w-full min-w-0 shrink-0 text-center">
+        <div className="grid w-full min-w-0 shrink-0 grid-cols-[minmax(0,1fr)] justify-items-center">
           <p className="mb-2 font-display text-[0.72rem] leading-none tracking-[0.18em] text-white/55 sm:mb-5 sm:text-[clamp(1.05rem,2vw,0.85rem)] sm:tracking-[0.14em] sm:text-white/70">
             Train. Track. Outplay.
           </p>
 
-          <h1 className="section-heading relative mx-auto max-w-[19rem] sm:max-w-none sm:whitespace-nowrap">
+          <h1 className="section-heading relative w-max max-w-none justify-self-center whitespace-nowrap">
             TWO5 — Give your brain{" "}
             <span className="sr-only">{active.text}</span>
             <span className="pointer-events-none absolute h-0 overflow-hidden whitespace-nowrap" aria-hidden="true">
@@ -128,7 +129,7 @@ export function Hero({ announcement }: { announcement?: string }) {
             </span>
             <span
               aria-hidden="true"
-              className="relative inline-block h-[1.05em] overflow-hidden align-bottom text-left whitespace-nowrap"
+              className="relative inline-block h-[1.05em] overflow-hidden align-bottom text-center whitespace-nowrap"
               style={{
                 width: widths[line % HERO_LINES.length] || undefined,
                 transition: slide ? `width ${HERO_LINE_SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)` : "none",
@@ -138,16 +139,16 @@ export function Hero({ announcement }: { announcement?: string }) {
                 <span className="invisible block">{active.text}</span>
               )}
               <span
-                className="absolute top-0 left-0 flex flex-col"
+                className="absolute top-0 left-1/2 flex flex-col"
                 style={{
-                  transform: `translateY(calc(${line} * -1.05em))`,
+                  transform: `translate(-50%, calc(${line} * -1.05em))`,
                   transition: slide ? `transform ${HERO_LINE_SLIDE_MS}ms cubic-bezier(0.22, 1, 0.36, 1)` : "none",
                 }}
               >
                 {track.map((item, itemIndex) => (
                   <span
                     key={`${item.text}-${itemIndex}`}
-                    className="block h-[1.05em] text-left leading-none whitespace-nowrap"
+                    className="block h-[1.05em] text-center leading-none whitespace-nowrap"
                     style={{ color: item.color }}
                   >
                     {item.text}

@@ -33,7 +33,7 @@ export function AccessTimeline({
 const loadout = [
   { n: "01", title: "Train", line: "WhatsApp invite · December 1", color: "#d82010" },
   { n: "02", title: "Compete", line: "Live for the 200 · December 12", color: "#15803d" },
-  { n: "03", title: "Grow", line: "3 invites each · January 1", color: "#9a7209" },
+  { n: "03", title: "Grow", line: "One invite per person · January 1", color: "#9a7209" },
   { n: "04", title: "Early access", line: "Future features", color: "#1060f8" },
   { n: "05", title: "Shape Two5", line: "Before the next wave", color: "#6b6258" },
 ] as const;

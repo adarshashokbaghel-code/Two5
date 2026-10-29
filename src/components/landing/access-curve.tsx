@@ -62,7 +62,7 @@ function LaunchHeader() {
       </h2>
       <p className="mx-auto mt-3 max-w-2xl text-[13px] leading-5 text-white/70 sm:mt-5 sm:text-base sm:leading-7">
         The waitlist stays open through November 30. On December 1, 200 people are selected. The product launches for
-        them on December 12, and from January 1 each can invite 3 people to play.
+        them on December 12, and from January 1 each person can invite one player. One invite per person.
       </p>
     </header>
   );

@@ -88,8 +88,8 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
       : phase === "selection"
         ? "The first 200 are selected. A WhatsApp invite is sent. The product launches for them on December 12."
         : phase === "founding"
-          ? "The product is live for the 200. Each can invite 3 people from January 1."
-          : "Each of the 200 can invite 3 people to play.";
+          ? "The product is live for the 200. From January 1, one invite per person."
+          : "One invite per person. Each of the 200 can invite one player.";
 
   const nextMilestone =
     t < dec1
@@ -118,7 +118,7 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
     },
     {
       id: "invites",
-      title: "Three invites each",
+      title: "One invite each",
       status: t < jan1 ? "UPCOMING" : "ACTIVE",
     },
   ];
@@ -153,17 +153,17 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
       description:
         "The product launches only for these 200. Nobody else can play that day.",
       expect:
-        "The selected players can use the live product. Other people stay on the waitlist until January 1, when each of the 200 can invite 3 people.",
+        "The selected players can use the live product. Other people stay on the waitlist until January 1, when each person can send one invite.",
     },
     {
       id: "invites",
       date: "January 1, 2027",
-      title: "Three invites each",
+      title: "One invite per person",
       status: t < jan1 ? "UPCOMING" : "ACTIVE",
       description:
-        "From January 1, each of the 200 can invite 3 people to play. Three is a maximum, not a quota.",
+        "From January 1, each of the 200 can invite one person to play. One invite per person.",
       expect:
-        "Each invite is for one new player. This is the first time someone outside the 200 can be invited in. An invite can fail if it expires, is withdrawn, or breaks the published rules.",
+        "That invite is for one new player. One person cannot send more than one. This is the first time someone outside the 200 can be invited in. An invite can fail if it expires, is withdrawn, or breaks the published rules.",
     },
     {
       id: "waves",
@@ -208,9 +208,9 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
     },
     {
       index: "04",
-      title: "Three invites each",
+      title: "One invite each",
       when: "January 1",
-      body: "Each of the 200 can invite 3 people to play. That is the first time someone outside the group can join.",
+      body: "Each person can invite one player. One invite per person. That is the first time someone outside the group can join.",
     },
   ];
 
@@ -297,12 +297,12 @@ export const faqs: FaqItem[] = [
   {
     id: "launch",
     q: "When does Two5 launch?",
-    a: "The product launches on December 12, 2026, only for the 200 selected on December 1. From January 1, 2027, each of them can invite 3 people to play.",
+    a: "The product launches on December 12, 2026, only for the 200 selected on December 1. From January 1, 2027, each person can invite one player. One invite per person.",
   },
   {
     id: "invites",
     q: "How do invitations work?",
-    a: "From January 1, 2027, each of the 200 can invite 3 people to play. Each invite is for one new player. An invite can fail if it expires, is withdrawn, or breaks the published rules.",
+    a: "From January 1, 2027, each person can send one invite. One invite per person, for one new player. An invite can fail if it expires, is withdrawn, or breaks the published rules.",
   },
   {
     id: "whatsapp",
@@ -340,7 +340,7 @@ export const faqs: FaqItem[] = [
   {
     id: "friends",
     q: "Can I challenge my friends?",
-    a: "Friend challenges are part of the later plan, not part of the first playable release. From January 1, each of the 200 can invite 3 people to play. Those invites are access, not an in-game challenge mode.",
+    a: "Friend challenges are part of the later plan, not part of the first playable release. From January 1, each person can send one invite. One invite per person. That invite is access, not an in-game challenge mode.",
   },
 ];
 
@@ -402,14 +402,14 @@ export const afterJoin = [
   {
     index: "3",
     title: "Play, then invite",
-    body: "If you are selected, the product launches for you on December 12. From January 1, you can invite 3 people to play.",
+    body: "If you are selected, the product launches for you on December 12. From January 1, you can invite one person to play. One invite per person.",
   },
 ] as const;
 
 export const foundingBenefits = [
   "Selected on December 1, with a WhatsApp invite sent that day.",
   "Product launch on December 12, only for these 200.",
-  "From January 1, each of the 200 can invite 3 people to play.",
+  "From January 1, one invite per person.",
   "Early access to future features when they are offered.",
   "A chance to help improve the experience before more people get in.",
 ] as const;
