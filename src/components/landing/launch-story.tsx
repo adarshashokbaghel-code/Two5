@@ -33,7 +33,7 @@ export function AccessTimeline({
 const loadout = [
   { n: "01", title: "First access", line: "Live product", color: "#81b64c" },
   { n: "02", title: "Direct feedback", line: "Founding period", color: "#7fa8d4" },
-  { n: "03", title: "3 invite codes", line: "Per account · Dec 5", color: "#e07060" },
+  { n: "03", title: "3 invite codes", line: "Per account · Jan 1", color: "#e07060" },
   { n: "04", title: "Early access", line: "Future features", color: "#f0c020" },
   { n: "05", title: "Shape Two5", line: "Before the next wave", color: "#c4b8a8" },
 ] as const;

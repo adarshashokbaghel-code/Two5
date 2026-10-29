@@ -7,9 +7,9 @@ export const launchDates = {
   waitlistOpens: "2026-10-29",
   waitlistCloses: "2026-11-30",
   selection: "2026-12-01",
-  inviteUnlock: "2026-12-05",
-  betaEnds: "2026-12-11",
-  launch: "2026-12-12",
+  productLive: "2026-12-12",
+  betaEnds: "2027-01-01",
+  inviteUnlock: "2027-01-01",
 } as const;
 
 export type StageStatus = "OPEN" | "UPCOMING" | "ACTIVE" | "COMPLETE" | "PLANNED";
@@ -75,34 +75,30 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
   const t = now.getTime();
   const dec1 = istMidnight(launchDates.selection);
   const dec2 = istMidnight("2026-12-02");
-  const dec5 = istMidnight(launchDates.inviteUnlock);
-  const dec12 = istMidnight(launchDates.launch);
-  const dec13 = istMidnight("2026-12-13");
+  const dec12 = istMidnight(launchDates.productLive);
+  const jan1 = istMidnight(launchDates.inviteUnlock);
 
   let phase: LaunchPhase = "waitlist";
-  if (t >= dec12) phase = "launch";
-  else if (t >= dec5) phase = "invites";
-  else if (t >= dec2) phase = "founding";
+  if (t >= jan1) phase = "invites";
+  else if (t >= dec12) phase = "founding";
   else if (t >= dec1) phase = "selection";
 
   const announcement =
     phase === "waitlist"
       ? "First 200 players will be announced on Dec 1, 2026."
       : phase === "selection"
-        ? "Selection is in progress."
-        : phase === "founding" || phase === "invites"
-          ? "The founding cohort is active."
-          : t < dec13
-            ? "Official launch is December 12. Access stays invite-only."
-            : "Two5 is in its invite-only launch. The waitlist stays open for later waves.";
+        ? "The first 200 are announced. The product goes live for them on December 12."
+        : phase === "founding"
+          ? "The product is live for the founding 200. Closed beta runs through January 1."
+          : "Three invitation codes are open for founding players.";
 
   const nextMilestone =
     t < dec1
       ? "DECEMBER 1, 2026"
-      : t < dec5
-        ? "DECEMBER 5, 2026"
-        : t < dec12
-          ? "DECEMBER 12, 2026"
+      : t < dec12
+        ? "DECEMBER 12, 2026"
+        : t < jan1
+          ? "JANUARY 1, 2027"
           : "LATER ACCESS WAVES";
 
   const stages: TimelineStage[] = [
@@ -117,19 +113,19 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
       status: statusBetween(t, launchDates.selection, "2026-12-02"),
     },
     {
-      id: "founding",
-      title: "Founding cohort",
-      status: t < dec1 ? "UPCOMING" : t < dec12 ? "ACTIVE" : "COMPLETE",
+      id: "live",
+      title: "Product live",
+      status: t < dec12 ? "UPCOMING" : "ACTIVE",
+    },
+    {
+      id: "beta",
+      title: "Closed beta",
+      status: t < dec12 ? "UPCOMING" : t < jan1 ? "ACTIVE" : "COMPLETE",
     },
     {
       id: "invites",
       title: "Invite unlock",
-      status: t < dec5 ? "UPCOMING" : t < dec12 ? "ACTIVE" : "COMPLETE",
-    },
-    {
-      id: "launch",
-      title: "Official launch",
-      status: t < dec12 ? "UPCOMING" : "ACTIVE",
+      status: t < jan1 ? "UPCOMING" : "ACTIVE",
     },
   ];
 
@@ -148,46 +144,46 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
     {
       id: "selection",
       date: "December 1, 2026",
-      title: "First 200 selected",
+      title: "First 200 announced",
       status: statusBetween(t, launchDates.selection, "2026-12-02"),
       description:
-        "A random draw selects 200 waitlisted applicants. Selection is not based on game skill, because applicants have not played the product yet.",
+        "The 200 players are announced and the founding cohort starts. The product is not live yet. Selection is a random draw, not a test of skill.",
       expect:
-        "Selected people receive an invitation and instructions to claim access. Everyone else stays on the waitlist. Joining does not mean you will be chosen on December 1.",
+        "Selected people are told they are in. Everyone else stays on the waitlist. Being announced on December 1 does not open the product that day.",
+    },
+    {
+      id: "live",
+      date: "December 12, 2026",
+      title: "Product goes live for the 200",
+      status: t < dec12 ? "UPCOMING" : "ACTIVE",
+      description:
+        "The product opens only for the announced 200. Nobody else can play that day.",
+      expect:
+        "Founding players can use the live product. Other people stay on the waitlist until invitations open.",
     },
     {
       id: "beta",
-      date: "December 1–11, 2026",
-      title: "Live closed beta begins",
-      status: t < dec1 ? "UPCOMING" : t < dec12 ? "ACTIVE" : "COMPLETE",
+      date: "December 12, 2026 – January 1, 2027",
+      title: "Closed beta",
+      status: t < dec12 ? "UPCOMING" : t < jan1 ? "ACTIVE" : "COMPLETE",
       description:
-        "Selected players can use the live product. This is the founding-player period: a closed beta of the product that exists, not a test that happens before the app does.",
+        "The founding 200 test the live product through January 1. The beta runs in a closed WhatsApp group.",
       expect:
-        "The team watches onboarding, completed rounds, score recording, errors, replays, return visits, and usability notes. A private WhatsApp group is offered to selected players who want it. Joining that group is optional and is not required to use Two5.",
+        "Feedback, bugs, and usability notes stay inside that group. Phone numbers in the group can be visible to other members. The beta ends when invitations open.",
     },
     {
       id: "invites",
-      date: "December 5, 2026",
+      date: "January 1, 2027",
       title: "Three invitations unlock",
-      status: t < dec5 ? "UPCOMING" : t < dec12 ? "ACTIVE" : "COMPLETE",
+      status: t < jan1 ? "UPCOMING" : "ACTIVE",
       description:
-        "Each claimed founding account is scheduled to receive three unique invitation codes. Three is a maximum, not a quota. Founding players do not have to use them.",
+        "Each founding account can receive three invitation codes. Three is a maximum, not a quota. Founding players do not have to use them.",
       expect:
-        "Each code is meant for one new account and can be redeemed once. Invitees become eligible to register for access on December 12. A code does not guarantee access if it expires, is withdrawn, or breaks the published rules. If a code can be entered before December 12, registration is queued until launch.",
-    },
-    {
-      id: "launch-day",
-      date: "December 12, 2026",
-      title: "Official product launch",
-      status: t < dec12 ? "UPCOMING" : "ACTIVE",
-      description:
-        "Two5 is officially announced and opens in an invite-only launch. A public launch does not mean anyone can register.",
-      expect:
-        "Founding players with claimed accounts can continue. People with a valid invitation can register and enter. Everyone else can join the waitlist, follow announcements, and wait for a later wave.",
+        "Each code is for one new account and can be redeemed once. A code can fail if it expires, is withdrawn, or breaks the published rules. This is the first time someone outside the 200 can be invited in.",
     },
     {
       id: "waves",
-      date: "After December 12 — date to be announced",
+      date: "After January 1 — date to be announced",
       title: "Progressive access waves",
       status: "PLANNED",
       description:
@@ -216,21 +212,21 @@ export function launchSnapshot(now = new Date()): LaunchSnapshot {
     },
     {
       index: "02",
-      title: "First 200 selected",
+      title: "First 200 announced",
       when: "December 1",
-      body: "Two hundred waitlisted applicants are selected through a random draw. Selected applicants receive an invitation and instructions for the live closed beta.",
+      body: "Two hundred waitlisted applicants are announced. The product is not live yet. Everyone else stays on the waitlist.",
     },
     {
       index: "03",
-      title: "Founding-player period",
-      when: "December 1–11",
-      body: "The initial cohort uses the product, sends feedback, and helps surface usability and technical issues. Three invitation codes per claimed founding account become available on December 5.",
+      title: "Product live for the 200",
+      when: "December 12",
+      body: "The product opens only for those 200. Closed beta runs in a WhatsApp group through January 1.",
     },
     {
       index: "04",
-      title: "Official launch",
-      when: "December 12",
-      body: "Two5 launches with invite-only registration. Founding players and people with a valid invitation code can access the product.",
+      title: "Three invites open",
+      when: "January 1",
+      body: "Each founding account can receive three invitation codes. That is the first time someone outside the 200 can be invited in.",
     },
   ];
 
@@ -292,7 +288,7 @@ export const faqs: FaqItem[] = [
   {
     id: "live",
     q: "Is Two5 live yet?",
-    a: "The website and waitlist are live. The founding-player period is scheduled to begin on December 1, 2026, when selected players get access to the live closed beta. You cannot play a round on this website.",
+    a: "The website and waitlist are live. The first 200 are announced on December 1, 2026. The product goes live for those players on December 12, 2026. You cannot play a round on this website.",
   },
   {
     id: "selection-date",
@@ -317,17 +313,17 @@ export const faqs: FaqItem[] = [
   {
     id: "launch",
     q: "When does Two5 launch?",
-    a: "The official product launch is planned for December 12, 2026. Registration stays invite-only at launch.",
+    a: "The product goes live on December 12, 2026, only for the first 200. Three invitation codes per founding account open on January 1, 2027.",
   },
   {
     id: "invites",
     q: "How do invitations work?",
-    a: "Each claimed founding account is scheduled to receive three unique invitation codes on December 5. Each code is for one new account. Invited players can register and access Two5 from December 12. A code can fail if it expires, is withdrawn, or breaks the published rules.",
+    a: "Each founding account can receive three unique invitation codes on January 1, 2027, after the closed beta. Each code is for one new account. A code can fail if it expires, is withdrawn, or breaks the published rules.",
   },
   {
     id: "whatsapp",
     q: "Do I need to join WhatsApp?",
-    a: "No. The founding-player WhatsApp group is optional. Selected players can use Two5 without joining it. Phone numbers in that group can be visible to other members. Feedback can also go to the contact address, and app access does not depend on the group.",
+    a: "The closed beta, from December 12 through January 1, is run in a private WhatsApp group for the founding 200. Phone numbers in that group can be visible to other members. Feedback can also go to the contact address.",
     links: [{ href: "/contact", label: "Contact the team" }],
   },
   {
@@ -360,7 +356,7 @@ export const faqs: FaqItem[] = [
   {
     id: "friends",
     q: "Can I challenge my friends?",
-    a: "Friend challenges are part of the later plan, not part of the first playable release. Founding invitations on December 5 are access codes, not an in-game challenge mode.",
+    a: "Friend challenges are part of the later plan, not part of the first playable release. The three invitations on January 1 are access codes, not an in-game challenge mode.",
   },
 ];
 
@@ -422,14 +418,14 @@ export const afterJoin = [
   {
     index: "3",
     title: "Claim access",
-    body: "If you are selected, follow the invitation instructions. Access begins during the founding-player period.",
+    body: "If you are announced on December 1, the product opens for you on December 12. Closed beta runs in a WhatsApp group through January 1.",
   },
 ] as const;
 
 export const foundingBenefits = [
   "First access to the live product.",
   "A direct feedback channel during the founding-player period.",
-  "Three invitation codes per claimed founding account from December 5.",
+  "Three invitation codes per founding account from January 1.",
   "Early access to future features when they are offered.",
   "A chance to help improve the experience before more people get in.",
 ] as const;
