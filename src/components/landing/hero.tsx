@@ -111,8 +111,9 @@ export function Hero({ announcement }: { announcement?: string }) {
             Train. Track. Outplay.
           </p>
 
-          <h1 className="section-heading relative w-max max-w-none justify-self-center whitespace-nowrap">
+          <h1 className="section-heading relative w-full min-w-0 max-w-full justify-self-center text-center whitespace-normal max-sm:text-[clamp(1.2rem,5.9vw,1.42rem)] max-sm:leading-[1.15] sm:w-max sm:max-w-none sm:min-w-max sm:whitespace-nowrap">
             TWO5 — Give your brain{" "}
+            <br className="sm:hidden" />
             <span className="sr-only">{active.text}</span>
             <span className="pointer-events-none absolute h-0 overflow-hidden whitespace-nowrap" aria-hidden="true">
               {HERO_LINES.map((item, itemIndex) => (
