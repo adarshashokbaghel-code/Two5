@@ -95,6 +95,34 @@ export function articleJsonLd(input: {
   };
 }
 
+export function collectionPageJsonLd(input: {
+  path: string;
+  name: string;
+  description: string;
+  items: { name: string; description: string }[];
+}) {
+  const url = absoluteUrl(input.path);
+  return {
+    "@type": "CollectionPage",
+    "@id": `${url}#collection`,
+    url,
+    name: input.name,
+    description: input.description,
+    isPartOf: { "@id": websiteId },
+    about: { "@id": organizationId },
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: input.items.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        description: item.description,
+      })),
+    },
+    inLanguage: "en",
+  };
+}
+
 export function jsonLdGraph(nodes: Record<string, unknown>[]) {
   return {
     "@context": "https://schema.org",
