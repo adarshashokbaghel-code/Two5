@@ -1,8 +1,12 @@
 import type { MetadataRoute } from "next";
 
 import { blogPosts } from "@/content/blog";
+import { publishedSeoPages } from "@/content/seo/pages";
 import { researchPosts } from "@/content/research";
 import { siteConfig } from "@/config/site";
+import { assertSeoCatalog } from "@/lib/seo/validate";
+
+assertSeoCatalog();
 
 const researchUpdated = new Date("2026-10-24");
 const siteUpdated = new Date("2026-10-27");
@@ -70,6 +74,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly",
       priority: 0.4,
     },
+    ...publishedSeoPages().map((page) => ({
+      url: `${siteConfig.url}${page.path}`,
+      lastModified: new Date(page.updatedAt),
+      changeFrequency: "monthly" as const,
+      priority: page.pageType === "game" ? 0.8 : 0.6,
+    })),
     ...researchPosts.map((post) => ({
       url: `${siteConfig.url}/research/${post.slug}`,
       lastModified: siteUpdated,

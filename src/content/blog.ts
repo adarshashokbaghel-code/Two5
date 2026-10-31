@@ -142,8 +142,9 @@ export const blogPosts: BlogPost[] = [
     ],
     related: ["math-puzzles-for-adults", "logic-puzzles-with-answers"],
     productLinks: [
+      { href: "/numbers/games/sequence", label: "The planned Sequence game" },
+      { href: "/numbers/sequences", label: "Sequence challenges on Two5" },
       { href: "/research/numbers", label: "How Two5 thinks about number rounds" },
-      { href: "/#challenges", label: "Numbers on the Two5 homepage" },
     ],
     cta: "Enjoy number sequences? Two5’s Numbers category — Number Sprint, Sequence Hunt, and Target Number — is part of what we are building first. Rounds are not playable on this site yet. Join the waitlist and we will tell you when early access opens.",
   },
@@ -318,7 +319,11 @@ export const blogPosts: BlogPost[] = [
       },
     ],
     related: ["number-sequence-puzzles", "algorithm-puzzles"],
-    productLinks: [{ href: "/research/numbers", label: "The research note on Two5 Numbers" }],
+    productLinks: [
+      { href: "/numbers/games/target-25", label: "The planned Target 25 game" },
+      { href: "/numbers/puzzles/make-25-from-8-3-6-and-1", label: "Make 25 from 8, 3, 6 and 1" },
+      { href: "/research/numbers", label: "The research note on Two5 Numbers" },
+    ],
     cta: "If you want target-number and sequence rounds with a score you can compare to your last attempt, join the Two5 waitlist. We will not pretend those rounds are open before they are.",
   },
   {
