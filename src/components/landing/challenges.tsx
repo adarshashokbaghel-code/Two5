@@ -48,12 +48,29 @@ function CategoryCopy({ category }: { category: Two5Category }) {
         <p className="mt-4 max-w-md text-lg leading-snug text-white/65">{category.summary}</p>
         <p className="mt-4 max-w-md text-sm leading-relaxed text-white/40">{category.why}</p>
 
-        <div className="mt-8">
+        <div className="mt-8 flex flex-col items-start gap-3">
+          {category.id === "numbers" ? (
+            <Link
+              href="/categories/numbers"
+              className="inline-flex h-11 items-center justify-center rounded-[4px] px-6 text-sm font-semibold"
+              style={{ backgroundColor: category.accent, color: category.ink }}
+            >
+              Explore the Numbers arena
+            </Link>
+          ) : null}
           <Link
             href="#waitlist"
             data-waitlist-source="challenges"
-            className="inline-flex h-11 items-center justify-center rounded-[4px] px-6 text-sm font-semibold"
-            style={{ backgroundColor: category.accent, color: category.ink }}
+            className={
+              category.id === "numbers"
+                ? "text-sm font-medium text-white/70 hover:text-white"
+                : "inline-flex h-11 items-center justify-center rounded-[4px] px-6 text-sm font-semibold"
+            }
+            style={
+              category.id === "numbers"
+                ? undefined
+                : { backgroundColor: category.accent, color: category.ink }
+            }
           >
             Join the waitlist
           </Link>
@@ -206,12 +223,27 @@ function MobileModeCarousel() {
                 <p className="mt-3 text-base leading-relaxed text-white/55">{item.summary}</p>
                 <p className="mt-3 text-sm leading-relaxed text-white/35">{item.why}</p>
 
-                <div className="mt-5">
+                <div className="mt-5 flex flex-col gap-3">
+                  {item.id === "numbers" ? (
+                    <Link
+                      href="/categories/numbers"
+                      className="inline-flex h-10 w-full items-center justify-center rounded-[4px] text-sm font-semibold"
+                      style={{ backgroundColor: item.accent, color: item.ink }}
+                    >
+                      Explore the Numbers arena
+                    </Link>
+                  ) : null}
                   <Link
                     href="#waitlist"
                     data-waitlist-source="challenges-mobile"
-                    className="inline-flex h-10 w-full items-center justify-center rounded-[4px] text-sm font-semibold"
-                    style={{ backgroundColor: item.accent, color: item.ink }}
+                    className={
+                      item.id === "numbers"
+                        ? "text-center text-sm font-medium text-white/70"
+                        : "inline-flex h-10 w-full items-center justify-center rounded-[4px] text-sm font-semibold"
+                    }
+                    style={
+                      item.id === "numbers" ? undefined : { backgroundColor: item.accent, color: item.ink }
+                    }
                   >
                     Join the waitlist
                   </Link>

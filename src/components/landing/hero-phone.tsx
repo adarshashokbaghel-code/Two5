@@ -219,7 +219,7 @@ export function HeroPhone({
               : size === "arena"
                 ? "h-[23rem] sm:h-[27rem] lg:h-[31rem]"
                 : size === "hero"
-                ? "h-[32rem] sm:h-[30rem] lg:h-[34rem]"
+                ? "h-[29.5rem] sm:h-[30rem] lg:h-[34rem]"
                 : "h-[29rem] sm:h-[33rem] lg:h-[34rem]",
           )}
           style={{ ...phoneStyle, borderRadius: "2.8rem" }}

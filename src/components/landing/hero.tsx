@@ -111,7 +111,7 @@ export function Hero({ announcement }: { announcement?: string }) {
             Train. Track. Outplay.
           </p>
 
-          <h1 className="section-heading relative w-full min-w-0 max-w-full justify-self-center text-center whitespace-normal max-sm:text-[clamp(1.2rem,5.9vw,1.42rem)] max-sm:leading-[1.15] sm:w-max sm:max-w-none sm:min-w-max sm:whitespace-nowrap">
+          <h1 className="section-heading relative w-full min-w-0 max-w-full justify-self-center text-center whitespace-normal max-sm:text-[clamp(1.65rem,7.4vw,1.85rem)] max-sm:leading-[1.05] sm:w-max sm:max-w-none sm:min-w-max sm:whitespace-nowrap">
             TWO5 — Give your brain{" "}
             <br className="sm:hidden" />
             <span className="sr-only">{active.text}</span>
@@ -198,7 +198,7 @@ export function Hero({ announcement }: { announcement?: string }) {
             />
           </div>
 
-          <div className="absolute top-0 left-1/2 w-[min(19.5rem,86vw)] -translate-x-1/2 sm:w-[20.5rem]">
+          <div className="absolute top-0 left-1/2 w-[min(18.25rem,80vw)] -translate-x-1/2 sm:w-[20.5rem]">
             <HeroPhone
               size="hero"
               className="w-full"

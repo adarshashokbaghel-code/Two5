@@ -23,6 +23,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${siteConfig.url}/categories/numbers`,
+      lastModified: launchUpdated,
+      changeFrequency: "weekly",
+      priority: 0.9,
+    },
+    {
       url: `${siteConfig.url}/about`,
       lastModified: siteUpdated,
       changeFrequency: "monthly",
