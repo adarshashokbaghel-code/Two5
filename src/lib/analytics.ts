@@ -16,7 +16,13 @@ export type AnalyticsEvent =
   | "launch_timeline_viewed"
   | "blog_index_view"
   | "blog_article_view"
-  | "contact_click";
+  | "contact_click"
+  | "view_game"
+  | "view_puzzle"
+  | "view_guide"
+  | "view_collection"
+  | "reveal_answer"
+  | "click_related_page";
 
 export function track(
   event: AnalyticsEvent,

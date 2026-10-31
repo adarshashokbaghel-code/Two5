@@ -6,6 +6,7 @@ import SiteFooter from "@/components/landing/site-footer";
 import { WaitlistButton } from "@/components/landing/waitlist-button";
 import { DockNav } from "@/components/layout/dock-nav";
 import { games, papers } from "@/content/numbers-arena";
+import { numbersArenaLinks } from "@/lib/seo/validate";
 
 const pillars = [
   {
@@ -53,6 +54,7 @@ export function NumbersArena() {
           <Why />
           <Games />
           <Ways />
+          <Notes />
           <Research />
           <Close />
         </div>
@@ -238,6 +240,14 @@ function GameCopy({
       <p className="mt-4 text-base leading-7 text-ink/75">{game.description}</p>
       <div className="mt-6 space-y-4 text-sm leading-6 text-ink/70">{children}</div>
       <p className="mt-6 text-sm leading-6 text-ink/60">{game.modes}</p>
+      <p className="mt-4">
+        <Link
+          href={`/numbers/games/${game.id}`}
+          className="text-sm text-volt underline decoration-volt/30 underline-offset-[3px]"
+        >
+          Read how {game.name} works
+        </Link>
+      </p>
     </div>
   );
 }
@@ -453,6 +463,28 @@ function Ways() {
           </li>
         ))}
       </ol>
+    </section>
+  );
+}
+
+function Notes() {
+  return (
+    <section aria-labelledby="numbers-notes" className="mt-16 border-t border-ink/10 pt-12">
+      <h2 id="numbers-notes" className="font-display text-3xl leading-none font-normal tracking-[0.02em]">
+        Notes and puzzles
+      </h2>
+      <p className="mt-4 max-w-2xl text-base leading-7 text-ink/70">
+        Longer explanations and individual challenges sit on their own pages. None of them opens a round.
+      </p>
+      <ul className="mt-6 flex flex-col gap-3">
+        {numbersArenaLinks.map((link) => (
+          <li key={link.href}>
+            <Link href={link.href} className="text-base text-ink underline decoration-volt/30 underline-offset-[3px] hover:text-volt">
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
