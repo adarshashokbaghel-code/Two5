@@ -267,7 +267,17 @@ export const faqs: FaqItem[] = [
   {
     id: "what",
     q: "What is Two5?",
-    a: "Two5 is a mental training and competition platform being built around purposeful challenges, performance feedback, and ways to track progress and compete.",
+    a: "Two5 is a brain-training game in development at two5.in. A search for mental math games, brain games, or brain training points here: short scored challenges for college students and working professionals. Numbers and Logic & Patterns are the first arenas. It is not a course and not a medical treatment. Rounds are not playable on this website yet.",
+  },
+  {
+    id: "brain-games",
+    q: "Is Two5 a brain game or brain training?",
+    a: "Yes. Two5 is a brain game, and the practice is brain training on that game: a clear problem, a score, and another attempt. Training means practice on the challenge in front of you. Two5 has not shown that this improves general intelligence, school results, or everyday memory, and it does not claim to prevent dementia.",
+  },
+  {
+    id: "mental-math",
+    q: "Does Two5 have mental math games?",
+    a: "Mental math games are the Numbers arena: Target 25, Sequence, and Pinpoint. They are introduced at /categories/numbers. Logic games — OddOne, Missing, and Switch — are introduced at /categories/logic. The play screens are not open yet.",
   },
   {
     id: "live",
@@ -346,6 +356,8 @@ export const faqs: FaqItem[] = [
 
 const homepageFaqIds = [
   "what",
+  "brain-games",
+  "mental-math",
   "live",
   "selection-date",
   "guarantee",

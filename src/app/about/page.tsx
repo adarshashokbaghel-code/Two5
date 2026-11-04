@@ -7,7 +7,7 @@ import { siteConfig } from "@/config/site";
 
 const title = "About Two5";
 const description =
-  "Two5 is a competitive brain-challenge game in development. This page says who it is for now, what the longer direction is, and what we will not claim about health.";
+  "What Two5 is: a brain-training game in development, with mental math games and logic games. Who it is for, and what it will not claim about health.";
 
 export const metadata: Metadata = {
   title,
@@ -33,8 +33,8 @@ export default function AboutPage() {
     >
       <InfoSection title="What Two5 is">
         <p>
-          Two5 is being built as a place for short, structured challenges in mathematics, logic, computer science,
-          and reasoning. Numbers and Logic are the first categories. Computer Science and Memory & Visual are the
+          Two5 is a brain-training game: mental math games, brain games, and logic games as short scored
+          challenges. Numbers and Logic are the first categories. Computer Science and Memory & Visual are the
           next expansion. You cannot play a round on this website today. Friend challenges and leaderboards have
           been described. They are not switched on.
         </p>

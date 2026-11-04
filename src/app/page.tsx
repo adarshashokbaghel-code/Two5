@@ -20,16 +20,17 @@ import SiteFooter from "@/components/landing/site-footer";
 import { DockNav } from "@/components/layout/dock-nav";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
-import { launchSnapshot, previewSnapshot } from "@/content/launch";
-import { jsonLdGraph, webPageJsonLd } from "@/lib/json-ld";
+import { two5Definition, two5MetaDescription, two5Topics } from "@/content/entity";
+import { homepageFaqs, launchSnapshot, previewSnapshot } from "@/content/launch";
+import { faqPageJsonLd, jsonLdGraph, webPageJsonLd } from "@/lib/json-ld";
 
-const homeTitle = "Two5 — Mental Training Games & Challenges";
-const homeDescription =
-  "Train your thinking with purposeful mental challenges. Track your progress and get ready to compete. Join the Two5 waitlist for a chance at early access.";
+const homeTitle = "Two5 — Brain games, mental math & brain training";
+const homeDescription = two5MetaDescription;
 
 export const metadata: Metadata = {
   title: { absolute: homeTitle },
   description: homeDescription,
+  keywords: [...two5Topics, "Two5"],
   alternates: { canonical: `${siteConfig.url}/` },
   openGraph: {
     title: homeTitle,
@@ -73,8 +74,9 @@ export default function HomePage() {
           webPageJsonLd({
             path: "/",
             name: homeTitle,
-            description: homeDescription,
+            description: two5Definition,
           }),
+          faqPageJsonLd(homepageFaqs.map((item) => ({ q: item.q, a: item.a }))),
         ])}
       />
 

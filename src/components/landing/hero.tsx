@@ -160,8 +160,8 @@ export function Hero({ announcement }: { announcement?: string }) {
           </h1>
 
           <p className="mx-auto mt-3 max-w-[19rem] text-balance text-[0.8rem] leading-snug text-white/45 sm:mt-4 sm:max-w-none sm:text-[clamp(0.95rem,2.05vw,1.125rem)] sm:leading-relaxed sm:text-white/50">
-            Short mental games across numbers, logic, memory and visual reasoning. Build your score, track your
-            personal bests, and challenge yourself to go further.
+            Two5 is brain training in development: mental math games, logic games, and short brain
+            challenges. Rounds are not open on this site yet.
           </p>
 
           <div className="mx-auto mt-4 flex flex-col items-center gap-2 sm:mt-6 sm:flex-row sm:justify-center sm:gap-3">

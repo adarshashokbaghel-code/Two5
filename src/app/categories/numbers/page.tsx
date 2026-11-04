@@ -10,6 +10,8 @@ export const metadata: Metadata = {
   title: { absolute: numbersTitle },
   description: numbersDescription,
   keywords: [
+    "Mental math games",
+    "Brain training",
     "Number games",
     "Number puzzles",
     "Numerical reasoning games",

@@ -3,7 +3,7 @@ export const numbersPath = "/categories/numbers";
 export const numbersTitle = "Numbers Arena – Number Games, Puzzles & Challenges | Two5";
 
 export const numbersDescription =
-  "Explore Target 25, Sequence and Pinpoint — three numerical games built around arithmetic, pattern recognition and estimation. Discover the Numbers arena by Two5.";
+  "Mental math games on Two5: Target 25, Sequence and Pinpoint. Arithmetic, number patterns and estimation, introduced as brain training. The play screens are not open yet.";
 
 export const games = [
   {
