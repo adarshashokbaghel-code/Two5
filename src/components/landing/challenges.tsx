@@ -9,6 +9,12 @@ import { two5Categories, type Two5Category } from "@/content/categories";
 import { HeroPhone, type PhoneLineupItem } from "@/components/landing/hero-phone";
 import { cn } from "@/lib/utils";
 
+function arenaAction(category: Two5Category): { href: string; label: string } | null {
+  if (category.id === "numbers") return { href: "/categories/numbers", label: "Explore the Numbers arena" };
+  if (category.id === "logic") return { href: "/categories/logic", label: "Explore Logic & Patterns" };
+  return null;
+}
+
 const phoneLineup: PhoneLineupItem[] = two5Categories.map((item) => ({
   title: item.title,
   tag: item.lineupTag,
@@ -18,6 +24,7 @@ const phoneLineup: PhoneLineupItem[] = two5Categories.map((item) => ({
 }));
 
 function CategoryCopy({ category }: { category: Two5Category }) {
+  const arena = arenaAction(category);
   return (
     <div className="relative flex flex-col justify-center text-left">
       <div
@@ -49,28 +56,24 @@ function CategoryCopy({ category }: { category: Two5Category }) {
         <p className="mt-4 max-w-md text-sm leading-relaxed text-white/40">{category.why}</p>
 
         <div className="mt-8 flex flex-col items-start gap-3">
-          {category.id === "numbers" ? (
+          {arena ? (
             <Link
-              href="/categories/numbers"
+              href={arena.href}
               className="inline-flex h-11 items-center justify-center rounded-[4px] px-6 text-sm font-semibold"
               style={{ backgroundColor: category.accent, color: category.ink }}
             >
-              Explore the Numbers arena
+              {arena.label}
             </Link>
           ) : null}
           <Link
             href="#waitlist"
             data-waitlist-source="challenges"
             className={
-              category.id === "numbers"
+              arena
                 ? "text-sm font-medium text-white/70 hover:text-white"
                 : "inline-flex h-11 items-center justify-center rounded-[4px] px-6 text-sm font-semibold"
             }
-            style={
-              category.id === "numbers"
-                ? undefined
-                : { backgroundColor: category.accent, color: category.ink }
-            }
+            style={arena ? undefined : { backgroundColor: category.accent, color: category.ink }}
           >
             Join the waitlist
           </Link>
@@ -173,7 +176,9 @@ function MobileModeCarousel() {
     <div className="mt-8 lg:hidden">
       <p className="mb-3 font-display text-sm tracking-[0.12em] text-white/40 uppercase">Swipe categories →</p>
       <div className="-mx-5 flex snap-x snap-mandatory gap-4 overflow-x-auto px-5 pb-8 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-        {two5Categories.map((item, index) => (
+        {two5Categories.map((item, index) => {
+          const arena = arenaAction(item);
+          return (
             <article
               key={item.id}
               className="relative flex w-[min(92vw,22rem)] shrink-0 snap-center flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0a0a0a]"
@@ -224,33 +229,32 @@ function MobileModeCarousel() {
                 <p className="mt-3 text-sm leading-relaxed text-white/35">{item.why}</p>
 
                 <div className="mt-5 flex flex-col gap-3">
-                  {item.id === "numbers" ? (
+                  {arena ? (
                     <Link
-                      href="/categories/numbers"
+                      href={arena.href}
                       className="inline-flex h-10 w-full items-center justify-center rounded-[4px] text-sm font-semibold"
                       style={{ backgroundColor: item.accent, color: item.ink }}
                     >
-                      Explore the Numbers arena
+                      {arena.label}
                     </Link>
                   ) : null}
                   <Link
                     href="#waitlist"
                     data-waitlist-source="challenges-mobile"
                     className={
-                      item.id === "numbers"
+                      arena
                         ? "text-center text-sm font-medium text-white/70"
                         : "inline-flex h-10 w-full items-center justify-center rounded-[4px] text-sm font-semibold"
                     }
-                    style={
-                      item.id === "numbers" ? undefined : { backgroundColor: item.accent, color: item.ink }
-                    }
+                    style={arena ? undefined : { backgroundColor: item.accent, color: item.ink }}
                   >
                     Join the waitlist
                   </Link>
                 </div>
               </div>
             </article>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

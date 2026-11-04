@@ -1,4 +1,5 @@
 import { siteConfig } from "@/config/site";
+import { two5Definition, two5Topics } from "@/content/entity";
 
 export const organizationId = `${siteConfig.url}/#organization`;
 export const websiteId = `${siteConfig.url}/#website`;
@@ -19,7 +20,9 @@ export function organizationJsonLd() {
       url: absoluteUrl(siteConfig.logo),
     },
     image: absoluteUrl(siteConfig.ogImage),
-    description: siteConfig.description,
+    description: two5Definition,
+    slogan: siteConfig.tagline,
+    knowsAbout: two5Topics.map((name) => ({ "@type": "Thing", name })),
     email: "hello@mentr.in",
     contactPoint: {
       "@type": "ContactPoint",
@@ -35,8 +38,9 @@ export function websiteJsonLd() {
     "@id": websiteId,
     name: siteConfig.name,
     url: siteConfig.url,
-    description: siteConfig.description,
+    description: two5Definition,
     publisher: { "@id": organizationId },
+    about: two5Topics.map((name) => ({ "@type": "Thing", name })),
     inLanguage: "en",
   };
 }
@@ -120,6 +124,41 @@ export function collectionPageJsonLd(input: {
       })),
     },
     inLanguage: "en",
+  };
+}
+
+export function softwareApplicationJsonLd() {
+  return {
+    "@type": "SoftwareApplication",
+    "@id": `${siteConfig.url}/#app`,
+    name: siteConfig.name,
+    url: siteConfig.url,
+    applicationCategory: "GameApplication",
+    applicationSubCategory: "Brain training",
+    operatingSystem: "Web",
+    description: two5Definition,
+    featureList: [
+      "Numbers arena: Target 25, Sequence, Pinpoint — introduced, not playable on this site",
+      "Logic & Patterns: OddOne, Missing, Switch — introduced, not playable on this site",
+      "Free waitlist. Product pricing is not set. Joining does not guarantee access.",
+    ],
+    publisher: { "@id": organizationId },
+    isPartOf: { "@id": websiteId },
+    inLanguage: "en",
+  };
+}
+
+export function faqPageJsonLd(items: { q: string; a: string }[]) {
+  return {
+    "@type": "FAQPage",
+    mainEntity: items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.a,
+      },
+    })),
   };
 }
 

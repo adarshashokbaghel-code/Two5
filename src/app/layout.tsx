@@ -7,7 +7,7 @@ import { WaitlistModal } from "@/components/landing/waitlist-modal";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { JsonLd } from "@/components/seo/json-ld";
 import { siteConfig } from "@/config/site";
-import { jsonLdGraph, organizationJsonLd, websiteJsonLd } from "@/lib/json-ld";
+import { jsonLdGraph, organizationJsonLd, softwareApplicationJsonLd, websiteJsonLd } from "@/lib/json-ld";
 
 import "./globals.css";
 
@@ -96,7 +96,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           `}
         </Script>
         <GoogleAnalyticsRoute />
-        <JsonLd data={jsonLdGraph([organizationJsonLd(), websiteJsonLd()])} />
+        <JsonLd data={jsonLdGraph([organizationJsonLd(), websiteJsonLd(), softwareApplicationJsonLd()])} />
         <SmoothScroll>{children}</SmoothScroll>
         <WaitlistModal />
       </body>
