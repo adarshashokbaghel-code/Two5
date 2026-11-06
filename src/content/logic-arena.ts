@@ -49,6 +49,7 @@ export const logicGames = [
 
 export const logicLinks = [
   { href: "/categories/numbers", label: "The Numbers arena" },
+  { href: "/categories/memory-visual", label: "Memory & Visual" },
   { href: "/#challenges", label: "All arenas" },
   { href: "/research/logic", label: "Research note on logic" },
   { href: "/blog/logic-puzzles-with-answers", label: "Logic puzzles, with answers" },
