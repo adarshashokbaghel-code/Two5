@@ -471,6 +471,7 @@ export function WaitlistModal() {
                     htmlFor={ageId}
                     className="mb-1.5 block font-display text-sm text-white/65"
                   >
+                    {/* test */}
                     Age
                   </label>
                   <input
