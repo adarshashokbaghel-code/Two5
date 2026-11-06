@@ -28,6 +28,18 @@ export type Two5User = {
   otpSendCount?: number;
   source?: string;
   campaign?: string;
+  premiumUser?: boolean;
+  premiumAt?: Date;
+  payments?: {
+    orderId: string;
+    paymentId?: string;
+    currency: "USD" | "INR";
+    amountMinor: number;
+    status: "created" | "paid";
+    method?: string;
+    createdAt: Date;
+    paidAt?: Date;
+  }[];
   createdAt: Date;
   updatedAt: Date;
 };

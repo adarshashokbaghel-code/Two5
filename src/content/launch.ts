@@ -323,7 +323,8 @@ export const faqs: FaqItem[] = [
   {
     id: "free",
     q: "Is Two5 free?",
-    a: "Joining the waitlist is free. No payment is taken on this site. Pricing for the product is not set, and this page does not promise that every future feature will stay free. Any paid feature will be explained before launch.",
+    a: "Joining the waitlist is free and does not guarantee a place. A reserved place is 299 US dollars, or 26,850 Indian rupees, paid through Razorpay on the join page. The account is marked premium only after the payment is captured.",
+    links: [{ href: "/joinwaitlist", label: "See the two ways in" }],
   },
   {
     id: "games",

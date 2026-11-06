@@ -27,6 +27,13 @@ Numbers and Logic are the first categories being built. Computer Science and Mem
 
 Joining the waitlist registers interest and asks for launch updates. It does not start a game, enroll a study, or offer medical advice.
 
+## How to join
+
+https://www.two5.in/joinwaitlist explains both ways. This page is written for readers outside India as well as in India.
+
+- Free: join the waitlist. It closes 30 November 2026 (India Standard Time). On 1 December 2026, 200 people are shortlisted at random and sent a WhatsApp invite. The product opens for them on 12 December 2026. From 1 January 2027, each of them can invite one player. Joining does not guarantee a place.
+- Reserved: 299 US dollars by card, or 26,850 Indian rupees for UPI, netbanking, wallets, and Indian cards. Razorpay captures the payment. The account field premiumUser is set only after capture. Closing the payment window does not charge the card.
+
 The long-term direction includes accessible play and careful questions about cognitive engagement in later life. That direction is not a claim that Two5 prevents dementia or treats disease. Two5 has not run a clinical trial.
 
 ## Public pages
@@ -35,6 +42,7 @@ The long-term direction includes accessible play and careful questions about cog
 - https://www.two5.in/categories/numbers — mental math games: Target 25, Sequence, Pinpoint. Not playable.
 - https://www.two5.in/categories/logic — logic and pattern games: OddOne, Missing, Switch. Not playable.
 - https://www.two5.in/categories/memory-visual — visual memory, observation and spatial thinking: Flash Grid, Snapshot, Pattern Forge. A later arena. Not playable.
+- https://www.two5.in/joinwaitlist — free shortlist, or a reserved place at $299 USD / ₹26,850 via Razorpay.
 - https://www.two5.in/about — product, direction, and claims Two5 will not make
 - https://www.two5.in/contact — hello@mentr.in
 - https://www.two5.in/blog — puzzle guides and evidence guides
