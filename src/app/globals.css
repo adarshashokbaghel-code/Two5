@@ -1481,7 +1481,9 @@ body {
   .arena-band p::after,
   .arena-drag-cursor,
   .arena-swap,
-  .arena-rise-cover {
+  .arena-rise-cover,
+  .join-orb,
+  .join-orb-alt {
     animation: none;
   }
 
@@ -1498,4 +1500,32 @@ body {
   .film-key {
     opacity: 1;
   }
+}
+
+@keyframes join-drift {
+  0%,
+  100% {
+    transform: translate3d(-6%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(8%, 6%, 0) scale(1.12);
+  }
+}
+
+@keyframes join-drift-alt {
+  0%,
+  100% {
+    transform: translate3d(6%, 4%, 0) scale(1.08);
+  }
+  50% {
+    transform: translate3d(-8%, -4%, 0) scale(1);
+  }
+}
+
+.join-orb {
+  animation: join-drift 18s ease-in-out infinite;
+}
+
+.join-orb-alt {
+  animation: join-drift-alt 22s ease-in-out infinite;
 }

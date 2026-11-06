@@ -140,7 +140,7 @@ export function softwareApplicationJsonLd() {
     featureList: [
       "Numbers arena: Target 25, Sequence, Pinpoint — introduced, not playable on this site",
       "Logic & Patterns: OddOne, Missing, Switch — introduced, not playable on this site",
-      "Free waitlist. Product pricing is not set. Joining does not guarantee access.",
+      "Free waitlist. Joining does not guarantee access. A reserved place is 299 USD or 26850 INR, captured through Razorpay.",
     ],
     publisher: { "@id": organizationId },
     isPartOf: { "@id": websiteId },

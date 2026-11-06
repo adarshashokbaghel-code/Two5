@@ -5,6 +5,7 @@ const links = [
   { label: "Play", href: "/#how" },
   { label: "Arenas", href: "/#challenges" },
   { label: "Roadmap", href: "/roadmap" },
+  { label: "Join", href: "/joinwaitlist" },
   { label: "How it works", href: "/#how" },
   { label: "FAQs", href: "/#faq" },
   { label: "Guides", href: "/blog" },
