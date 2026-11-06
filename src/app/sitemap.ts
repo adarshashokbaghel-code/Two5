@@ -39,6 +39,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.9,
     },
     {
+      url: `${siteConfig.url}/categories/memory-visual`,
+      lastModified: new Date("2026-11-06"),
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
       url: `${siteConfig.url}/about`,
       lastModified: siteUpdated,
       changeFrequency: "monthly",

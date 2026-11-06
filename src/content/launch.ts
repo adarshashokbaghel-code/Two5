@@ -328,7 +328,7 @@ export const faqs: FaqItem[] = [
   {
     id: "games",
     q: "What kinds of games will Two5 have?",
-    a: "Two5 is being designed around challenges that involve patterns, reasoning, memory, attention, and related kinds of mental effort. Numbers and Logic are the launch arenas. Computer Science and Memory & Visual are planned for later waves. The exact lineup will be shown as each arena is ready. Unreleased game names are not listed here.",
+    a: "Two5 is being designed around challenges that involve patterns, reasoning, memory, attention, and related kinds of mental effort. Numbers and Logic are the launch arenas. Memory & Visual introduces Flash Grid, Snapshot, and Pattern Forge at /categories/memory-visual. Those screens are not open. Computer Science is planned for a later wave.",
   },
   {
     id: "intelligence",

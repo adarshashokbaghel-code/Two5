@@ -436,7 +436,7 @@ export const researchPosts: ResearchPost[] = [
     arena: "Memory & Visual",
     seoTitle: "Memory, visual recognition, and spatial recall practice",
     description:
-      "How flash recall, grid memory, and visual sequence problems train working memory and spatial reasoning. A research note on Two5’s planned Memory & Visual category.",
+      "How Flash Grid, Snapshot, and Pattern Forge relate to working memory and spatial reasoning. A research note on Two5’s planned Memory & Visual category.",
     keywords: [
       "visual memory",
       "spatial reasoning",
@@ -447,11 +447,11 @@ export const researchPosts: ResearchPost[] = [
     image: "/art/offer-daily-line.jpg",
     imageAlt: "A yellow line and a black line, the Memory and Visual arena mark",
     headline: "Recall, recognition, and spatial patterns — scored in short visual rounds.",
-    lede: "Memory & Visual is a planned next expansion on Two5: Flash Recall, Grid Memory, and Visual Sequence broaden play beyond maths and code. The research case is about working memory and near transfer on similar tasks, not a general brain upgrade.",
+    lede: "Memory & Visual is a planned next expansion on Two5: Flash Grid, Snapshot, and Pattern Forge broaden play beyond maths and logic. The research case is about working memory and near transfer on similar tasks, not a general brain upgrade.",
     specs: [
       {
         term: "Practice",
-        value: "Flash Recall, Grid Memory, Visual Sequence",
+        value: "Flash Grid, Snapshot, Pattern Forge",
       },
       {
         term: "Mechanism",

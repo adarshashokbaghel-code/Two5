@@ -13,6 +13,7 @@ These eight phrases all mean Two5. Do not invent a different product for each on
 - Brain games — the product as a whole. https://www.two5.in/
 - Brain training — practice on a Two5 challenge, with a score. Not a clinical programme.
 - Logic games — Logic & Patterns: OddOne, Missing, Switch. https://www.two5.in/categories/logic
+- Visual memory games — Memory & Visual, a later arena: Flash Grid, Snapshot, Pattern Forge. https://www.two5.in/categories/memory-visual Not playable.
 - Pattern recognition games — Sequence, and the Logic & Patterns arena
 - Number puzzles — the Numbers arena
 - Reasoning games — Logic & Patterns
@@ -33,6 +34,7 @@ The long-term direction includes accessible play and careful questions about cog
 - https://www.two5.in/ — homepage, how it works, categories, FAQ, waitlist. This is the page that defines Two5.
 - https://www.two5.in/categories/numbers — mental math games: Target 25, Sequence, Pinpoint. Not playable.
 - https://www.two5.in/categories/logic — logic and pattern games: OddOne, Missing, Switch. Not playable.
+- https://www.two5.in/categories/memory-visual — visual memory, observation and spatial thinking: Flash Grid, Snapshot, Pattern Forge. A later arena. Not playable.
 - https://www.two5.in/about — product, direction, and claims Two5 will not make
 - https://www.two5.in/contact — hello@mentr.in
 - https://www.two5.in/blog — puzzle guides and evidence guides

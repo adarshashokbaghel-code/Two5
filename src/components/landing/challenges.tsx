@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 function arenaAction(category: Two5Category): { href: string; label: string } | null {
   if (category.id === "numbers") return { href: "/categories/numbers", label: "Explore the Numbers arena" };
   if (category.id === "logic") return { href: "/categories/logic", label: "Explore Logic & Patterns" };
+  if (category.id === "memory-visual") return { href: "/categories/memory-visual", label: "Explore Memory & Visual" };
   return null;
 }
 
